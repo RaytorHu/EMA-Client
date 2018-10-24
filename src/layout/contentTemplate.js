@@ -6,14 +6,10 @@ import { Col } from "antd";
 const minWid = "720px";
 
 export class SideBar extends Component {
-  state = {
-    tagC: []
-  };
-
   render() {
     return (
       <div className="SideBar" style={{ minWidth: minWid }}>
-        <Col span={7}>
+        <Col span={4}>
           <div
             style={{
               backgroundColor: "#ffffff",
@@ -85,6 +81,7 @@ export class SingleContent extends Component {
       <div className="SingleContent">
         <div
           style={{
+            position: "relative",
             backgroundColor: "#ffffff",
             margin: "0 auto",
             padding: "15px",
@@ -97,6 +94,31 @@ export class SingleContent extends Component {
         >
           {this.props.children}
         </div>
+      </div>
+    );
+  }
+}
+
+export class MessagePanel extends Component {
+  render() {
+    return (
+      <div className="MessagePanel" style={{ minWidth: minWid }}>
+        <Col span={3}>
+          <div
+            style={{
+              backgroundColor: "#ffffff",
+              padding: "15px",
+              marginRight: "auto",
+              marginTop: "25px",
+              borderRadius: "10px",
+              minWidth: "210px",
+              maxWidth: "300px",
+              marginLeft: "auto"
+            }}
+          >
+            {this.props.children}
+          </div>
+        </Col>
       </div>
     );
   }

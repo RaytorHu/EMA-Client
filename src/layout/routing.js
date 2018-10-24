@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Layout } from "antd";
 import {
   BrowserRouter as Router,
   Route,
@@ -13,45 +12,10 @@ import Movie from "../container/movie";
 import Expense from "../container/expense";
 import Settings from "../container/settings";
 
-const { Header, Footer, Content } = Layout;
+import { Layout, Menu } from "antd";
 
-// the min width of the web app is set to be 720px
-const minWid = "730px";
-
-const backgroundColor = "#b1b8c6";
-
-// determines if the footer text should be white or black depending on color of background
-function getLuma(color) {
-  var c = color.substring(1); // strip #
-  var rgb = parseInt(c, 16); // convert rrggbb to decimal
-  var r = (rgb >> 16) & 0xff; // extract red
-  var g = (rgb >> 8) & 0xff; // extract green
-  var b = (rgb >> 0) & 0xff; // extract blue
-
-  var luma = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
-  var co;
-  if (luma < 125) {
-    // dark
-    co = "rgb(" + (r + 70) + "," + (g + 70) + "," + (b + 80) + ")";
-    return co;
-  } else {
-    // light
-    co = "rgb(" + (r - 70) + "," + (g - 70) + "," + (b - 60) + ")";
-    return co;
-  }
-}
-
-var contentStyle = {
-  backgroundColor: backgroundColor,
-  minWidth: minWid,
-  padding: "0 5px"
-};
-var footerStyle = {
-  textAlign: "center",
-  backgroundColor: backgroundColor,
-  minWidth: minWid,
-  color: getLuma(backgroundColor)
-};
+const { Content, Sider, Footer } = Layout;
+const MenuItemGroup = Menu.ItemGroup;
 
 export const BaseLayout = ({ component: Component, ...rest }) => {
   return (
@@ -59,31 +23,72 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
       {...rest}
       render={matchProps => (
         <div>
-          <Layout
-            className="BaseLayout"
-            style={{
-              minHeight: "100vh",
-              minWidth: minWid
-            }}
-          >
-            <Navigation
-              style={{ minWidth: minWid }}
-              //color={backgroundColor}
-            />
-            <Header
-              style={{
-                backgroundColor: "rgba(55,59,70,0)",
-                height: "0%"
-              }}
-            />
-            <Content id="content" style={contentStyle}>
-              <div style={{ minWidth: "700px" }}>
-                <Component {...matchProps} />
-              </div>
-            </Content>
-            <Footer id="footer" style={footerStyle}>
-              wtf is the website's name
-            </Footer>
+          <Layout>
+            <Navigation matchProps={matchProps} />
+            <Layout>
+              <Sider
+                collapsible
+                breakpoint="lg"
+                collapsedWidth="0"
+                onBreakpoint={broken => {
+                  console.log(broken);
+                }}
+                onCollapse={(collapsed, type) => {
+                  console.log(collapsed, type);
+                }}
+                width={170}
+                style={{ background: "#fff" }}
+              >
+                <Menu
+                  mode="inline"
+                  defaultSelectedKeys={["1"]}
+                  style={{ height: "100%", borderRight: 0 }}
+                >
+                  {matchProps.match.path === "/dining" && (
+                    <MenuItemGroup title="Dining">
+                      <Menu.Item key="1">Find Restaurants</Menu.Item>
+                      <Menu.Item key="2">Heat Map</Menu.Item>
+                    </MenuItemGroup>
+                  )}
+                  {matchProps.match.path === "/movie" && (
+                    <MenuItemGroup title="Movie">
+                      <Menu.Item key="3">Find a movie</Menu.Item>
+                    </MenuItemGroup>
+                  )}
+                  {matchProps.match.path === "/expense" && (
+                    <MenuItemGroup title="Expense">
+                      <Menu.Item key="4">Pie chart</Menu.Item>
+                      <Menu.Item key="5">Line chart</Menu.Item>
+                    </MenuItemGroup>
+                  )}
+                </Menu>
+              </Sider>
+              <Layout style={{ padding: "0 24px 24px" }}>
+                <Content
+                  style={{
+                    background: "#fff",
+                    padding: 24,
+                    marginTop: "30px",
+                    minHeight: 280
+                  }}
+                >
+                  <Component {...matchProps} />
+                </Content>
+
+                <Footer id="footer">I don't know the app's name</Footer>
+              </Layout>
+              <Sider
+                collapsible
+                reverseArrow
+                onCollapse={(collapsed, type) => {
+                  console.log(collapsed, type);
+                }}
+                width={200}
+                style={{ background: "#fff" }}
+              >
+                Message
+              </Sider>
+            </Layout>
           </Layout>
         </div>
       )}
@@ -128,6 +133,7 @@ export class ComponentRoutes extends Component {
         <PrivateRoute exact path="/expense" component={Expense} />
 
         <PrivateRoute exact path="/settings" component={Settings} />
+        <Redirect from="/" to="/dining" />
 
         <Redirect from="/dinings" to="/dining" />
         <Redirect from="/movies" to="/movie" />
