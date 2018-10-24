@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import Routing from "./layout/routing";
-import "./App.css";
 
 class App extends Component {
+  state = {
+    username: "test user"
+  };
   render() {
     return (
       <div className="App" style={{ backgroundColor: "#4286f4" }}>

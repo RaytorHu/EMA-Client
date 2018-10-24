@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Menu, Button, Icon, Tooltip } from "antd";
+import { Menu, Button, Icon, Tooltip, Layout } from "antd";
 import { Link, withRouter } from "react-router-dom";
-
+const { Header } = Layout;
 class Navigation extends Component {
   state = {
     username: "test user"
@@ -9,82 +9,76 @@ class Navigation extends Component {
 
   render() {
     return (
-      <div
-        className="Navigation"
-        style={{
-          minWidth: "720px",
-          textAlign: "center",
-          backgroundColor: "#ffffff"
-        }}
-      >
-        <Menu mode="horizontal">
-          <Menu.Item
-            style={{
-              marginRight: "5px",
-              marginLeft: "10px",
-              borderBottom: "thin solid #ffffff"
-            }}
+      <div className="Navigation">
+        <Header className="header">
+          <div className="logo" />
+          <Menu
+            theme="dark"
+            mode="horizontal"
+            defaultSelectedKeys={["2"]}
+            style={{ lineHeight: "64px" }}
           >
-            <Link to="/dining">
-              <Icon type="shop" />
-              Dining
-            </Link>
-          </Menu.Item>
+            <Menu.Item>
+              <Link to="/dining">
+                <Icon type="shop" />
+                Dining
+              </Link>
+            </Menu.Item>
 
-          <Menu.Item>
-            <Link to="/movie">
-              <Icon type="video-camera" />
-              Movie
-            </Link>
-          </Menu.Item>
+            <Menu.Item>
+              <Link to="/movie">
+                <Icon type="video-camera" />
+                Movie
+              </Link>
+            </Menu.Item>
 
-          <Menu.Item>
-            <Link to="/expense">
-              <Icon type="pie-chart" />
-              Expenses
-            </Link>
-          </Menu.Item>
+            <Menu.Item>
+              <Link to="/expense">
+                <Icon type="pie-chart" />
+                Expenses
+              </Link>
+            </Menu.Item>
 
-          <Menu.Item>
-            <Link to="/settings">
-              <Icon type="setting" />
-              Settings
-            </Link>
-          </Menu.Item>
-          <Menu.Item
-            style={{
-              textAlign: "center",
-              borderBottom: "thin solid #ffffff",
-              float: "right",
-              marginLeft: "-20px"
-            }}
-          >
-            <Tooltip title="Logout">
-              <Button
-                shape="circle"
-                size="small"
-                type="dashed"
-                onClick={this.logout}
-                style={{ textAlign: "center", backgroundColor: "#efefef" }}
-              >
-                <Icon
-                  type="logout"
-                  style={{ textAlign: "center", marginLeft: "5px" }}
-                />
-              </Button>
-            </Tooltip>
-          </Menu.Item>
+            <Menu.Item
+              style={{
+                float: "right",
+                marginLeft: "-20px"
+              }}
+            >
+              <Link to="/settings">
+                <Icon type="setting" />
+                Settings
+              </Link>
+            </Menu.Item>
+            <Menu.Item
+              style={{
+                float: "right",
+                marginLeft: "-20px"
+              }}
+            >
+              <Tooltip title="Logout">
+                <Button
+                  shape="circle"
+                  size="small"
+                  type="dashed"
+                  onClick={this.logout}
+                  style={{ textAlign: "center", backgroundColor: "#efefef" }}
+                >
+                  <Icon type="logout" />
+                </Button>
+              </Tooltip>
+            </Menu.Item>
 
-          <Menu.Item
-            style={{
-              textAlign: "right",
-              borderBottom: "thin solid #ffffff",
-              float: "right"
-            }}
-          >
-            <p>{this.state.username}</p>
-          </Menu.Item>
-        </Menu>
+            <Menu.Item
+              style={{
+                textAlign: "right",
+                float: "right"
+              }}
+            >
+              {this.state.username}
+            </Menu.Item>
+          </Menu>
+        </Header>
       </div>
     );
   }
