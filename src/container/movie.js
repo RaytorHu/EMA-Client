@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import MovieList from "./data/moviesDB.json";
-import { List, Avatar, Icon, Rate } from "antd";
+import { List, Avatar, Icon} from "antd";
+
+
+const IconText = ({ type, text }) => (
+    <span>
+        <Icon type={type} style={{ marginRight: 8 }} />
+        {text}
+        </span>
+);
 
 class Movie extends Component {
     constructor(props){
@@ -14,17 +22,18 @@ class Movie extends Component {
         const tmp = [];
 
         for(let i=0; i < MovieList.movies.length; i++){
+
             tmp.push({
                 MovieID: MovieList.movies[i].id,
-                Moviename: MovieList.movies[i].name,
+                title: MovieList.movies[i].name,
                 release: MovieList.movies[i].releaseDate,
                 genres: MovieList.movies[i].genres,
                 synopsis: MovieList.movies[i].synopsis,
-                pic: MovieList.movies[i].posterLargeURL,
+                avatar: MovieList.movies[i].posterLargeURL,
                 trailer: MovieList.movies[i].trailerURL,
                 Movie_len: MovieList.movies[i].runtime,
                 rate: MovieList.movies[i].rating,
-                weblink: MovieList.movies[i].webURL
+                href: MovieList.movies[i].webURL
             });
         }
 
@@ -42,9 +51,37 @@ class Movie extends Component {
     render() {
         //console.log(MovieList.movies.length);
         return (
-            <List dataSource={this.state.data} renderItem={}
+            <List
+                itemLayout="vertical"
+                size="large"
+                pagination={{
+                    onChange: (page) => {
+                        console.log(page);
+                    },
+                    pageSize: 5,
+                }}
+                dataSource={this.state.data}
+                renderItem={item => (
+                    <List.Item
+                        key={item.MovieID}
+                        actions={[
+                            <IconText type="clock-circle" text={item.release} />,
+                            <IconText type="hourglass" text={item.Movie_len} />,
+                            <p><IconText type="star-o"/> rating: {item.rate}</p>,
+                            <a href={item.trailer}>trailer: <Icon type="play-circle"/></a>
+                        ]}
+                        extra={<img width={272} alt="logo" src={item.avatar} />}
+                    >
+                        <List.Item.Meta
+                            avatar={<Avatar src={item.avatar} />}
+                            title={<a href={item.href}>{item.title}</a>}
+                            description={item.genres}
+                        />
+                        {item.synopsis}
+                    </List.Item>
+                )}
             />
-        )
+        );
     }
 }
 
