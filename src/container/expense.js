@@ -158,7 +158,7 @@ class Statement extends Component {
         .then( (response) => {
 
           this.setState({
-            transactions: response.data.data,
+            transactions: response.data.data.reverse(),
             loaded: true
           })
 
