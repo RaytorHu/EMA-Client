@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Button, Icon, Input } from 'antd';
+import 'antd/dist/antd.css';
 
 var config = require('../config.js');
 const axios = require('axios');
@@ -8,7 +10,7 @@ class Title extends Component {
   render()  {
     const title = "Expense Management";
 
-    return (<h1>{title}</h1>);
+    return (<h1 style={{color: '#203954'}}>{title}</h1>);
   }
 }
 
@@ -177,24 +179,48 @@ class Statement extends Component {
      * Styles
      */
     const thStyle = {
-      fontSize: "20pt",
-      color: "green"
+      fontSize: '20pt',
+      color: '#2f4b6a',
+      textAlign: 'left'
     }
 
     const tableStyle = {
-      borderCollapse: "collapse" ,
-      width: "100%",
-      padding: "10pt",
+      borderCollapse: 'collapse' ,
+      width: '100%',
+      padding: '10pt',
+    }
+
+    const timeStyle = {
+      fontSize: '18pt',
+      color: '#362010',
+      textAlign: 'left'
+    }
+
+    const amountStyle = {
+      fontSize: '18pt',
+      color: '#002928',
+      textAlign: 'left'
+    }
+
+    const descriptionStlye = {
+      fontSize: '18pt',
+      textAlign: 'left'
+    }
+
+    const secStyle = {
+      fontSize: '18pt',
+      color: '#367371',
+      textAlign: 'left'
     }
 
     /**
      * Data
      */
-    const heads = ["Transaction Date", "Amount", "Description"];
+    const heads = ["Transaction Date", "Transaction Amount", "Description", "Security Level"];
     const thead = heads.map((head, index) => (<th style={thStyle} key={"th."+index}> {head} </th>));
     console.log(this.state.transactions);
     const transactionItem = this.state.transactions.map((t, index) => (
-    <tr key={"transaction."+index}><td>{t.timestamp}</td><td>{t.amount}</td><td>{t.description}</td></tr>
+    <tr key={"transaction."+index}><td style={timeStyle}>{t.timestamp}</td><td style={amountStyle}>$ {t.amount}</td><td style={descriptionStlye}>{t.description}</td><td style={secStyle}>High</td></tr>
     ));
 
     /**
@@ -203,11 +229,11 @@ class Statement extends Component {
     const content = (
       <div>
       <div>
-      <input type="button" value="Add New Transaction" onClick={this.showForm}/> <br/>
-      <form style={{display: this.state.showForm ? 'inline-block' : 'none'}} onSubmit={this.handleSubmit}>
-        <span> Transaction Amount </span><input type="text" onChange={this.handleTransactionAmount}/><br/>
-        <span> Transaction Description </span><input type="text" onChange={this.handleTransactionDescription}/><br/>
-        <input type="submit"/><br/>
+      <Button type="primary" size="large" onClick={this.showForm}><Icon type="form" theme="outlined" />Add New Transaction</Button> <br/><br/>
+      <form style={{display: this.state.showForm ? 'inline-block' : 'none'}}>
+        <span> Transaction Amount </span><Input type="text" onChange={this.handleTransactionAmount}/><br/>
+        <span> Transaction Description </span><Input type="text" onChange={this.handleTransactionDescription}/><br/><br/>
+        <Button id="submitButton" onClick={this.handleSubmit}> Submit </Button><br/>
         <div id="error" style={{color: 'red'}}> {this.state.error} </div>
       </form>
       </div>
