@@ -67,14 +67,15 @@ class Movie extends Component {
                         actions={[
                             <IconText type="clock-circle" text={item.release} />,
                             <IconText type="hourglass" text={item.Movie_len} />,
-                            <p><IconText type="star-o"/> rating: {item.rate}</p>,
-                            <a href={item.trailer}>trailer: <Icon type="play-circle"/></a>
+                            <p>rating: {item.rate}</p>,
+                            <p>trailer: <a href={item.trailer} target="_blank"><Icon type="play-circle"/></a></p>,
+                            <a href=""><IconText type="heart" text="Add to Wishlist" /></a>
                         ]}
                         extra={<img width={272} alt="logo" src={item.avatar} />}
                     >
                         <List.Item.Meta
                             avatar={<Avatar src={item.avatar} />}
-                            title={<a href={item.href}>{item.title}</a>}
+                            title={<a href={item.href} target="_blank">{item.title}</a>}
                             description={item.genres}
                         />
                         {item.synopsis}
