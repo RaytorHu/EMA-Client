@@ -8,6 +8,7 @@ import {
 import Navigation from "./navigation";
 import { SingleContent } from "./contentTemplate.js";
 import Dining from "../container/dining";
+import HeatMap from "../container/diningHeatMap";
 import Movie from "../container/movie";
 import Expense from "../container/expense";
 import Settings from "../container/settings";
@@ -138,7 +139,7 @@ export class ComponentRoutes extends Component {
         <PrivateRoute
           exact
           path="/dining/restaurant_heatmap"
-          component={Dining}
+          component={HeatMap}
         />
 
         <PrivateRoute exact path="/movie" component={Movie} />

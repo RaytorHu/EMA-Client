@@ -8,7 +8,8 @@ const IconText = ({ type, text }) => (
     {text}
   </span>
 );
-class Dining extends Component {
+
+class HeatMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -82,4 +83,4 @@ class Dining extends Component {
   }
 }
 
-export default Dining;
+export default HeatMap;
