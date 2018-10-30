@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+
+var config = require('../config.js');
 const axios = require('axios');
+var Loader = require('react-loader');
 
 class Title extends Component {
   render()  {
@@ -50,13 +53,18 @@ class Statement extends Component {
   handleSubmit(e) {
     e.preventDefault();
     
+    this.setState({
+      loaded: false
+    });
+
     /**
      * Validate user input
      */
     if(isNaN(this.state.transactionAmount)) {
 
       this.setState({
-        error: 'Amount must be numbers'
+        error: 'Amount must be numbers',
+        loaded: true
       });
       this.forceUpdate();
       return;
@@ -64,7 +72,8 @@ class Statement extends Component {
     } else if (this.state.transactionAmount === '' || this.state.transactionDescription === '') {
 
       this.setState({
-        error: 'All fileds are required'
+        error: 'All fileds are required',
+        loaded: true
       });
       this.forceUpdate();
       return;
@@ -72,10 +81,10 @@ class Statement extends Component {
     } else {
 
       this.setState({
-        error: ''
+        error: '',
       });
       this.forceUpdate();
-      
+
     }
 
     /**
@@ -84,7 +93,7 @@ class Statement extends Component {
     axios({
 
       method: 'post',
-      url: 'http://localhost:8000/api/v1/transaction',
+      url: config.base_url+'api/v1/transaction',
       data: {
         amount: parseFloat(this.state.transactionAmount),
         description: this.state.transactionDescription
@@ -97,10 +106,11 @@ class Statement extends Component {
       .then( (response) => {
 
         this.setState( prevState => ({
-          transactions: [...prevState.transactions, response.data.data]
+          transactions: [...prevState.transactions, response.data.data],
+          loaded: true
         }));
 
-          this.forceUpdate();
+        this.forceUpdate();
 
       });
   }
@@ -108,6 +118,12 @@ class Statement extends Component {
   addNewTransaction(amount, description) {
 
     console.log(amount);
+  }
+
+  getInitialState() {
+
+    return {loaded: false};
+    
   }
 
   /**
@@ -119,7 +135,7 @@ class Statement extends Component {
     // Login AJAX request
     axios({
       method: 'post',
-      url: 'http://localhost:8000/api/v1/auth/login',
+      url: config.base_url+'api/v1/auth/login',
       data: {
         email: 'test@email.com',
         password: 'defaultpass'
@@ -134,16 +150,18 @@ class Statement extends Component {
         // after login, get transactions from server
         axios({
           method: 'get',
-          url: 'http://localhost:8000/api/v1/transaction',
+          url: config.base_url+'api/v1/transaction',
           headers: {
             'Authorization': 'Bearer ' + response.data.token
           }
         })
         .then( (response) => {
-          console.log(response);
+
           this.setState({
-            transactions: response.data.data
+            transactions: response.data.data,
+            loaded: true
           })
+
         })
         .catch( (error) => {
           console.log(error);
@@ -199,6 +217,7 @@ class Statement extends Component {
         <thead><tr>{thead}</tr></thead>
         <tbody>
           {transactionItem}
+          <Loader loaded={this.state.loaded}></Loader>
         </tbody>
 
       </table>
