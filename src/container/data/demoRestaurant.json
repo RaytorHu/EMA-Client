@@ -1,0 +1,863 @@
+{
+    "businesses": [
+        {
+            "id": "jZ55Mq1loOlNqwOSCelh9A",
+            "alias": "tuc-craft-kitchen-vancouver",
+            "name": "Tuc Craft Kitchen",
+            "image_url": "https://s3-media4.fl.yelpcdn.com/bphoto/ZbTzB0MCGaKm_phC_esufQ/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/tuc-craft-kitchen-vancouver?adjust_creative=jremx9O_igJKkOW91geX5g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jremx9O_igJKkOW91geX5g",
+            "review_count": 839,
+            "categories": [
+                {
+                    "alias": "newcanadian",
+                    "title": "Canadian (New)"
+                },
+                {
+                    "alias": "comfortfood",
+                    "title": "Comfort Food"
+                },
+                {
+                    "alias": "bars",
+                    "title": "Bars"
+                }
+            ],
+            "rating": 4,
+            "coordinates": {
+                "latitude": 49.2827049205371,
+                "longitude": -123.106144577322
+            },
+            "transactions": [],
+            "price": "$$",
+            "location": {
+                "address1": "60 W Cordova Street",
+                "address2": "",
+                "address3": "",
+                "city": "Vancouver",
+                "zip_code": "V6B 1C9",
+                "country": "CA",
+                "state": "BC",
+                "display_address": [
+                    "60 W Cordova Street",
+                    "Vancouver, BC V6B 1C9",
+                    "Canada"
+                ]
+            },
+            "phone": "+16045598999",
+            "display_phone": "+1 604-559-8999",
+            "distance": 2280.635442372573
+        },
+        {
+            "id": "ipDXqgUMDzW_0Dn6-IkJ9g",
+            "alias": "m8-vancouver",
+            "name": "M8",
+            "image_url": "https://s3-media3.fl.yelpcdn.com/bphoto/um7xY5aeRsXN2Hv5kx4d-w/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/m8-vancouver?adjust_creative=jremx9O_igJKkOW91geX5g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jremx9O_igJKkOW91geX5g",
+            "review_count": 15,
+            "categories": [
+                {
+                    "alias": "asianfusion",
+                    "title": "Asian Fusion"
+                }
+            ],
+            "rating": 4.5,
+            "coordinates": {
+                "latitude": 49.2760321,
+                "longitude": -123.134006
+            },
+            "transactions": [],
+            "location": {
+                "address1": "1010 Beach Ave",
+                "address2": "Suite 3",
+                "address3": null,
+                "city": "Vancouver",
+                "zip_code": "V6E 1T7",
+                "country": "CA",
+                "state": "BC",
+                "display_address": [
+                    "1010 Beach Ave",
+                    "Suite 3",
+                    "Vancouver, BC V6E 1T7",
+                    "Canada"
+                ]
+            },
+            "phone": "+16046209586",
+            "display_phone": "+1 604-620-9586",
+            "distance": 1949.6079908560519
+        },
+        {
+            "id": "p5thThuUITUjAy8gS3sPMw",
+            "alias": "fable-vancouver",
+            "name": "Fable",
+            "image_url": "https://s3-media2.fl.yelpcdn.com/bphoto/9A0iSEqXuKCEJgEHIuI2uw/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/fable-vancouver?adjust_creative=jremx9O_igJKkOW91geX5g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jremx9O_igJKkOW91geX5g",
+            "review_count": 613,
+            "categories": [
+                {
+                    "alias": "newcanadian",
+                    "title": "Canadian (New)"
+                }
+            ],
+            "rating": 4.5,
+            "coordinates": {
+                "latitude": 49.26781,
+                "longitude": -123.14903
+            },
+            "transactions": [],
+            "price": "$$",
+            "location": {
+                "address1": "1944 W 4th Avenue",
+                "address2": "",
+                "address3": "",
+                "city": "Vancouver",
+                "zip_code": "V6J 1MS",
+                "country": "CA",
+                "state": "BC",
+                "display_address": [
+                    "1944 W 4th Avenue",
+                    "Vancouver, BC V6J 1MS",
+                    "Canada"
+                ]
+            },
+            "phone": "+16047321322",
+            "display_phone": "+1 604-732-1322",
+            "distance": 2435.008215133275
+        },
+        {
+            "id": "NdEPf2Ls5Ql3_nkwjqKvXA",
+            "alias": "the-flying-pig-yaletown-vancouver",
+            "name": "The Flying Pig - Yaletown",
+            "image_url": "https://s3-media3.fl.yelpcdn.com/bphoto/vsqRnjBzdXj-o2wBMF3HGw/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/the-flying-pig-yaletown-vancouver?adjust_creative=jremx9O_igJKkOW91geX5g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jremx9O_igJKkOW91geX5g",
+            "review_count": 959,
+            "categories": [
+                {
+                    "alias": "newcanadian",
+                    "title": "Canadian (New)"
+                },
+                {
+                    "alias": "seafood",
+                    "title": "Seafood"
+                }
+            ],
+            "rating": 4,
+            "coordinates": {
+                "latitude": 49.27501,
+                "longitude": -123.122
+            },
+            "transactions": [],
+            "price": "$$",
+            "location": {
+                "address1": "1168 Hamilton Street",
+                "address2": "Unit 104",
+                "address3": "",
+                "city": "Vancouver",
+                "zip_code": "V6B 2S2",
+                "country": "CA",
+                "state": "BC",
+                "display_address": [
+                    "1168 Hamilton Street",
+                    "Unit 104",
+                    "Vancouver, BC V6B 2S2",
+                    "Canada"
+                ]
+            },
+            "phone": "+16045681344",
+            "display_phone": "+1 604-568-1344",
+            "distance": 1382.5087537572042
+        },
+        {
+            "id": "GmEeIcJ9vR04kxzYgPMEgg",
+            "alias": "guu-with-garlic-vancouver-2",
+            "name": "Guu with Garlic",
+            "image_url": "https://s3-media4.fl.yelpcdn.com/bphoto/-BqY7grkfFcVnE3TXuUuxA/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/guu-with-garlic-vancouver-2?adjust_creative=jremx9O_igJKkOW91geX5g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jremx9O_igJKkOW91geX5g",
+            "review_count": 835,
+            "categories": [
+                {
+                    "alias": "japanese",
+                    "title": "Japanese"
+                },
+                {
+                    "alias": "tapas",
+                    "title": "Tapas Bars"
+                }
+            ],
+            "rating": 4.5,
+            "coordinates": {
+                "latitude": 49.290249,
+                "longitude": -123.1338142
+            },
+            "transactions": [],
+            "price": "$$",
+            "location": {
+                "address1": "1698 Robson Street",
+                "address2": "",
+                "address3": "",
+                "city": "Vancouver",
+                "zip_code": "V6G 1C7",
+                "country": "CA",
+                "state": "BC",
+                "display_address": [
+                    "1698 Robson Street",
+                    "Vancouver, BC V6G 1C7",
+                    "Canada"
+                ]
+            },
+            "phone": "+16046858678",
+            "display_phone": "+1 604-685-8678",
+            "distance": 3262.3929781013458
+        },
+        {
+            "id": "McUUjtwFNZ743LgWBLgF8A",
+            "alias": "the-flying-pig-gastown-vancouver-2",
+            "name": "The Flying Pig - Gastown",
+            "image_url": "https://s3-media4.fl.yelpcdn.com/bphoto/abHdaoIdY0iRKEXULLO2kA/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/the-flying-pig-gastown-vancouver-2?adjust_creative=jremx9O_igJKkOW91geX5g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jremx9O_igJKkOW91geX5g",
+            "review_count": 759,
+            "categories": [
+                {
+                    "alias": "newcanadian",
+                    "title": "Canadian (New)"
+                },
+                {
+                    "alias": "seafood",
+                    "title": "Seafood"
+                }
+            ],
+            "rating": 4,
+            "coordinates": {
+                "latitude": 49.2837849,
+                "longitude": -123.1066087
+            },
+            "transactions": [],
+            "price": "$$",
+            "location": {
+                "address1": "102 Water Street",
+                "address2": "",
+                "address3": "",
+                "city": "Vancouver",
+                "zip_code": "V6B 2K8",
+                "country": "CA",
+                "state": "BC",
+                "display_address": [
+                    "102 Water Street",
+                    "Vancouver, BC V6B 2K8",
+                    "Canada"
+                ]
+            },
+            "phone": "+16045597968",
+            "display_phone": "+1 604-559-7968",
+            "distance": 2384.618771660306
+        },
+        {
+            "id": "8epZBQPYacy1-KQULLABmg",
+            "alias": "alibi-room-vancouver",
+            "name": "Alibi Room",
+            "image_url": "https://s3-media2.fl.yelpcdn.com/bphoto/bjIOM6bvAyY23v9-eSDaUQ/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/alibi-room-vancouver?adjust_creative=jremx9O_igJKkOW91geX5g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jremx9O_igJKkOW91geX5g",
+            "review_count": 507,
+            "categories": [
+                {
+                    "alias": "pubs",
+                    "title": "Pubs"
+                },
+                {
+                    "alias": "newcanadian",
+                    "title": "Canadian (New)"
+                },
+                {
+                    "alias": "gastropubs",
+                    "title": "Gastropubs"
+                }
+            ],
+            "rating": 4.5,
+            "coordinates": {
+                "latitude": 49.284201944511,
+                "longitude": -123.1001915385
+            },
+            "transactions": [],
+            "price": "$$",
+            "location": {
+                "address1": "157 Alexander Street",
+                "address2": "",
+                "address3": "",
+                "city": "Vancouver",
+                "zip_code": "V6A 1B8",
+                "country": "CA",
+                "state": "BC",
+                "display_address": [
+                    "157 Alexander Street",
+                    "Vancouver, BC V6A 1B8",
+                    "Canada"
+                ]
+            },
+            "phone": "+16046233383",
+            "display_phone": "+1 604-623-3383",
+            "distance": 2601.2402585056834
+        },
+        {
+            "id": "yeNenSjz_HCqngGFU5d8NQ",
+            "alias": "phnom-penh-vancouver",
+            "name": "Phnom Penh",
+            "image_url": "https://s3-media1.fl.yelpcdn.com/bphoto/kJr77hhuXqX8UZ4fV7cYWw/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/phnom-penh-vancouver?adjust_creative=jremx9O_igJKkOW91geX5g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jremx9O_igJKkOW91geX5g",
+            "review_count": 1007,
+            "categories": [
+                {
+                    "alias": "cambodian",
+                    "title": "Cambodian"
+                },
+                {
+                    "alias": "vietnamese",
+                    "title": "Vietnamese"
+                }
+            ],
+            "rating": 4,
+            "coordinates": {
+                "latitude": 49.278431,
+                "longitude": -123.098205
+            },
+            "transactions": [],
+            "price": "$$",
+            "location": {
+                "address1": "244 E Georgia Street",
+                "address2": "",
+                "address3": "",
+                "city": "Vancouver",
+                "zip_code": "V6A 1Z7",
+                "country": "CA",
+                "state": "BC",
+                "display_address": [
+                    "244 E Georgia Street",
+                    "Vancouver, BC V6A 1Z7",
+                    "Canada"
+                ]
+            },
+            "phone": "+16046825777",
+            "display_phone": "+1 604-682-5777",
+            "distance": 2132.7250951450683
+        },
+        {
+            "id": "4EV_ZcQmjAmP3pmO-_nb2A",
+            "alias": "miku-vancouver-2",
+            "name": "Miku",
+            "image_url": "https://s3-media4.fl.yelpcdn.com/bphoto/OBIHYzIe_0-RYJ8TjQ8CdQ/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/miku-vancouver-2?adjust_creative=jremx9O_igJKkOW91geX5g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jremx9O_igJKkOW91geX5g",
+            "review_count": 1352,
+            "categories": [
+                {
+                    "alias": "japanese",
+                    "title": "Japanese"
+                },
+                {
+                    "alias": "sushi",
+                    "title": "Sushi Bars"
+                }
+            ],
+            "rating": 4.5,
+            "coordinates": {
+                "latitude": 49.2870083463066,
+                "longitude": -123.113051358108
+            },
+            "transactions": [],
+            "price": "$$$",
+            "location": {
+                "address1": "200 Granville Street",
+                "address2": "Suite 70",
+                "address3": "",
+                "city": "Vancouver",
+                "zip_code": "V6C 1S4",
+                "country": "CA",
+                "state": "BC",
+                "display_address": [
+                    "200 Granville Street",
+                    "Suite 70",
+                    "Vancouver, BC V6C 1S4",
+                    "Canada"
+                ]
+            },
+            "phone": "+16045683900",
+            "display_phone": "+1 604-568-3900",
+            "distance": 2648.719549140943
+        },
+        {
+            "id": "t-soDjOlN6XkySHBdhRkKA",
+            "alias": "forage-vancouver",
+            "name": "Forage",
+            "image_url": "https://s3-media1.fl.yelpcdn.com/bphoto/ziBcgUjZkFVXVPpkO9aRLw/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/forage-vancouver?adjust_creative=jremx9O_igJKkOW91geX5g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jremx9O_igJKkOW91geX5g",
+            "review_count": 532,
+            "categories": [
+                {
+                    "alias": "newcanadian",
+                    "title": "Canadian (New)"
+                },
+                {
+                    "alias": "breakfast_brunch",
+                    "title": "Breakfast & Brunch"
+                }
+            ],
+            "rating": 4,
+            "coordinates": {
+                "latitude": 49.28707,
+                "longitude": -123.12925
+            },
+            "transactions": [],
+            "price": "$$",
+            "location": {
+                "address1": "1300 Robson Street",
+                "address2": null,
+                "address3": "",
+                "city": "Vancouver",
+                "zip_code": "V6E 1C5",
+                "country": "CA",
+                "state": "BC",
+                "display_address": [
+                    "1300 Robson Street",
+                    "Vancouver, BC V6E 1C5",
+                    "Canada"
+                ]
+            },
+            "phone": "+16046611400",
+            "display_phone": "+1 604-661-1400",
+            "distance": 2803.019808058999
+        },
+        {
+            "id": "MqRoBCv-M-_WQqUPJJqFDw",
+            "alias": "so-hyang-korean-cuisine-vancouver",
+            "name": "So Hyang Korean Cuisine",
+            "image_url": "https://s3-media2.fl.yelpcdn.com/bphoto/retX1bSqvwIJFDKDYVsOrA/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/so-hyang-korean-cuisine-vancouver?adjust_creative=jremx9O_igJKkOW91geX5g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jremx9O_igJKkOW91geX5g",
+            "review_count": 175,
+            "categories": [
+                {
+                    "alias": "korean",
+                    "title": "Korean"
+                }
+            ],
+            "rating": 4.5,
+            "coordinates": {
+                "latitude": 49.2271233,
+                "longitude": -123.0909348
+            },
+            "transactions": [],
+            "price": "$$",
+            "location": {
+                "address1": "6345 Fraser Street",
+                "address2": null,
+                "address3": "",
+                "city": "Vancouver",
+                "zip_code": "V5W 3A3",
+                "country": "CA",
+                "state": "BC",
+                "display_address": [
+                    "6345 Fraser Street",
+                    "Vancouver, BC V5W 3A3",
+                    "Canada"
+                ]
+            },
+            "phone": "+16047290702",
+            "display_phone": "+1 604-729-0702",
+            "distance": 4432.63603031484
+        },
+        {
+            "id": "DkKH_q0_vdWSWZwFhPFLZw",
+            "alias": "tavola-vancouver",
+            "name": "Tavola",
+            "image_url": "https://s3-media4.fl.yelpcdn.com/bphoto/gPtiUWMlRjIbM0Rce--P4Q/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/tavola-vancouver?adjust_creative=jremx9O_igJKkOW91geX5g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jremx9O_igJKkOW91geX5g",
+            "review_count": 310,
+            "categories": [
+                {
+                    "alias": "italian",
+                    "title": "Italian"
+                }
+            ],
+            "rating": 4.5,
+            "coordinates": {
+                "latitude": 49.2918164,
+                "longitude": -123.1357186
+            },
+            "transactions": [],
+            "price": "$$$",
+            "location": {
+                "address1": "1829 Robson Street",
+                "address2": "",
+                "address3": "",
+                "city": "Vancouver",
+                "zip_code": "V6G 3E4",
+                "country": "CA",
+                "state": "BC",
+                "display_address": [
+                    "1829 Robson Street",
+                    "Vancouver, BC V6G 3E4",
+                    "Canada"
+                ]
+            },
+            "phone": "+16046064680",
+            "display_phone": "+1 604-606-4680",
+            "distance": 3482.0929419210165
+        },
+        {
+            "id": "crM1idgY_glhtxXT5kERNg",
+            "alias": "kingyo-vancouver",
+            "name": "Kingyo",
+            "image_url": "https://s3-media3.fl.yelpcdn.com/bphoto/oL81NLWy5AesRlfk2qf43A/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/kingyo-vancouver?adjust_creative=jremx9O_igJKkOW91geX5g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jremx9O_igJKkOW91geX5g",
+            "review_count": 686,
+            "categories": [
+                {
+                    "alias": "japanese",
+                    "title": "Japanese"
+                },
+                {
+                    "alias": "tapasmallplates",
+                    "title": "Tapas/Small Plates"
+                }
+            ],
+            "rating": 4.5,
+            "coordinates": {
+                "latitude": 49.29061,
+                "longitude": -123.13714
+            },
+            "transactions": [],
+            "price": "$$",
+            "location": {
+                "address1": "871 Denman Street",
+                "address2": "",
+                "address3": "",
+                "city": "Vancouver",
+                "zip_code": "V6G 2L9",
+                "country": "CA",
+                "state": "BC",
+                "display_address": [
+                    "871 Denman Street",
+                    "Vancouver, BC V6G 2L9",
+                    "Canada"
+                ]
+            },
+            "phone": "+16046081677",
+            "display_phone": "+1 604-608-1677",
+            "distance": 3397.064262810926
+        },
+        {
+            "id": "JgSGpSMHbGecAXs_o1rE_g",
+            "alias": "dinesty-dumpling-house-vancouver",
+            "name": "Dinesty Dumpling House",
+            "image_url": "https://s3-media4.fl.yelpcdn.com/bphoto/M2wD2AtA-uPfVdNYaNLDpA/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/dinesty-dumpling-house-vancouver?adjust_creative=jremx9O_igJKkOW91geX5g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jremx9O_igJKkOW91geX5g",
+            "review_count": 558,
+            "categories": [
+                {
+                    "alias": "chinese",
+                    "title": "Chinese"
+                }
+            ],
+            "rating": 4,
+            "coordinates": {
+                "latitude": 49.2908176,
+                "longitude": -123.1343912
+            },
+            "transactions": [],
+            "price": "$$",
+            "location": {
+                "address1": "1719 Robson Street",
+                "address2": "",
+                "address3": "",
+                "city": "Vancouver",
+                "zip_code": "V6G 1C8",
+                "country": "CA",
+                "state": "BC",
+                "display_address": [
+                    "1719 Robson Street",
+                    "Vancouver, BC V6G 1C8",
+                    "Canada"
+                ]
+            },
+            "phone": "+16046697769",
+            "display_phone": "+1 604-669-7769",
+            "distance": 3333.75059839881
+        },
+        {
+            "id": "_4R46MNkwx9MeOyt0YfNxA",
+            "alias": "chambar-vancouver",
+            "name": "Chambar",
+            "image_url": "https://s3-media4.fl.yelpcdn.com/bphoto/7u8SwmSCB9VA7C_-_xpmQw/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/chambar-vancouver?adjust_creative=jremx9O_igJKkOW91geX5g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jremx9O_igJKkOW91geX5g",
+            "review_count": 1191,
+            "categories": [
+                {
+                    "alias": "belgian",
+                    "title": "Belgian"
+                }
+            ],
+            "rating": 4,
+            "coordinates": {
+                "latitude": 49.2801460007961,
+                "longitude": -123.109925328073
+            },
+            "transactions": [],
+            "price": "$$$",
+            "location": {
+                "address1": "568 Beatty Street",
+                "address2": "",
+                "address3": "",
+                "city": "Vancouver",
+                "zip_code": "V6B 2L3",
+                "country": "CA",
+                "state": "BC",
+                "display_address": [
+                    "568 Beatty Street",
+                    "Vancouver, BC V6B 2L3",
+                    "Canada"
+                ]
+            },
+            "phone": "+16048797119",
+            "display_phone": "+1 604-879-7119",
+            "distance": 1930.5337011764295
+        },
+        {
+            "id": "htvl5L_V-zKN0UvUgP60PQ",
+            "alias": "robba-da-matti-vancouver",
+            "name": "Robba da Matti",
+            "image_url": "https://s3-media2.fl.yelpcdn.com/bphoto/TGcAB10TBWy-6S5mDQMUjw/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/robba-da-matti-vancouver?adjust_creative=jremx9O_igJKkOW91geX5g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jremx9O_igJKkOW91geX5g",
+            "review_count": 358,
+            "categories": [
+                {
+                    "alias": "italian",
+                    "title": "Italian"
+                },
+                {
+                    "alias": "tapas",
+                    "title": "Tapas Bars"
+                }
+            ],
+            "rating": 4,
+            "coordinates": {
+                "latitude": 49.2753397,
+                "longitude": -123.1208967
+            },
+            "transactions": [],
+            "price": "$$",
+            "location": {
+                "address1": "1127 Mainland Street",
+                "address2": "",
+                "address3": "",
+                "city": "Vancouver",
+                "zip_code": "V6B 5P2",
+                "country": "CA",
+                "state": "BC",
+                "display_address": [
+                    "1127 Mainland Street",
+                    "Vancouver, BC V6B 5P2",
+                    "Canada"
+                ]
+            },
+            "phone": "+16045581174",
+            "display_phone": "+1 604-558-1174",
+            "distance": 1383.341070598963
+        },
+        {
+            "id": "gt1BSfVFvzI-qHdJ3LUZug",
+            "alias": "blue-water-cafe-vancouver",
+            "name": "Blue Water Cafe",
+            "image_url": "https://s3-media3.fl.yelpcdn.com/bphoto/C-PwVUhZjOpGROt2IwUlpA/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/blue-water-cafe-vancouver?adjust_creative=jremx9O_igJKkOW91geX5g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jremx9O_igJKkOW91geX5g",
+            "review_count": 780,
+            "categories": [
+                {
+                    "alias": "seafood",
+                    "title": "Seafood"
+                },
+                {
+                    "alias": "raw_food",
+                    "title": "Live/Raw Food"
+                },
+                {
+                    "alias": "bars",
+                    "title": "Bars"
+                }
+            ],
+            "rating": 4.5,
+            "coordinates": {
+                "latitude": 49.2761945,
+                "longitude": -123.1209935
+            },
+            "transactions": [],
+            "price": "$$$$",
+            "location": {
+                "address1": "1095 Hamilton St",
+                "address2": "",
+                "address3": "",
+                "city": "Vancouver",
+                "zip_code": "V6B 5T4",
+                "country": "CA",
+                "state": "BC",
+                "display_address": [
+                    "1095 Hamilton St",
+                    "Vancouver, BC V6B 5T4",
+                    "Canada"
+                ]
+            },
+            "phone": "+16046888078",
+            "display_phone": "+1 604-688-8078",
+            "distance": 1475.3775306797215
+        },
+        {
+            "id": "r-UGAU1-PsZ6HNZW237O-Q",
+            "alias": "salt-tasting-room-vancouver",
+            "name": "Salt Tasting Room",
+            "image_url": "https://s3-media1.fl.yelpcdn.com/bphoto/uaLW7DPQE79UoLN5GJEWvw/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/salt-tasting-room-vancouver?adjust_creative=jremx9O_igJKkOW91geX5g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jremx9O_igJKkOW91geX5g",
+            "review_count": 460,
+            "categories": [
+                {
+                    "alias": "wine_bars",
+                    "title": "Wine Bars"
+                },
+                {
+                    "alias": "tapasmallplates",
+                    "title": "Tapas/Small Plates"
+                }
+            ],
+            "rating": 4,
+            "coordinates": {
+                "latitude": 49.2833019455415,
+                "longitude": -123.106055259705
+            },
+            "transactions": [
+                "restaurant_reservation"
+            ],
+            "price": "$$",
+            "location": {
+                "address1": "45 Blood Alley Square",
+                "address2": "",
+                "address3": "",
+                "city": "Vancouver",
+                "zip_code": "V6B 1A4",
+                "country": "CA",
+                "state": "BC",
+                "display_address": [
+                    "45 Blood Alley Square",
+                    "Vancouver, BC V6B 1A4",
+                    "Canada"
+                ]
+            },
+            "phone": "+16046331912",
+            "display_phone": "+1 604-633-1912",
+            "distance": 2345.640596716483
+        },
+        {
+            "id": "Ufhxnrt_OJu4jHfVTP3aRQ",
+            "alias": "fanny-bay-oyster-bar-and-shellfish-market-vancouver",
+            "name": "Fanny Bay Oyster Bar & Shellfish Market",
+            "image_url": "https://s3-media1.fl.yelpcdn.com/bphoto/v3pXdJqXH2kqOPCblrER_Q/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/fanny-bay-oyster-bar-and-shellfish-market-vancouver?adjust_creative=jremx9O_igJKkOW91geX5g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jremx9O_igJKkOW91geX5g",
+            "review_count": 368,
+            "categories": [
+                {
+                    "alias": "seafood",
+                    "title": "Seafood"
+                },
+                {
+                    "alias": "seafoodmarkets",
+                    "title": "Seafood Markets"
+                }
+            ],
+            "rating": 4.5,
+            "coordinates": {
+                "latitude": 49.2787525,
+                "longitude": -123.1138689
+            },
+            "transactions": [],
+            "price": "$$",
+            "location": {
+                "address1": "762 Cambie St",
+                "address2": "",
+                "address3": null,
+                "city": "Vancouver",
+                "zip_code": "V6B 2P2",
+                "country": "CA",
+                "state": "BC",
+                "display_address": [
+                    "762 Cambie St",
+                    "Vancouver, BC V6B 2P2",
+                    "Canada"
+                ]
+            },
+            "phone": "+17783799510",
+            "display_phone": "+1 778-379-9510",
+            "distance": 1711.527841072457
+        },
+        {
+            "id": "jKO4Og6ucdX2-YCTKQVYjg",
+            "alias": "cactus-club-cafe-vancouver-8",
+            "name": "Cactus Club Cafe",
+            "image_url": "https://s3-media2.fl.yelpcdn.com/bphoto/4RZRvWsK9U3j_1Tl7OZn1w/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/cactus-club-cafe-vancouver-8?adjust_creative=jremx9O_igJKkOW91geX5g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jremx9O_igJKkOW91geX5g",
+            "review_count": 548,
+            "categories": [
+                {
+                    "alias": "newcanadian",
+                    "title": "Canadian (New)"
+                },
+                {
+                    "alias": "cocktailbars",
+                    "title": "Cocktail Bars"
+                }
+            ],
+            "rating": 4,
+            "coordinates": {
+                "latitude": 49.2894228232085,
+                "longitude": -123.117999126832
+            },
+            "transactions": [],
+            "price": "$$",
+            "location": {
+                "address1": "1085 Canada Place",
+                "address2": "",
+                "address3": "",
+                "city": "Vancouver",
+                "zip_code": "V6C 0C3",
+                "country": "CA",
+                "state": "BC",
+                "display_address": [
+                    "1085 Canada Place",
+                    "Vancouver, BC V6C 0C3",
+                    "Canada"
+                ]
+            },
+            "phone": "+16046207410",
+            "display_phone": "+1 604-620-7410",
+            "distance": 2910.0074655727103
+        }
+    ],
+    "total": 4200,
+    "region": {
+        "center": {
+            "longitude": -123.11622619628906,
+            "latitude": 49.26327804232932
+        }
+    }
+}

@@ -11,8 +11,11 @@ import Dining from "../container/dining";
 import Movie from "../container/movie";
 import Expense from "../container/expense";
 import Settings from "../container/settings";
+import Login from "../container/authentication/login";
+import storage from "../utils/Storage";
 
 import { Layout, Menu } from "antd";
+import { Link } from "react-router-dom";
 
 const { Content, Sider, Footer } = Layout;
 const MenuItemGroup = Menu.ItemGroup;
@@ -44,10 +47,17 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
                   defaultSelectedKeys={["1"]}
                   style={{ height: "100%", borderRight: 0 }}
                 >
-                  {matchProps.match.path === "/dining" && (
+                  {matchProps.match.path.startsWith("/dining") && (
                     <MenuItemGroup title="Dining">
-                      <Menu.Item key="1">Find Restaurants</Menu.Item>
-                      <Menu.Item key="2">Heat Map</Menu.Item>
+                      <Menu.Item key="1">
+                        <Link to="/dining/find_restaurant">
+                          Find Restaurants
+                        </Link>
+                      </Menu.Item>
+                      <Menu.Item key="2">
+                        <Link to="/dining/restaurant_heatmap">Heat Map</Link>
+                        Heat Map
+                      </Menu.Item>
                     </MenuItemGroup>
                   )}
                   {matchProps.match.path === "/movie" && (
@@ -126,16 +136,21 @@ export class ComponentRoutes extends Component {
   render() {
     return (
       <Switch>
-        <PrivateRoute exact path="/dining" component={Dining} />
+        <PrivateRoute exact path="/dining/find_restaurant" component={Dining} />
+        <PrivateRoute
+          exact
+          path="/dining/restaurant_heatmap"
+          component={Dining}
+        />
 
         <PrivateRoute exact path="/movie" component={Movie} />
 
         <PrivateRoute exact path="/expense" component={Expense} />
 
         <PrivateRoute exact path="/settings" component={Settings} />
-        <Redirect from="/" to="/dining" />
+        <Redirect from="/" to="/dining/find_restaurant" />
 
-        <Redirect from="/dinings" to="/dining" />
+        <Redirect from="/dinings" to="/dining/find_restaurant" />
         <Redirect from="/movies" to="/movie" />
         <Redirect from="/expenses" to="/expense" />
         <Redirect from="/setting" to="/settings" />
@@ -146,13 +161,27 @@ export class ComponentRoutes extends Component {
   }
 }
 
+class AuthRoutes extends Component {
+  render() {
+    return (
+      <Switch>
+        <Route exact path="/login" component={Login} />
+        <Redirect from="/" to="/login" />
+      </Switch>
+    )
+  }
+}
+
 class Routing extends Component {
   render() {
     return (
       <div className="Routing">
         <Router>
           <div>
-            <ComponentRoutes />
+            {storage.isLoggedIn()
+              ? <ComponentRoutes />
+              : <AuthRoutes />
+            }
           </div>
         </Router>
       </div>
