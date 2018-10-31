@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Menu, Button, Icon, Tooltip, Layout } from "antd";
 import { Link, withRouter } from "react-router-dom";
+import storage from '../utils/Storage';
 const { Header } = Layout;
+
 class Navigation extends Component {
   state = {
     username: "test user"
@@ -61,7 +63,7 @@ class Navigation extends Component {
                   shape="circle"
                   size="small"
                   type="dashed"
-                  onClick={this.logout}
+                  onClick={storage.logOutUser}
                   style={{ textAlign: "center", backgroundColor: "#efefef" }}
                 >
                   <Icon type="logout" />
