@@ -11,6 +11,8 @@ import Dining from "../container/dining";
 import Movie from "../container/movie";
 import Expense from "../container/expense";
 import Settings from "../container/settings";
+import Login from "../container/authentication/login";
+import storage from "../utils/Storage";
 
 import { Layout, Menu } from "antd";
 import { Link } from "react-router-dom";
@@ -159,13 +161,27 @@ export class ComponentRoutes extends Component {
   }
 }
 
+class AuthRoutes extends Component {
+  render() {
+    return (
+      <Switch>
+        <Route exact path="/login" component={Login} />
+        <Redirect from="/" to="/login" />
+      </Switch>
+    )
+  }
+}
+
 class Routing extends Component {
   render() {
     return (
       <div className="Routing">
         <Router>
           <div>
-            <ComponentRoutes />
+            {storage.isLoggedIn()
+              ? <ComponentRoutes />
+              : <AuthRoutes />
+            }
           </div>
         </Router>
       </div>
