@@ -21,12 +21,6 @@ class Movie extends Component {
         this.state={
             Mdata: []
         };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    handleChange(e){
-
     }
 
     extractList(){
