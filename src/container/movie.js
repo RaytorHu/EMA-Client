@@ -1,9 +1,12 @@
 import React, { Component } from "react";
-import MovieList from "./data/moviesDB.json";
+import MovieList from "./data/moviesDB1.json";
 import { List, Avatar, Icon} from "antd";
 import config from "../config.js"
+//import storage from "../utils/Storage"
 
 const axios = require('axios');
+var addToWishlist = 'Add to wishlist';
+var removeFromWishlist = 'Remove from wishlist';
 
 const IconText = ({ type, text }) => (
     <span>
@@ -18,49 +21,28 @@ class Movie extends Component {
         this.state={
             Mdata: []
         };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
-    addfavorite(key){
-        // function findMovieID(id){
-        //     return Mdata.MovieID === id;
-        // }
-        //
-        // axios({
-        //     method: 'POST',
-        //     url: config.base_url + 'api/v1/MovieManagement',
-        //     data: {
-        //         id: key,
-        //         userID: 'johndoe@sfu.ca'
-        //     },
-        //     headers:{
-        //         'Authorization': 'Bearer' + this.state.token
-        //     }
-        // })
-        //     .then((response) =>{
-        //         const index = Mdata.findIndex(findMovieID(key));
-        //         this.setState({
-        //             Mdata: Mdata[index].favorite = !(Mdata[index].favorite)
-        //         })
-        //     })
+    handleChange(e){
+
     }
 
     extractList(){
         const tmp = [];
-
         for(let i=0; i < MovieList.movies.length; i++){
-
             tmp.push({
-                MovieID: MovieList.movies[i].id,
+                id: MovieList.movies[i].id,
                 title: MovieList.movies[i].name,
                 release: MovieList.movies[i].releaseDate,
+                avatar: MovieList.movies[i].posterLargeURL,
+                Movie_len: MovieList.movies[i].runtime,
                 genres: MovieList.movies[i].genres,
                 synopsis: MovieList.movies[i].synopsis,
-                avatar: MovieList.movies[i].posterLargeURL,
-                trailer: MovieList.movies[i].trailerURL,
-                Movie_len: MovieList.movies[i].runtime,
-                rate: MovieList.movies[i].rating,
                 href: MovieList.movies[i].webURL,
-                favorite: false
+                inWishlist: false,
+                btnText: addToWishlist
             });
         }
 
@@ -74,6 +56,50 @@ class Movie extends Component {
         });
         console.log(this.state.Mdata);
     };
+
+    //TODO: test the function when DB is delpoyed and change the value of the button according to the boolean favorite
+    handleClick(key){
+        console.log(key);
+        function findMovieID(records){
+            return records.id === key;
+        }
+        const index = this.state.Mdata.findIndex(findMovieID);
+        this.changeWishlist(index);
+        console.log(this.state.Mdata[index].inWishlist);
+        this.changebtnText(index);
+        console.log(this.state.Mdata[index].btnText);
+        this.forceUpdate();
+
+        //
+        // axios({
+        //     method: 'POST',
+        //     url: config.base_url + 'api/v1/MovieManagement',
+        //     data: {
+        //         id: key,
+        //         userID: 'johndoe@sfu.ca'
+        //     },
+        //     headers:{
+        //         'Authorization': 'Bearer' + this.state.token
+        //     }
+        // })
+        //     .then((response) =>{
+        //
+        //     })
+    }
+
+    changeWishlist(index){
+        this.state.Mdata[index].inWishlist = !(this.state.Mdata[index].inWishlist);
+    }
+
+    changebtnText(index){
+        if(!this.state.Mdata[index].inWishlist){
+            this.state.Mdata[index].btnText = addToWishlist;
+        }
+        else{
+            this.state.Mdata[index].btnText = removeFromWishlist;
+        }
+
+    }
 
     render() {
         return (
@@ -89,13 +115,13 @@ class Movie extends Component {
                 dataSource={this.state.Mdata}
                 renderItem={item => (
                     <List.Item
-                        key={item.MovieID}
+                        key={item.id}
                         actions={[
                             <IconText type="clock-circle" text={item.release} />,
                             <IconText type="hourglass" text={item.Movie_len} />,
                             <p>rating: {item.rate}</p>,
                             <p>trailer: <a href={item.trailer} target="_blank"><Icon type="play-circle"/></a></p>,
-                            <p><IconText type="heart"/><button onClick={this.addfavorite(item.MovieID)}>Add to Wishlist</button></p>
+                            <p><IconText type="heart"/><button onClick={() => this.handleClick(item.id)}>{item.btnText}</button></p>
                         ]}
                         extra={<img width={272} alt="logo" src={item.avatar} />}
                     >
