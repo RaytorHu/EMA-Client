@@ -38,7 +38,7 @@ class LoginForm extends Component {
           <Button type="primary" htmlType="submit" style={{ width: '100%' }}> {/* TODO: Disable when validation failed */ }
             Log in
           </Button>
-          Or <a href="">register now!</a>
+          Or <a href="/register">register now!</a>
         </FormItem>
       </Form>
     );

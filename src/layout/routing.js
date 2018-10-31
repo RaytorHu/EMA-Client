@@ -13,6 +13,7 @@ import Movie from "../container/movie";
 import Expense from "../container/expense";
 import Settings from "../container/settings";
 import Login from "../container/authentication/login";
+import Register from '../container/authentication/register';
 import storage from "../utils/Storage";
 
 import { Layout, Menu, Icon } from "antd";
@@ -170,6 +171,7 @@ class AuthRoutes extends Component {
     return (
       <Switch>
         <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
         <Redirect from="/" to="/login" />
       </Switch>
     )
