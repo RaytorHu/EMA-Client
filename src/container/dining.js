@@ -27,7 +27,10 @@ function generateKeywordList(business) {
 
 function matchKeywordList(business, key) {
   let keyList;
-  keyList = key.replace(/[^0-9a-zA-Z]^\$/g, "").split(" ");
+  keyList = key
+    .replace(/[^0-9a-zA-Z]^\$/g, "")
+    .toLowerCase()
+    .split(" ");
   let keywordList = generateKeywordList(business);
   let match;
   for (let j = 0; j < keyList.length; j++) {
