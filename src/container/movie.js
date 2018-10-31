@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import MovieList from "./data/moviesDB.json";
 import { List, Avatar, Icon} from "antd";
+import config from "../config.js"
 
+const axios = require('axios');
 
 const IconText = ({ type, text }) => (
     <span>
@@ -14,8 +16,32 @@ class Movie extends Component {
     constructor(props){
         super(props);
         this.state={
-            data: []
+            Mdata: []
         };
+    }
+
+    addfavorite(key){
+        // function findMovieID(id){
+        //     return Mdata.MovieID === id;
+        // }
+        //
+        // axios({
+        //     method: 'POST',
+        //     url: config.base_url + 'api/v1/MovieManagement',
+        //     data: {
+        //         id: key,
+        //         userID: 'johndoe@sfu.ca'
+        //     },
+        //     headers:{
+        //         'Authorization': 'Bearer' + this.state.token
+        //     }
+        // })
+        //     .then((response) =>{
+        //         const index = Mdata.findIndex(findMovieID(key));
+        //         this.setState({
+        //             Mdata: Mdata[index].favorite = !(Mdata[index].favorite)
+        //         })
+        //     })
     }
 
     extractList(){
@@ -33,7 +59,8 @@ class Movie extends Component {
                 trailer: MovieList.movies[i].trailerURL,
                 Movie_len: MovieList.movies[i].runtime,
                 rate: MovieList.movies[i].rating,
-                href: MovieList.movies[i].webURL
+                href: MovieList.movies[i].webURL,
+                favorite: false
             });
         }
 
@@ -43,13 +70,12 @@ class Movie extends Component {
     componentDidMount(){
         var moviedata =  this.extractList();
         this.setState({
-            data: moviedata
+            Mdata: moviedata
         });
-        console.log(this.state.data);
+        console.log(this.state.Mdata);
     };
 
     render() {
-        //console.log(MovieList.movies.length);
         return (
             <List
                 itemLayout="vertical"
@@ -60,7 +86,7 @@ class Movie extends Component {
                     },
                     pageSize: 5,
                 }}
-                dataSource={this.state.data}
+                dataSource={this.state.Mdata}
                 renderItem={item => (
                     <List.Item
                         key={item.MovieID}
@@ -69,7 +95,7 @@ class Movie extends Component {
                             <IconText type="hourglass" text={item.Movie_len} />,
                             <p>rating: {item.rate}</p>,
                             <p>trailer: <a href={item.trailer} target="_blank"><Icon type="play-circle"/></a></p>,
-                            <a href=""><IconText type="heart" text="Add to Wishlist" /></a>
+                            <p><IconText type="heart"/><button onClick={this.addfavorite(item.MovieID)}>Add to Wishlist</button></p>
                         ]}
                         extra={<img width={272} alt="logo" src={item.avatar} />}
                     >
