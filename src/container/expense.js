@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, Icon, Input, Card } from 'antd';
 import 'antd/dist/antd.css';
+import storage from "../utils/Storage";
 
 var config = require('../config.js');
 const axios = require('axios');
@@ -100,7 +101,7 @@ class Statement extends Component {
         description: this.state.transactionDescription
       },
       headers: {
-        'Authorization': 'Bearer ' + this.state.token
+        'Authorization': 'Bearer ' + storage.getAuthToken()
       }
 
     })
@@ -126,63 +127,38 @@ class Statement extends Component {
       });
   }
 
-  /**
-   * AJAX Axio
-   */
   componentDidMount() {
-    //const token = this.state.token;
 
-    // Login AJAX request
+    /**
+     * AJAX call to get transactions from server
+     */
     axios({
-      method: 'post',
-      url: config.base_url+'api/v1/auth/login',
-      data: {
-        email: 'test@email.com',
-        password: 'defaultpass'
+      method: 'get',
+      url: config.base_url+'api/v1/transaction',
+      headers: {
+        'Authorization': 'Bearer ' + storage.getAuthToken()
       }
     })
-      .then( (response) => {
-        this.setState({
-          token: response.data.token
-        });
-        console.log(response.data.token);
+    .then( (response) => {
 
-        // after login, get transactions from server
-        axios({
-          method: 'get',
-          url: config.base_url+'api/v1/transaction',
-          headers: {
-            'Authorization': 'Bearer ' + response.data.token
-          }
-        })
-        .then( (response) => {
-
-          this.setState({
-            transactions: response.data.data.reverse(),
-            loading: false
-          })
-
-        })
-        .catch( (error) => {
-
-          console.log(error);
-
-          this.setState({
-            error: 'Server Error: Please contact administrator',
-            loading: false
-          });
-
-        });
+      this.setState({
+        transactions: response.data.data.reverse(),
+        loading: false
       })
-      .catch( (error) => {
+    })
+    .catch( (error) => {
 
-          console.log(error);
+      console.log(error);
 
-          this.setState({
-            error: 'Server Error: Please contact administrator'
-          });
-          
-      })
+      this.setState({
+        error: 'Server Error: Please contact administrator',
+        loading: false
+      });
+
+      this.forceUpdate();
+
+    });
+
   }
 
   render() {
@@ -245,8 +221,8 @@ class Statement extends Component {
         <span> Transaction Amount </span><Input type="text" onChange={this.handleTransactionAmount}/><br/>
         <span> Transaction Description </span><Input type="text" onChange={this.handleTransactionDescription}/><br/><br/>
         <Button id="submitButton" onClick={this.handleSubmit}> Submit </Button><br/>
-        <div id="error" style={{color: 'red'}}> {this.state.error} </div>
       </form>
+      <div id="error" style={{color: 'red'}}> {this.state.error} </div>
       </div>
 
       <Card loading={this.state.loading}>
