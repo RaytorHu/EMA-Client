@@ -15,7 +15,7 @@ import Settings from "../container/settings";
 import Login from "../container/authentication/login";
 import storage from "../utils/Storage";
 
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Icon } from "antd";
 import { Link } from "react-router-dom";
 
 const { Content, Sider, Footer } = Layout;
@@ -52,12 +52,15 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
                     <MenuItemGroup title="Dining">
                       <Menu.Item key="1">
                         <Link to="/dining/find_restaurant">
+                          <Icon type="search" theme="outlined" />
                           Find Restaurants
                         </Link>
                       </Menu.Item>
                       <Menu.Item key="2">
-                        <Link to="/dining/restaurant_heatmap">Heat Map</Link>
-                        Heat Map
+                        <Link to="/dining/restaurant_heatmap">
+                          <Icon type="heat-map" theme="outlined" />
+                          Heat Map
+                        </Link>
                       </Menu.Item>
                     </MenuItemGroup>
                   )}
