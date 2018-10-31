@@ -26,16 +26,24 @@ function generateKeywordList(business) {
 }
 
 function matchKeywordList(business, key) {
-  key.replace(/[^0-9a-zA-Z]^\$/g, "");
+  let keyList;
+  keyList = key.replace(/[^0-9a-zA-Z]^\$/g, "").split(" ");
   let keywordList = generateKeywordList(business);
-  for (let i = 0; i < keywordList.length; i++) {
-    if (keywordList[i].includes("$")) {
-      return keywordList[i] === key;
-    } else if (keywordList[i].includes(key)) {
-      return true;
+  let match;
+  for (let j = 0; j < keyList.length; j++) {
+    match = false;
+    for (let i = 0; i < keywordList.length; i++) {
+      if (keywordList[i].includes("$") && keywordList[i] === keyList[j]) {
+        match = true;
+      } else if (keywordList[i].includes(keyList[j])) {
+        match = true;
+      }
+    }
+    if (!match) {
+      return false;
     }
   }
-  return false;
+  return match;
 }
 
 function keywordSearch(list, key) {
