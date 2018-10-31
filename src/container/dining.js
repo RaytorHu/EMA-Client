@@ -12,10 +12,53 @@ const IconText = ({ type, text }) => (
   </span>
 );
 
+function generateKeywordList(business) {
+  let list = [];
+  list.push(
+    business.name.toLowerCase(),
+    business.display_phone.replace(/[^0-9]/g, ""),
+    business.location.address1.toLowerCase(),
+    business.location.city.toLowerCase(),
+    business.rating.toString(),
+    business.price || "N/A"
+  );
+  return list;
+}
+
+function matchKeywordList(business, key) {
+  key.replace(/[^0-9a-zA-Z]^\$/g, "");
+  let keywordList = generateKeywordList(business);
+  for (let i = 0; i < keywordList.length; i++) {
+    if (keywordList[i].includes("$")) {
+      return keywordList[i] === key;
+    } else if (keywordList[i].includes(key)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function keywordSearch(list, key) {
+  let result = [];
+  for (let i = 0; i < list.businesses.length; i++) {
+    if (matchKeywordList(list.businesses[i], key)) {
+      result.push(list.businesses[i]);
+    }
+  }
+
+  return result;
+}
+
 function getRestaurants(value) {
   let data = JSON.parse(JSON.stringify(myData));
-  console.log(data.businesses[0].alias);
-  return data.businesses;
+
+  if (!value || value === "") {
+    alert("Please enter your keyword");
+    return data.businesses;
+  } else {
+    let result = keywordSearch(data, value);
+    return result;
+  }
 }
 
 class Dining extends Component {

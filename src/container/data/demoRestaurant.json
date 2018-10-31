@@ -3246,53 +3246,6 @@
       "distance": 397.0455532492058
     },
     {
-      "id": "jZ55Mq1loOlNqwOSCelh9A",
-      "alias": "tuc-craft-kitchen-vancouver",
-      "name": "Tuc Craft Kitchen",
-      "image_url": "https://s3-media4.fl.yelpcdn.com/bphoto/ZbTzB0MCGaKm_phC_esufQ/o.jpg",
-      "is_closed": false,
-      "url": "https://www.yelp.com/biz/tuc-craft-kitchen-vancouver?adjust_creative=jremx9O_igJKkOW91geX5g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jremx9O_igJKkOW91geX5g",
-      "review_count": 839,
-      "categories": [
-        {
-          "alias": "newcanadian",
-          "title": "Canadian (New)"
-        },
-        {
-          "alias": "comfortfood",
-          "title": "Comfort Food"
-        },
-        {
-          "alias": "bars",
-          "title": "Bars"
-        }
-      ],
-      "rating": 4,
-      "coordinates": {
-        "latitude": 49.2827049205371,
-        "longitude": -123.106144577322
-      },
-      "transactions": [],
-      "price": "$$",
-      "location": {
-        "address1": "60 W Cordova Street",
-        "address2": "",
-        "address3": "",
-        "city": "Vancouver",
-        "zip_code": "V6B 1C9",
-        "country": "CA",
-        "state": "BC",
-        "display_address": [
-          "60 W Cordova Street",
-          "Vancouver, BC V6B 1C9",
-          "Canada"
-        ]
-      },
-      "phone": "+16045598999",
-      "display_phone": "+1 604-559-8999",
-      "distance": 10830.277016582788
-    },
-    {
       "id": "9kcCv5sSKgfMX2j5EGHT3w",
       "alias": "the-one-restaurant-burnaby",
       "name": "The One Restaurant",
