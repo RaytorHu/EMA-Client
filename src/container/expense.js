@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { Button, Icon, Input } from 'antd';
+import { Button, Icon, Input, Card } from 'antd';
 import 'antd/dist/antd.css';
 
 var config = require('../config.js');
 const axios = require('axios');
-var Loader = require('react-loader');
 
 class Title extends Component {
   render()  {
@@ -25,9 +24,9 @@ class Statement extends Component {
       transactionAmount: '',
       transactionDescription: '',
       transactionTimestamp: '',
-      error: ''
+      error: '',
+      loading: true
     }
-    this.addNewTransaction = this.addNewTransaction.bind(this);
     this.showForm = this.showForm.bind(this);
     this.handleTransactionAmount = this.handleTransactionAmount.bind(this);
     this.handleTransactionDescription = this.handleTransactionDescription.bind(this);
@@ -54,10 +53,6 @@ class Statement extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    
-    this.setState({
-      loaded: false
-    });
 
     /**
      * Validate user input
@@ -66,7 +61,6 @@ class Statement extends Component {
 
       this.setState({
         error: 'Amount must be numbers',
-        loaded: true
       });
       this.forceUpdate();
       return;
@@ -75,7 +69,6 @@ class Statement extends Component {
 
       this.setState({
         error: 'All fileds are required',
-        loaded: true
       });
       this.forceUpdate();
       return;
@@ -88,6 +81,12 @@ class Statement extends Component {
       this.forceUpdate();
 
     }
+
+    this.setState({
+      loading: true
+    });
+
+    this.forceUpdate();
 
     /**
      * AJAX call to create a new transaction
@@ -109,23 +108,22 @@ class Statement extends Component {
 
         this.setState( prevState => ({
           transactions: [...prevState.transactions, response.data.data],
-          loaded: true
+          loading: false
         }));
 
         this.forceUpdate();
 
+      })
+      .catch( (error) => {
+        
+        console.log(error);
+
+        this.setState({
+          error: 'Server Error: Please contact administrator',
+          loading: false
+        });
+
       });
-  }
-
-  addNewTransaction(amount, description) {
-
-    console.log(amount);
-  }
-
-  getInitialState() {
-
-    return {loaded: false};
-    
   }
 
   /**
@@ -161,16 +159,29 @@ class Statement extends Component {
 
           this.setState({
             transactions: response.data.data.reverse(),
-            loaded: true
+            loading: false
           })
 
         })
         .catch( (error) => {
+
           console.log(error);
+
+          this.setState({
+            error: 'Server Error: Please contact administrator',
+            loading: false
+          });
+
         });
       })
       .catch( (error) => {
+
           console.log(error);
+
+          this.setState({
+            error: 'Server Error: Please contact administrator'
+          });
+          
       })
   }
 
@@ -238,15 +249,16 @@ class Statement extends Component {
       </form>
       </div>
 
+      <Card loading={this.state.loading}>
       <table style={tableStyle}>
 
         <thead><tr>{thead}</tr></thead>
         <tbody>
           {transactionItem}
-          <Loader loaded={this.state.loaded}></Loader>
         </tbody>
 
       </table>
+      </Card>
       </div>
     );
 
