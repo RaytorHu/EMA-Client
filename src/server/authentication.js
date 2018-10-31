@@ -26,6 +26,28 @@ const login = async (email, password) => {
   window.location.reload(); // TODO: Redirect to content page
 };
 
+/**
+ * Register a user
+ * 
+ * @param {String} username 
+ * @param {String} email 
+ * @param {String} password 
+ */
+const register = async (username, email, password) => {
+  const payload = {username: username, email: email, password: password};
+
+  const res = await server.post(baseUrl + 'api/v1/auth/register', payload);
+
+  if (res.status !== 201) {
+    return null; // TODO: Return proper indications
+  }
+
+  storage.setAuthToken(res.data.token);
+  storage.setUserInfo(res.data.data);
+  window.location.reload(); // TODO: Redirect to content page
+};
+
 export default {
   login,
+  register,
 };
