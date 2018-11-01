@@ -92,7 +92,6 @@ class Movie extends Component {
         else{
             this.state.Mdata[index].btnText = removeFromWishlist;
         }
-
     }
 
     render() {
