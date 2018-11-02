@@ -6,7 +6,7 @@ const { Header } = Layout;
 
 class Navigation extends Component {
   state = {
-    username: "test user"
+    username: storage.getUserInfo().username,
   };
 
   render() {
