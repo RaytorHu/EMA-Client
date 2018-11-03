@@ -203,11 +203,11 @@ class Statement extends Component {
     /**
      * Data
      */
-    const heads = ["Transaction Date", "Transaction Amount", "Description", "Security Level"];
+    const heads = ["Transaction Date", "Transaction Amount", "Description"];
     const thead = heads.map((head, index) => (<th style={thStyle} key={"th."+index}> {head} </th>));
     console.log(this.state.transactions);
     const transactionItem = this.state.transactions.map((t, index) => (
-    <tr key={"transaction."+index}><td style={timeStyle}>{t.timestamp}</td><td style={amountStyle}><a href={"/expense/"+t.id}>$ {t.amount} </a></td><td style={descriptionStlye}>{t.description}</td><td style={secStyle}>High</td></tr>
+    <tr key={"transaction."+index}><td style={timeStyle}>{t.timestamp}</td><td style={amountStyle}><a href={"/expense/"+t.id}>$ {t.amount} </a></td><td style={descriptionStlye}>{t.description}</td></tr>
     ));
 
     /**
