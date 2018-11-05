@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Icon, Input, Card } from 'antd';
+import { Button, Icon, Input, Card, Table } from 'antd';
 import 'antd/dist/antd.css';
 import storage from '../utils/Storage';
 import config from '../config.js';
@@ -194,12 +194,24 @@ class TransactionStatement extends Component {
       /**
        * Data
        */
-      const heads = ["Transaction Date", "Transaction Amount", "Description"];
-      const thead = heads.map((head, index) => (<th style={thStyle} key={"th."+index}> {head} </th>));
-      console.log(this.state.transactions);
-      const transactionItem = this.state.transactions.map((t, index) => (
-      <tr key={"transaction."+index}><td style={timeStyle}>{t.timestamp}</td><td style={amountStyle}><a href={"/expense/"+t.id}>$ {t.amount} </a></td><td style={descriptionStlye}>{t.description}</td></tr>
-      ));
+
+      const columns = [
+        {
+          title: 'Transaction Date',
+          dataIndex: 'timestamp',
+          key: 'timestamp'
+        },
+        {
+          title: 'Amount',
+          dataIndex: 'amount',
+          key: 'amount'
+        },
+        {
+          title: 'Description',
+          dataIndex: 'description',
+          key: 'description'
+        }
+      ]
   
       /**
        * Table
@@ -217,14 +229,9 @@ class TransactionStatement extends Component {
         </div>
   
         <Card loading={this.state.loading}>
-        <table style={tableStyle}>
-  
-          <thead><tr>{thead}</tr></thead>
-          <tbody>
-            {transactionItem}
-          </tbody>
-  
-        </table>
+
+          <Table dataSource={this.state.transactions} columns={columns} />
+
         </Card>
         </div>
       );
