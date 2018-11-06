@@ -8,13 +8,19 @@ const FormItem = Form.Item;
 class RegisterForm extends Component {
   state = {
     confirmDirty: false,
+    loading: false,
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        AuthServer.register(values.username, values.email, values.password);
+        this.setState({ loading: true });
+        AuthServer.register(values.username, values.email, values.password).then(success => {
+          if (success === false) {
+            this.setState({ loading: false });
+          }
+        });
       }
     });
   }
@@ -69,7 +75,6 @@ class RegisterForm extends Component {
       },
     };
 
-    // TODO: Add more validation in form
     const registerForm = (
       <Form onSubmit={this.handleSubmit} style={{ width: '500px', margin: '0 auto' }}>
         {/* Username */}
@@ -77,6 +82,8 @@ class RegisterForm extends Component {
           {getFieldDecorator('username', {
             rules: [
               {required: 'true', message: 'Username is required'},
+              { min: 4, message: 'The username should be longer than or equal to 4 characters!' },
+              { max: 14, message: 'The username should be no longer than 14 characters!' },
             ],
           })(
             <Input />
@@ -98,6 +105,8 @@ class RegisterForm extends Component {
           {getFieldDecorator('password', {
             rules: [
               {required: true, message: 'Password is required'},
+              { min: 8, message: 'The password should be longer than or equal to 8 characters!' },
+              { max: 80, message: 'The password should not be longer than 80 characters!' },
               {validator: this.validateToNextPassword},
             ]
           })(
@@ -117,7 +126,9 @@ class RegisterForm extends Component {
         </FormItem>
         {/* Submit */}
         <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit" style={{ width: '100%' }}>Register</Button>
+          <Button type="primary" htmlType="submit" style={{ width: '100%' }} loading={this.state.loading}>
+            Register
+          </Button>
         </FormItem>
         Already have an account? <a href="/login">Login now!</a>
       </Form>

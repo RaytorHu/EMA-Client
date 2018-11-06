@@ -21,9 +21,17 @@ const login = async (email, password) => {
 
     storage.setAuthToken(res.data.token);
     storage.setUserInfo(res.data.data);
-    window.location.reload(); // TODO: Redirect to content page
+    window.location.reload();
+
+    return true;
   } catch (err) {
-    validationErrorHandler(JSON.parse(err.response.data.message));
+    if (err.response.status === 400) {
+      validationErrorHandler(JSON.parse(err.response.data.message));
+    } else {
+      validationErrorHandler(`Error status: ${err.status}`);
+    }
+
+    return false;
   }
 };
 
@@ -41,14 +49,22 @@ const register = async (username, email, password) => {
     const res = await server.post(baseUrl + 'api/v1/auth/register', payload);
   
     if (res.status !== 201) {
-      return null; // TODO: Return proper indications
+      return null;
     }
   
     storage.setAuthToken(res.data.token);
     storage.setUserInfo(res.data.data);
-    window.location.reload(); // TODO: Redirect to content page
+    window.location.reload();
+
+    return true;
   } catch (err) {
-    validationErrorHandler(JSON.parse(err.response.data.message));
+    if (err.response.status === 400) {
+      validationErrorHandler(JSON.parse(err.response.data.message));
+    } else {
+      validationErrorHandler(`Error status: ${err.status}`);
+    }
+
+    return false;
   }
 };
 
