@@ -23,6 +23,7 @@ class TransactionStatement extends Component {
       this.handleTransactionAmount = this.handleTransactionAmount.bind(this);
       this.handleTransactionDescription = this.handleTransactionDescription.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.onDelete = this.onDelete.bind(this);
     }
   
     showForm() {
@@ -151,6 +152,48 @@ class TransactionStatement extends Component {
       });
   
     }
+
+    onDelete(id, index) {
+      
+      this.setState({
+        loading: true
+      });
+  
+      this.forceUpdate();
+
+      // delete transactions from database using ajax
+      axios({
+        method: 'delete',
+        url: config.base_url+'/api/v1/transaction/'+id,
+        headers: {
+          'Authorization': 'Bearer ' + storage.getAuthToken()
+        },
+        data: null
+      }).then( (response) => {
+        // delete transactions directly from DOM
+        var tmpTransactions = this.state.transactions;
+        tmpTransactions.splice(index, 1);
+        this.setState( prevState => ({
+          transactions: tmpTransactions,
+          loading: false
+        }));
+
+        this.forceUpdate();
+
+      }).catch( (error) => {
+
+        console.log(error);
+  
+        this.setState({
+          error: 'Server Error: Please contact administrator',
+          loading: false
+        });
+  
+        this.forceUpdate();
+
+      });
+
+    }
   
     render() {
       /**
@@ -210,6 +253,14 @@ class TransactionStatement extends Component {
           title: 'Description',
           dataIndex: 'description',
           key: 'description'
+        },
+        {
+          title: 'actions',
+          dataIndex: '',
+          key: 'actions',
+          render: (text, record, index) => (
+            <Button type="danger" onClick={this.onDelete.bind(this,text.id, index)}> Delete </Button>
+          )
         }
       ]
   
