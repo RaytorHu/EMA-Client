@@ -18,6 +18,7 @@ import storage from "../utils/Storage";
 
 import { Layout, Menu, Icon } from "antd";
 import { Link } from "react-router-dom";
+import FindUser from "../container/findUser";
 
 const { Content, Sider, Footer } = Layout;
 const MenuItemGroup = Menu.ItemGroup;
@@ -46,7 +47,7 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
               >
                 <Menu
                   mode="inline"
-                  defaultSelectedKeys={["1"]}
+                  defaultSelectedKeys={["1", "3", "4", "6"]}
                   style={{ height: "100%", borderRight: 0 }}
                 >
                   {matchProps.match.path.startsWith("/dining") && (
@@ -72,9 +73,15 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
                   )}
                   {matchProps.match.path === "/expense" && (
                     <MenuItemGroup title="Expense">
-                      <Menu.Item key="4">Pie chart</Menu.Item>
+                      <Menu.Item key="4">All transactions</Menu.Item>
                       <Menu.Item key="5">Line chart</Menu.Item>
                     </MenuItemGroup>
+                  )}
+                  {matchProps.match.path === "/find_user" && (
+                    <MenuItemGroup title="Social">
+                      <Menu.Item key="6">Search User</Menu.Item>
+                    </MenuItemGroup>
+
                   )}
                 </Menu>
               </Sider>
@@ -93,6 +100,7 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
                 <Footer id="footer">I don't know the app's name</Footer>
               </Layout>
               <Sider
+                defaultCollapsed
                 collapsible
                 reverseArrow
                 onCollapse={(collapsed, type) => {
@@ -149,7 +157,7 @@ export class ComponentRoutes extends Component {
         />
 
         <PrivateRoute exact path="/movie" component={Movie} />
-
+        <PrivateRoute exact path="/find_user" component={FindUser} />
         <PrivateRoute exact path="/expense" component={Expense} />
 
         <PrivateRoute exact path="/settings" component={Settings} />
