@@ -27,8 +27,10 @@ const login = async (email, password) => {
   } catch (err) {
     if (err.response.status === 400) {
       validationErrorHandler(JSON.parse(err.response.data.message));
+    } if (err.response.status === 403) {
+      validationErrorHandler({err: [err.response.data.message]});
     } else {
-      validationErrorHandler(`Error status: ${err.status}`);
+      validationErrorHandler({err: ["There is an error at the server side :("]});
     }
 
     return false;
