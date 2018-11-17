@@ -1,3 +1,6 @@
+import decodeJwt from 'jwt-decode';
+import { message } from 'antd';
+
 const STORAGE_TOKEN_KEY = 'authToken';
 const STORAGE_USER_KEY  = 'user';
 
@@ -43,8 +46,21 @@ const setUserInfo = (user) => {
  * @returns {Boolean} If user is logged in
  */
 const isLoggedIn = () => {
-    // TODO: Add token expire check here
-    return !!getAuthToken();
+    const token = getAuthToken();
+
+    /* Check if has token */
+    if (!token) {
+        return false;
+    }
+
+    /* Check if expired */
+    if (decodeJwt(getAuthToken())['exp'] <= new Date().getTime() / 1000) {
+        logOutUser();
+        message.error('Token expired, please login again.');
+        return false;
+    }
+
+    return true;
 };
 
 /**
@@ -53,7 +69,7 @@ const isLoggedIn = () => {
 const logOutUser = () => {
     window.localStorage.removeItem(STORAGE_TOKEN_KEY);
     window.localStorage.removeItem(STORAGE_USER_KEY);
-    window.location.reload(); // TODO: Redirect to content page
+    window.location.reload();
 };
 
 export default {
