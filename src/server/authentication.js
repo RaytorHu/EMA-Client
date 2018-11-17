@@ -28,7 +28,7 @@ const login = async (email, password) => {
     if (err.response.status === 400) {
       validationErrorHandler(JSON.parse(err.response.data.message));
     } else {
-      validationErrorHandler(`Error status: ${err.status}`);
+      validationErrorHandler({err: ["There is an error at the server side :("]});
     }
 
     return false;
