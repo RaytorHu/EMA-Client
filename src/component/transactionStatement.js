@@ -267,10 +267,11 @@ class TransactionStatement extends Component {
       var newTransaction = {
         amount: this.state.transactionAmount,
         description: this.state.transactionDescription,
-        timestamp: this.state.transactionTimestamp
+        timestamp: this.state.transactionTimestamp.format("YYYY-MM-DD")
       }
+      
       oldTransactions[this.state.transactionIndex] = newTransaction;
-
+      console.log(oldTransactions);
       this.setState({
         transactions: oldTransactions,
       });

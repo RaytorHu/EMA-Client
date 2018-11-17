@@ -2,11 +2,6 @@ import React, { Component } from "react";
 import moment from "moment";
 import { Modal, DatePicker, Input, Icon, Form} from 'antd';
 import 'antd/dist/antd.css';
-import storage from '../utils/Storage';
-import config from '../config.js';
-import axios from 'axios';
-
-const FormItem = Form.Item;
 
 class TransactionModal extends Component {
 
