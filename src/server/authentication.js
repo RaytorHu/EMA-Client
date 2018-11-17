@@ -1,6 +1,7 @@
 import axios from 'axios';
 import config from '../config';
 import storage from '../utils/Storage';
+import validationErrorHandler from './validationErrorHandler';
 
 const baseUrl = config.base_url;
 
@@ -15,15 +16,23 @@ const server = axios.create({
  * @param {String} password
  */
 const login = async (email, password) => {
-  const res = await server.post(baseUrl + 'api/v1/auth/login', {email: email, password: password});
+  try {
+    const res = await server.post(baseUrl + 'api/v1/auth/login', {email: email, password: password});
 
-  if (res.status !== 200) {
-    return null; // TODO: Return proper indications
+    storage.setAuthToken(res.data.token);
+    storage.setUserInfo(res.data.data);
+    window.location.reload();
+
+    return true;
+  } catch (err) {
+    if (err.response.status === 400) {
+      validationErrorHandler(JSON.parse(err.response.data.message));
+    } else {
+      validationErrorHandler(`Error status: ${err.status}`);
+    }
+
+    return false;
   }
-
-  storage.setAuthToken(res.data.token);
-  storage.setUserInfo(res.data.data);
-  window.location.reload(); // TODO: Redirect to content page
 };
 
 /**
@@ -34,17 +43,29 @@ const login = async (email, password) => {
  * @param {String} password 
  */
 const register = async (username, email, password) => {
-  const payload = {username: username, email: email, password: password};
+  try {
+    const payload = {username: username, email: email, password: password};
 
-  const res = await server.post(baseUrl + 'api/v1/auth/register', payload);
+    const res = await server.post(baseUrl + 'api/v1/auth/register', payload);
+  
+    if (res.status !== 201) {
+      return null;
+    }
+  
+    storage.setAuthToken(res.data.token);
+    storage.setUserInfo(res.data.data);
+    window.location.reload();
 
-  if (res.status !== 201) {
-    return null; // TODO: Return proper indications
+    return true;
+  } catch (err) {
+    if (err.response.status === 400) {
+      validationErrorHandler(JSON.parse(err.response.data.message));
+    } else {
+      validationErrorHandler(`Error status: ${err.status}`);
+    }
+
+    return false;
   }
-
-  storage.setAuthToken(res.data.token);
-  storage.setUserInfo(res.data.data);
-  window.location.reload(); // TODO: Redirect to content page
 };
 
 export default {

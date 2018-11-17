@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { Menu, Button, Icon, Tooltip, Layout } from "antd";
 import { Link, withRouter } from "react-router-dom";
-import storage from '../utils/Storage';
+import storage from "../utils/Storage";
 const { Header } = Layout;
 
 class Navigation extends Component {
   state = {
-    username: "test user"
+    username: storage.getUserInfo().username,
   };
 
   render() {
@@ -21,7 +21,7 @@ class Navigation extends Component {
             style={{ lineHeight: "64px" }}
           >
             <Menu.Item>
-              <Link to="/dining">
+              <Link to="/dining/find_restaurant">
                 <Icon type="shop" />
                 Dining
               </Link>
