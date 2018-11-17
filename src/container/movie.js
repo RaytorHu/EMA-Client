@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import MovieList from "./data/moviesDB1.json";
-import { List, Avatar, Icon} from "antd";
-import config from "../config.js"
-//import storage from "../utils/Storage"
+import { List, Avatar, Icon, Button} from "antd";
+import config from "../config.js";
+import axios from "axios";
+import storage from "../utils/Storage"
 
-const axios = require('axios');
-var addToWishlist = 'Add to wishlist';
-var removeFromWishlist = 'Remove from wishlist';
+const addToWishlist = 'Add to wishlist';
+const removeFromWishlist = 'Remove from wishlist';
 
 const IconText = ({ type, text }) => (
     <span>
@@ -39,7 +39,6 @@ class Movie extends Component {
                 btnText: addToWishlist
             });
         }
-
         return tmp;
     };
 
@@ -48,20 +47,16 @@ class Movie extends Component {
         this.setState({
             Mdata: moviedata
         });
-        console.log(this.state.Mdata);
     };
 
     //TODO: test the function when DB is delpoyed and change the value of the button according to the boolean favorite
     handleClick(key){
-        console.log(key);
         function findMovieID(records){
             return records.id === key;
         }
         const index = this.state.Mdata.findIndex(findMovieID);
         this.changeWishlist(index);
-        console.log(this.state.Mdata[index].inWishlist);
         this.changebtnText(index);
-        console.log(this.state.Mdata[index].btnText);
         this.forceUpdate();
 
         //
@@ -81,17 +76,56 @@ class Movie extends Component {
         //     })
     }
 
+    addTransaction(title){
+        const regex = /[0-9]+/;
+        const query = "Please enter the price of the movie ticket";
+        const price = prompt(query);
+        console.log(price);
+        if(regex.test(price)){
+            axios({
+                method: 'post',
+                url: config.base_url+'api/v1/transaction',
+                data: {
+                    amount: parseFloat(price),
+                    description: "purchase movie ticket of " + title
+                },
+                headers: {
+                    'Authorization': 'Bearer ' + storage.getAuthToken()
+                }
+            })
+            .then( (response) => {
+                alert("Transaction Added");
+            })
+            .catch( (err) => {
+                console.log(err);
+                alert("Unexpected error occured. Please try again later");
+            });
+        }
+        else if(price != null){
+            alert("Input must be numerics. Please try again.");
+        }
+    }
+
     changeWishlist(index){
-        this.state.Mdata[index].inWishlist = !(this.state.Mdata[index].inWishlist);
+        let movieList = this.state.Mdata;
+        movieList[index].inWishlist = !(this.state.Mdata[index].inWishlist);
+        this.setState({
+            Mdata: movieList
+        });
     }
 
     changebtnText(index){
-        if(!this.state.Mdata[index].inWishlist){
-            this.state.Mdata[index].btnText = addToWishlist;
+        let movieList = this.state.Mdata;
+        if(!movieList[index].inWishlist){
+            movieList[index].btnText = addToWishlist;
         }
         else{
-            this.state.Mdata[index].btnText = removeFromWishlist;
+            movieList[index].btnText = removeFromWishlist;
         }
+
+        this.setState({
+            Mdata: movieList
+        });
     }
 
     render() {
@@ -100,9 +134,6 @@ class Movie extends Component {
                 itemLayout="vertical"
                 size="large"
                 pagination={{
-                    onChange: (page) => {
-                        console.log(page);
-                    },
                     pageSize: 5,
                 }}
                 dataSource={this.state.Mdata}
@@ -112,9 +143,9 @@ class Movie extends Component {
                         actions={[
                             <IconText type="clock-circle" text={item.release} />,
                             <IconText type="hourglass" text={item.Movie_len} />,
-                            <p>rating: {item.rate}</p>,
                             <p>trailer: <a href={item.trailer} target="_blank"><Icon type="play-circle"/></a></p>,
-                            <p><IconText type="heart"/><button onClick={() => this.handleClick(item.id)}>{item.btnText}</button></p>
+                            <p><IconText type="heart"/><Button onClick={() => this.handleClick(item.id)}>{item.btnText}</Button></p>,
+                            <p><IconText type="pay-circle"/><Button onClick={() => this.addTransaction(item.title)}>Add transaction</Button></p>
                         ]}
                         extra={<img width={272} alt="logo" src={item.avatar} />}
                     >
