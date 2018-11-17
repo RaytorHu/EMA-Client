@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, Icon, Input, Card, Table } from 'antd';
+import TransactionModal from './transactionModal';
 import 'antd/dist/antd.css';
 import storage from '../utils/Storage';
 import config from '../config.js';
@@ -17,7 +18,8 @@ class TransactionStatement extends Component {
         transactionDescription: '',
         transactionTimestamp: '',
         error: '',
-        loading: true
+        loading: true,
+        visible: false
       }
       this.showForm = this.showForm.bind(this);
       this.handleTransactionAmount = this.handleTransactionAmount.bind(this);
@@ -194,6 +196,28 @@ class TransactionStatement extends Component {
       });
 
     }
+
+    onEdit(id, index) {
+
+      this.setState({
+        visible: true
+      });
+
+      this.forceUpdate();
+
+    }
+
+    handleOk() {
+      this.setState({
+          visible: false
+      });
+    }
+
+    handleCancel() {
+      this.setState({
+          visible: false
+      });
+    }
   
     render() {
       /**
@@ -259,9 +283,12 @@ class TransactionStatement extends Component {
           dataIndex: '',
           key: 'actions',
           render: (text, record, index) => (
-            <Button type="danger" onClick={this.onDelete.bind(this,text.id, index)}> Delete </Button>
+            <div>
+              <Button type="info" onClick={this.onEdit.bind(this, text.id, index)}> Edit </Button>
+              <Button type="danger" onClick={this.onDelete.bind(this,text.id, index)}> Delete </Button>
+            </div>
           )
-        }
+        },
       ]
   
       /**
@@ -284,6 +311,11 @@ class TransactionStatement extends Component {
           <Table dataSource={this.state.transactions} columns={columns} />
 
         </Card>
+
+        <TransactionModal visible={this.state.visible} 
+        handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)}
+        > </TransactionModal>
+
         </div>
       );
   
