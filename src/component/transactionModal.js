@@ -13,7 +13,8 @@ class TransactionModal extends Component {
             transactionAmount: this.props.transactionAmount,
             transactionDescription: this.props.transactionDescription,
             error: this.props.error,
-            modalTitle: this.props.modalTitle
+            modalTitle: this.props.modalTitle,
+            transactionTag: this.props.transactionTag
         }
 
 
@@ -25,6 +26,8 @@ class TransactionModal extends Component {
             transactionTimestamp: newProps.transactionTimestamp,
             transactionAmount: newProps.transactionAmount,
             transactionDescription: newProps.transactionDescription,
+            transactionTag: newProps.transactionTag,
+            transactionTagString: newProps.transactionTagString,
             modalTitle: newProps.modalTitle,
             error: newProps.error
         });
@@ -58,6 +61,13 @@ class TransactionModal extends Component {
                     value={this.state.transactionDescription}
                     onChange={this.props.onDescriptionChange}
                 /> <br/><br/>
+
+                <Input 
+                    prefix={<Icon type="tags" style={{ color: 'rgba(0,0,0,.25)' }}/>}
+                    placeholder="please enter tags here"
+                    value={this.state.transactionTagString}
+                    onChange={this.props.onTagChange}
+                /> <br/> <br/>
 
                 <div id="error" style={{color: 'red'}}> {this.state.error} </div>
 

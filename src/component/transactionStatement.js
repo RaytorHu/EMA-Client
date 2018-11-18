@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Icon, Input, Card, Table } from 'antd';
+import { Button, Icon, Input, Card, Table, Tag  } from 'antd';
 import TransactionModal from './transactionModal';
 import TransactionSearch from './transactionSearch';
 import 'antd/dist/antd.css';
@@ -20,6 +20,8 @@ class TransactionStatement extends Component {
         transactionIndex: '',
         transactionAmount: '',
         transactionDescription: '',
+        transactionTag: '',
+        transactionTagString: '',
         transactionTimestamp: '',
         error: '',
         loading: true,
@@ -32,6 +34,7 @@ class TransactionStatement extends Component {
       this.editTransaction = this.editTransaction.bind(this);
       this.addTransaction = this.addTransaction.bind(this)
       this.onSearch = this.onSearch.bind(this);
+      this.onTagChange = this.onTagChange.bind(this);
     }
   
     showForm() {
@@ -46,7 +49,9 @@ class TransactionStatement extends Component {
         transactionId: '',
         transactionTimestamp: year + "-" + month + "-" + day,
         transactionAmount: '',
-        transactionDescription: ''
+        transactionDescription: '',
+        transactionTag: '',
+        transactionTagString: ''
       });
 
       this.forceUpdate();
@@ -98,7 +103,8 @@ class TransactionStatement extends Component {
       var newTransaction = {
         amount: this.state.transactionAmount,
         description: this.state.transactionDescription,
-        timestamp: this.state.transactionTimestamp
+        timestamp: this.state.transactionTimestamp,
+        tags: this.state.transactionTag
       }
       oldTransactions.unshift(newTransaction);
 
@@ -121,7 +127,8 @@ class TransactionStatement extends Component {
         url: config.base_url+'api/v1/transaction',
         data: {
           amount: parseFloat(this.state.transactionAmount),
-          description: this.state.transactionDescription
+          description: this.state.transactionDescription,
+          tags: this.state.transactionTagString
         },
         headers: {
           'Authorization': 'Bearer ' + storage.getAuthToken()
@@ -221,9 +228,11 @@ class TransactionStatement extends Component {
         transactionIndex: index,
         modalTile: "Edit Transaction",
         visible: true,
-        transactionTimestamp: this.state.transactions[index].timestamp,
+        transactionTimestamp: moment(this.state.transactions[index].timestamp),
         transactionAmount: this.state.transactions[index].amount,
-        transactionDescription: this.state.transactions[index].description
+        transactionDescription: this.state.transactions[index].description,
+        transactionTag: '',
+        transactionTagString: ''
       });
 
       this.forceUpdate();
@@ -269,11 +278,12 @@ class TransactionStatement extends Component {
       var newTransaction = {
         amount: this.state.transactionAmount,
         description: this.state.transactionDescription,
-        timestamp: this.state.transactionTimestamp.format("YYYY-MM-DD")
+        timestamp: this.state.transactionTimestamp.format("YYYY-MM-DD"),
+        tags: this.state.transactionTag
       }
       
       oldTransactions[this.state.transactionIndex] = newTransaction;
-      console.log(oldTransactions);
+
       this.setState({
         transactions: oldTransactions,
       });
@@ -291,7 +301,8 @@ class TransactionStatement extends Component {
         data: {
           amount: parseFloat(this.state.transactionAmount),
           description: this.state.transactionDescription,
-          timestamp: moment(this.state.transactionTimestamp).unix()
+          timestamp: moment(this.state.transactionTimestamp).unix(),
+          tags: this.state.transactionTagString
         },
         headers: {
           'Authorization': 'Bearer ' + storage.getAuthToken()
@@ -340,6 +351,28 @@ class TransactionStatement extends Component {
 
       this.setState({
         transactionDescription: event.target.value
+      });
+
+      this.setState();
+    }
+
+    onTagChange(event) {
+
+      // convert tags string to array
+      var colors = ['magenta', 'volcano', 'gold', 'gold'];
+      var tags = event.target.value.split(',');
+      var transactionTag = [];
+
+      for(var i = 0; i < tags.length; i++) {
+        transactionTag.push({
+          "name": tags[i],
+          "color": colors[ colors.length % i]
+        });
+      }
+
+      this.setState({
+        transactionTag: transactionTag,
+        transactionTagString: event.target.value
       });
 
       this.setState();
@@ -435,7 +468,7 @@ class TransactionStatement extends Component {
           key: 'description'
         },
         {
-          title: 'actions',
+          title: 'Actions',
           dataIndex: '',
           key: 'actions',
           render: (text, record, index) => (
@@ -445,6 +478,29 @@ class TransactionStatement extends Component {
             </div>
           )
         },
+        {
+          title: 'Tags',
+          dataIndex: '',
+          key: 'tags',
+          render: (text, record, index) => {
+            
+            var result = "<div>";
+
+            for(var i = 0; i < this.state.transactions.tags.length; i++) {
+              result += "<Tag color='"+this.state.transactions.tags[i].color+"'>";
+              result += this.state.transactions.tags[i].name;
+              result += "</Tag>";
+            }
+
+            result += "</div>";
+
+            return (
+              <div className="Container" dangerouslySetInnerHTML={{__html: 
+                result}}></div>
+            );
+
+          }
+        }
       ]
   
       /**
@@ -472,7 +528,10 @@ class TransactionStatement extends Component {
         transactionTimestamp={this.state.transactionTimestamp}
         transactionAmount={this.state.transactionAmount}
         transactionDescription={this.state.transactionDescription}
+        transactionTag={this.state.transactionTag}
+        transactionTagString={this.state.transactionTagString}
         modalTitle={this.state.modalTile}
+        onTagChange={this.onTagChange}
         error={this.state.error}
         > </TransactionModal>
 
