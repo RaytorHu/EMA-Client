@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Icon, Input, Card, Table, Tag  } from 'antd';
+import { Button, Icon, Input, Card, Table, Tag } from 'antd';
 import TransactionModal from './transactionModal';
 import TransactionSearch from './transactionSearch';
 import 'antd/dist/antd.css';

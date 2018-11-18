@@ -11,6 +11,7 @@ import Dining from '../container/dining'
 import HeatMap from '../container/diningHeatMap'
 import Movie from '../container/movie'
 import Expense from '../container/expense'
+import ExpenseLineChart from '../container/expenseLineChart'
 import Settings from '../container/settings'
 import Login from '../container/authentication/login'
 import Register from '../container/authentication/register'
@@ -69,10 +70,20 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
                     <MenuItemGroup title='Movie'>
                       <Menu.Item key='3'>Find a movie</Menu.Item>
                     </MenuItemGroup>}
-                  {matchProps.match.path === '/expense' &&
+                  {matchProps.match.path.startsWith('/expense') &&
                     <MenuItemGroup title='Expense'>
-                      <Menu.Item key='4'>All transactions</Menu.Item>
-                      <Menu.Item key='5'>Line chart</Menu.Item>
+                      <Menu.Item key='4'>
+                        <Link to='/expense'>
+                          <Icon type="dollar" />
+                          All transactions
+                        </Link>
+                      </Menu.Item>
+                      <Menu.Item key='5'>
+                        <Link to='/expense/line_chart'>
+                          <Icon type="line-chart" />
+                          Line chart
+                        </Link>
+                      </Menu.Item>
                     </MenuItemGroup>}
                   {matchProps.match.path === '/find_user' &&
                     <MenuItemGroup title='Social'>
@@ -161,6 +172,7 @@ export class ComponentRoutes extends Component {
         <PrivateRoute exact path='/movie' component={Movie} />
         <PrivateRoute exact path='/find_user' component={FindUser} />
         <PrivateRoute exact path='/expense' component={Expense} />
+        <PrivateRoute exact path='/expense/line_chart' component={ExpenseLineChart} />
         <PrivateRoute exact path='/my_profile' component={UserProfile} />
         <PrivateRoute exact path='/settings' component={Settings} />
         <Redirect from='/' to='/dining/find_restaurant' />
