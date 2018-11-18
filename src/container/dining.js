@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import config from '../config';
 import myData from "./data/demoRestaurant.json";
-import { List, Avatar, Icon, Rate, Input } from "antd";
+import { List, Avatar, Icon, Rate, Input, Menu, Dropdown, Button } from "antd";
 //import DiningSearch from "../component/restaurantSearch";
 //import { getRestaurants } from "../api/diningAPI";
 const Search = Input.Search;
@@ -12,6 +12,36 @@ const IconText = ({ type, text }) => (
     <Icon type={type} style={{ marginRight: 8 }} />
     {text}
   </span>
+);
+
+const menu = (
+  <Menu>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">1st</a>
+    </Menu.Item>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">2nd</a>
+    </Menu.Item>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">3rd</a>
+    </Menu.Item>
+  </Menu>
+);
+const menu1 = (
+  <Menu>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">$</a>
+    </Menu.Item>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">$$</a>
+    </Menu.Item>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">$$$</a>
+    </Menu.Item>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">$$$$</a>
+    </Menu.Item>
+  </Menu>
 );
 
 const baseUrl = config.base_url;
@@ -41,29 +71,18 @@ class Dining extends Component {
         price: ""
     }];
 
-    // for (let i = 0; i < Object.keys(myData.businesses).length; i++) {
-    //   listData.push({
-    //     url: myData.businesses[i].url,
-    //     name: myData.businesses[i].name,
-    //     image_url: myData.businesses[i].image_url,
-    //     phone: myData.businesses[i].display_phone,
-    //     address: myData.businesses[i].address1,
-    //     city: myData.businesses[i].city,
-
-    //     rating: myData.businesses[i].rating,
-    //     review_count: myData.businesses[i].review_count,
-    //     price: myData.businesses[i].price
-    //   });
-    // }
     console.log(listData);
     return listData;
   };
 
   componentDidMount = () => {
+    if(!this.state.listData) {
+      
+    }
     this.handleSearchRequest("Vancouver").then(Response=>{
-      this.setState(({
+      this.setState({
         listData : Array.from(Response)
-      }));
+      });
       this.forceUpdate();
     });
   };
@@ -104,13 +123,39 @@ class Dining extends Component {
   render() {
     return (
       <div>
-        <Search
-          placeholder="Please enter city, price level ($-$$$$) or name, etc."
+        <Search style={{
+          float:"left",
+          width: "30%"
+        }}
+          placeholder="Location (Road Number, City)"
           onSearch={value => {
             this.getRestaurantList(value);
           }}
           enterButton
         />
+        <div style={{
+          margin: "8px"
+        }}>
+          <Dropdown overlay={menu1} placement="bottomLeft">
+            <Button>Price</Button>
+          </Dropdown>
+          <Dropdown overlay={menu} placement="bottomCenter">
+            <Button>Categories</Button>
+          </Dropdown>
+          <Dropdown overlay={menu} placement="bottomRight">
+            <Button>Sort By</Button>
+          </Dropdown>
+          <Dropdown overlay={menu} placement="bottomLeft">
+            <Button>Open Now</Button>
+          </Dropdown>
+          <Dropdown overlay={menu} placement="bottomLeft">
+            <Button>Limit</Button>
+          </Dropdown>
+          <Dropdown overlay={menu} placement="bottomLeft">
+            <Button>Special</Button>
+          </Dropdown>
+        </div>
+  
 
         <List
           itemLayout="vertical"
@@ -143,8 +188,13 @@ class Dining extends Component {
             </List.Item>
           )}
         />
+
+        <Icon type="loading" />
+
       </div>
-    );
+
+      
+      );
   }
 }
 
