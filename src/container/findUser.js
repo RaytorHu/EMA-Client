@@ -1,12 +1,15 @@
 import React, { Component } from "react";
-import { Input, Table, Button, Avatar } from 'antd';
+import { Input, Table, Button, Avatar, Tooltip } from 'antd';
+import storage from '../utils/Storage';
+import config from '../config.js';
+import axios from 'axios';
 
 const Search = Input.Search;
 const columns = [{
-    render: () => <Avatar icon="user" />
+    render: (text) => <Avatar src={text.avatarUrl} />
 }, {
     title: 'Username',
-    dataIndex: 'name',
+    dataIndex: 'username',
     render: text => <a href="javascript:;">{text}</a>,
 },
 {
@@ -15,41 +18,42 @@ const columns = [{
     render: text => <p>#{text}</p>
 
 }, {
-    render: () => <Button icon="user-add" />
+    render: () => <div><Tooltip placement="right" title="follow">
+        <Button icon="star" />
+    </Tooltip></div>
 }];
-const data = [{
-    id: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-}, {
-    id: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-}, {
-    id: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-}, {
-    id: '4',
-    name: 'Disabled User',
-    age: 99,
-    address: 'Sidney No. 1 Lake Park',
-}];
-
 
 class FindUser extends Component {
+    state = {
+        users: []
+    }
+    getUserList = async value => {
+        axios({
+            method: 'get',
+            url: config.base_url + 'api/v1/user/' + value,
+            headers: {
+                'Authorization': 'Bearer ' + storage.getAuthToken()
+            }
+
+        })
+            .then((response) => {
+                this.setState({
+                    users: response.data.data,
+                    loading: false
+                });
+            })
+    }
+
     render() {
         return <div>
+            <h1>Find User</h1>
             <Search
                 placeholder="name/email/id"
-                onSearch={value => console.log(value)}
+                onSearch={value => this.getUserList(value)}
                 style={{ width: 200 }}
             />
             <br /><br />
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={this.state.users} />
         </div>;
     }
 }
