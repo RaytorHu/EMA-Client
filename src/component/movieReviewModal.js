@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Input, Modal } from "antd";
+import { Input, Modal, List } from "antd";
 
 const { TextArea } = Input;
 
@@ -8,14 +8,12 @@ class ReviewModal extends Component{
         super(props);
         this.state = {
             visible: this.props.visible,
-            error: this.props.error,
         }
     }
 
     componentWillReceiveProps(newProps) {
         this.setState({
             visible: newProps.visible,
-            error: newProps.error
         });
 
         this.forceUpdate();
@@ -30,14 +28,15 @@ class ReviewModal extends Component{
                     onOk={this.props.handleOk}
                     onCancel={this.props.handleCancel}
                 >
-           
+                <label>Title</label>
                 <Input
-                    label="Title"
+                    value={this.props.title}                    
                     onChange={this.props.onTitleChange}
                 /><br/><br/>
-
+                
+                <label>Review</label>
                 <TextArea rows={6}
-                    label="Content"
+                    value={this.props.content}
                     onChange={this.props.onContentChange}
                 /><br/><br/>
                 </Modal>

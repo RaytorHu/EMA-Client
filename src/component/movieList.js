@@ -22,6 +22,7 @@ class MovieList extends Component {
         super(props);
         this.state={
             Mdata: [],
+            reviews: [],
             modal_visible: false,
             review_title: '',
             review_content: ''
@@ -64,21 +65,21 @@ class MovieList extends Component {
         this.changebtnText(index);
         this.forceUpdate();
 
-        axios({
-            method: 'POST',
-            url: config.base_url + 'api/v1/MovieManagement',
-            data: {
-                id: key,
-                userID: storage.getUserInfo(),
-                imgURL: imageURL
-            },
-            headers:{
-                'Authorization': 'Bearer ' + storage.getAuthToken()
-            }
-        })
-            .then((response) =>{
-                alert("add to profile successfully");
-            })
+        // axios({
+        //     method: 'POST',
+        //     url: config.base_url + 'api/v1/MovieManagement',
+        //     data: {
+        //         id: key,
+        //         userID: storage.getUserInfo().id,
+        //         imgURL: imageURL
+        //     },
+        //     headers:{
+        //         'Authorization': 'Bearer ' + storage.getAuthToken()
+        //     }
+        // })
+        //     .then((response) =>{
+        //         alert("add to profile successfully");
+        //     })
     }
 
     showmodal(){
@@ -90,7 +91,22 @@ class MovieList extends Component {
     }
 
     handleOk(){
-        
+        if(this.state.review_title && this.state.review_content){
+            const record = [this.state.review_title, this.state.review_content];
+            const rec = this.state.reviews;
+            rec.push(record);
+            this.setState({
+                reviews: rec,
+                modal_visible: false,
+                review_title: '',
+                review_content: ''
+            });
+            console.log(this.state.reviews);
+            this.forceUpdate();
+        }
+        else{
+            alert("Please input the review title and content.");
+        }
     }
 
     handleCancel(){
@@ -204,6 +220,8 @@ class MovieList extends Component {
                 handleCancel={this.handleCancel.bind(this)}
                 onTitleChange={this.onTitleChange.bind(this)}
                 onContentChange={this.onContentChange.bind(this)}
+                title={this.state.review_title}
+                content={this.state.review_content}
             ></ReviewModal>
             </div>
         );
