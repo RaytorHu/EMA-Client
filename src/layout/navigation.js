@@ -68,7 +68,14 @@ class Navigation extends Component {
                   <Icon type="logout" />
                 </Button>
             </Menu.Item>
-            
+            <Menu.Item
+            ><Link to="/find_user">
+            <Icon type="search" />
+            Find User
+          </Link>
+             
+            </Menu.Item>
+
             <Menu.Item
               style={{
                 float: "right",
