@@ -381,10 +381,6 @@ class TransactionStatement extends Component {
     }
 
     onSearch(value) {
-      
-      if(!value) {
-        value = '!alexgivemeeverything';
-      }
 
       this.setState({
         loading: true
@@ -393,12 +389,14 @@ class TransactionStatement extends Component {
       this.forceUpdate();
 
       axios({
-        method: 'get',
-        url: config.base_url+'/api/v1/transaction/search/'+value,
+        method: 'post',
+        url: config.base_url+'/api/v1/transaction/search',
         headers: {
           'Authorization': 'Bearer ' + storage.getAuthToken()
         },
-        data: null,
+        data: {
+          "fragment": value
+        },
       }).then( (response) => {
 
         this.setState({
