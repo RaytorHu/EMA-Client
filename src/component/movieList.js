@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import listData from "../container/data/moviesDB1.json";
-import { List, Avatar, Icon, Button} from "antd";
+import { List, Avatar, Icon, Button } from "antd";
 import config from "../config.js";
 import axios from "axios";
 import storage from "../utils/Storage";
-import movieReview from "./movieReview";
+import MovieReview from "./movieReview";
+import ReviewModal from "./movieReviewModal";
 
 const addToWishlist = 'Add to wishlist';
 const removeFromWishlist = 'Remove from wishlist';
@@ -20,7 +21,10 @@ class MovieList extends Component {
     constructor(props){
         super(props);
         this.state={
-            Mdata: []
+            Mdata: [],
+            modal_visible: false,
+            review_title: '',
+            review_content: ''
         };
     }
 
@@ -44,7 +48,7 @@ class MovieList extends Component {
     };
 
     componentDidMount(){
-        var moviedata =  this.extractList();
+        let moviedata =  this.extractList();
         this.setState({
             Mdata: moviedata
         });
@@ -77,11 +81,43 @@ class MovieList extends Component {
         //     })
     }
 
+    showmodal(){
+        this.setState({
+            modal_visible: true
+        });
+
+        this.forceUpdate();
+    }
+
+    handleOk(){
+        
+    }
+
+    handleCancel(){
+        this.setState({
+            modal_visible: false
+        });
+        this.forceUpdate();
+    }
+
+    onTitleChange(event){
+        this.setState({
+            review_title: event.target.value
+        });
+        this.forceUpdate();
+    }
+
+    onContentChange(event){
+        this.setState({
+            review_content: event.target.value
+        });
+        this.forceUpdate();
+    }
+
     addTransaction(title){
         const regex = /[0-9]+/;
         const query = "Please enter the price of the movie ticket";
         const price = prompt(query);
-        console.log(price);
         if(regex.test(price)){
             axios({
                 method: 'post',
@@ -131,6 +167,7 @@ class MovieList extends Component {
 
     render() {
         return (
+            <div>
             <List
                 itemLayout="vertical"
                 size="large"
@@ -147,7 +184,7 @@ class MovieList extends Component {
                             <p>trailer: <a href={item.trailer} target="_blank"><Icon type="play-circle"/></a></p>,
                             <p><IconText type="heart"/><Button onClick={() => this.handleClick(item.id)}>{item.btnText}</Button></p>,
                             <p><IconText type="pay-circle"/><Button onClick={() => this.addTransaction(item.title)}>Add transaction</Button></p>,
-                            <p><IconText type="message"/><a href="/movie/newreview"><Button>Write a review</Button></a></p>
+                            <p><IconText type="message"/><Button onClick={this.showmodal.bind(this)}>Write a review</Button></p>
                             //<MovieReview reviews=this.state.reviews/>
                         ]}
                         extra={<img width={272} alt="logo" src={item.avatar} />}
@@ -161,6 +198,14 @@ class MovieList extends Component {
                     </List.Item>
                 )}
             />
+            <ReviewModal
+                visible={this.state.modal_visible}
+                handleOk={this.handleOk.bind(this)} 
+                handleCancel={this.handleCancel.bind(this)}
+                onTitleChange={this.onTitleChange.bind(this)}
+                onContentChange={this.onContentChange.bind(this)}
+            ></ReviewModal>
+            </div>
         );
     }
 }
