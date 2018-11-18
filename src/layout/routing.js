@@ -14,6 +14,7 @@ import Expense from "../container/expense";
 import Settings from "../container/settings";
 import Login from "../container/authentication/login";
 import Register from '../container/authentication/register';
+import addReviewForm from '../component/reviewForm';
 import storage from "../utils/Storage";
 
 import { Layout, Menu, Icon } from "antd";
@@ -149,6 +150,7 @@ export class ComponentRoutes extends Component {
         />
 
         <PrivateRoute exact path="/movie" component={Movie} />
+        <PrivateRoute exact path="/movie/newreview" component={addReviewForm}/>
 
         <PrivateRoute exact path="/expense" component={Expense} />
 
