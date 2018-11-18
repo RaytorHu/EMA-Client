@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import axios from "axios";
+import config from '../config';
 import myData from "./data/demoRestaurant.json";
 import { List, Avatar, Icon, Rate, Input } from "antd";
 //import DiningSearch from "../component/restaurantSearch";
@@ -12,65 +14,11 @@ const IconText = ({ type, text }) => (
   </span>
 );
 
-function generateKeywordList(business) {
-  let list = [];
-  list.push(
-    business.name.toLowerCase(),
-    business.display_phone.replace(/[^0-9]/g, ""),
-    business.location.address1.toLowerCase(),
-    business.location.city.toLowerCase(),
-    business.rating.toString(),
-    business.price || "N/A"
-  );
-  return list;
-}
+const baseUrl = config.base_url;
 
-function matchKeywordList(business, key) {
-  let keyList;
-  keyList = key
-    .replace(/[^0-9a-zA-Z]^\$/g, "")
-    .toLowerCase()
-    .split(" ");
-  let keywordList = generateKeywordList(business);
-  let match;
-  for (let j = 0; j < keyList.length; j++) {
-    match = false;
-    for (let i = 0; i < keywordList.length; i++) {
-      if (keywordList[i].includes("$") && keywordList[i] === keyList[j]) {
-        match = true;
-      } else if (keywordList[i].includes(keyList[j])) {
-        match = true;
-      }
-    }
-    if (!match) {
-      return false;
-    }
-  }
-  return match;
-}
-
-function keywordSearch(list, key) {
-  let result = [];
-  for (let i = 0; i < list.businesses.length; i++) {
-    if (matchKeywordList(list.businesses[i], key)) {
-      result.push(list.businesses[i]);
-    }
-  }
-
-  return result;
-}
-
-function getRestaurants(value) {
-  let data = JSON.parse(JSON.stringify(myData));
-
-  if (!value || value === "") {
-    alert("Please enter your keyword");
-    return data.businesses;
-  } else {
-    let result = keywordSearch(data, value);
-    return result;
-  }
-}
+const server = axios.create({
+  baseURL: config.base_url,
+});
 
 class Dining extends Component {
   constructor(props) {
@@ -81,44 +29,76 @@ class Dining extends Component {
   }
 
   initList = () => {
-    const listData = [];
+    const listData = [{
+      url: "",
+        name: "",
+        image_url: "",
+        phone: "",
+        address: "",
+        city: "",
+        rating: "",
+        review_count: "",
+        price: ""
+    }];
 
-    for (let i = 0; i < Object.keys(myData.businesses).length; i++) {
-      listData.push({
-        url: myData.businesses[i].url,
-        name: myData.businesses[i].name,
-        image_url: myData.businesses[i].image_url,
-        display_phone: myData.businesses[i].display_phone,
-        location: {
-          address1: myData.businesses[i].location.address1,
-          city: myData.businesses[i].location.city
-        },
+    // for (let i = 0; i < Object.keys(myData.businesses).length; i++) {
+    //   listData.push({
+    //     url: myData.businesses[i].url,
+    //     name: myData.businesses[i].name,
+    //     image_url: myData.businesses[i].image_url,
+    //     phone: myData.businesses[i].display_phone,
+    //     address: myData.businesses[i].address1,
+    //     city: myData.businesses[i].city,
 
-        rating: myData.businesses[i].rating,
-        review_count: myData.businesses[i].review_count,
-        price: myData.businesses[i].price
-      });
-    }
-
+    //     rating: myData.businesses[i].rating,
+    //     review_count: myData.businesses[i].review_count,
+    //     price: myData.businesses[i].price
+    //   });
+    // }
+    console.log(listData);
     return listData;
   };
 
   componentDidMount = () => {
-    var listData = this.initList();
-    this.setState({
-      listData
+    this.handleSearchRequest("Vancouver").then(Response=>{
+      this.setState(({
+        listData : Array.from(Response)
+      }));
+      this.forceUpdate();
     });
   };
 
+  handleSearchRequest = async (value) => {
+    try {
+      const res = await server.get(baseUrl + 'api/v1/dining/restaurant_search/' + value);
+      return res.data.data;
+    } catch (err) {
+      console.log(Array.from(err));  
+      return false;
+    }
+  };
+
+  getRestaurants = (value) => {
+    let data = JSON.parse(JSON.stringify(myData));
+    if (!value || value === "") {
+      alert("Please enter your keyword");
+      this.setState({listData: data.businesses});
+    } else {
+      this.handleSearchRequest(value).then(Response=>{
+        this.setState(({
+          listData : Array.from(Response)
+        }));
+        this.forceUpdate();
+      });
+
+    }
+  }
+
   getRestaurantList = value => {
-    let a = getRestaurants(value);
+    let a = this.getRestaurants(value);
     this.setState({
       listData: a
     });
-
-    // return await getRestaurants(value).then(data => {
-    //   return this.setState({ listData: data });
-    // });
   };
 
   render() {
@@ -149,8 +129,8 @@ class Dining extends Component {
                 <IconText type="star-o" text={item.review_count} />,
                 <Rate disabled defaultValue={item.rating} />,
                 <p>{item.price || "N/A"}</p>
-                // <IconText type="like-o" text="156" />,
-                // <IconText type="message" text="2" />
+                 //,<IconText type="like-o" text="156" />,
+                 //<IconText type="message" text="2" />
               ]}
               extra={<img width={272} alt="logo" src={item.image_url} />}
             >
@@ -159,7 +139,7 @@ class Dining extends Component {
                 title={<a href={item.url}>{item.name}</a>}
                 description={item.display_phone}
               />
-              {item.location.address1 + ", " + item.location.city}
+              {item.address + ", " + item.city}
             </List.Item>
           )}
         />
