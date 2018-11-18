@@ -55,7 +55,7 @@ class MovieList extends Component {
     };
 
     //TODO: test the function when DB is delpoyed and change the value of the button according to the boolean favorite
-    handleClick(key){
+    handleClick(key, imageURL){
         function findMovieID(records){
             return records.id === key;
         }
@@ -64,21 +64,21 @@ class MovieList extends Component {
         this.changebtnText(index);
         this.forceUpdate();
 
-        //
-        // axios({
-        //     method: 'POST',
-        //     url: config.base_url + 'api/v1/MovieManagement',
-        //     data: {
-        //         id: key,
-        //         userID: 'johndoe@sfu.ca'
-        //     },
-        //     headers:{
-        //         'Authorization': 'Bearer ' + storage.getAuthToken()
-        //     }
-        // })
-        //     .then((response) =>{
-        //
-        //     })
+        axios({
+            method: 'POST',
+            url: config.base_url + 'api/v1/MovieManagement',
+            data: {
+                id: key,
+                userID: storage.getUserInfo(),
+                imgURL: imageURL
+            },
+            headers:{
+                'Authorization': 'Bearer ' + storage.getAuthToken()
+            }
+        })
+            .then((response) =>{
+                alert("add to profile successfully");
+            })
     }
 
     showmodal(){
@@ -182,7 +182,7 @@ class MovieList extends Component {
                             <IconText type="clock-circle" text={item.release} />,
                             <IconText type="hourglass" text={item.Movie_len} />,
                             <p>trailer: <a href={item.trailer} target="_blank"><Icon type="play-circle"/></a></p>,
-                            <p><IconText type="heart"/><Button onClick={() => this.handleClick(item.id)}>{item.btnText}</Button></p>,
+                            <p><IconText type="heart"/><Button onClick={() => this.handleClick(item.id, item.avatar)}>{item.btnText}</Button></p>,
                             <p><IconText type="pay-circle"/><Button onClick={() => this.addTransaction(item.title)}>Add transaction</Button></p>,
                             <p><IconText type="message"/><Button onClick={this.showmodal.bind(this)}>Write a review</Button></p>
                             //<MovieReview reviews=this.state.reviews/>
