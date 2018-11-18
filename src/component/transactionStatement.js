@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, Icon, Input, Card, Table } from 'antd';
 import TransactionModal from './transactionModal';
+import TransactionSearch from './transactionSearch';
 import 'antd/dist/antd.css';
 import storage from '../utils/Storage';
 import config from '../config.js';
@@ -30,6 +31,7 @@ class TransactionStatement extends Component {
       this.onDelete = this.onDelete.bind(this);
       this.editTransaction = this.editTransaction.bind(this);
       this.addTransaction = this.addTransaction.bind(this)
+      this.onSearch = this.onSearch.bind(this);
     }
   
     showForm() {
@@ -343,6 +345,36 @@ class TransactionStatement extends Component {
       this.setState();
     }
 
+    onSearch(value) {
+      
+      this.setState({
+        loading: true
+      });
+
+      this.forceUpdate();
+
+      axios({
+        method: 'get',
+        url: config.base_url+'/api/v1/transaction/search/'+value,
+        headers: {
+          'Authorization': 'Bearer ' + storage.getAuthToken()
+        },
+        data: null,
+      }).then( (response) => {
+
+        this.setState({
+          transactions: response.data.data,
+          loading: false
+        });
+
+        this.forceUpdate();
+
+      }).catch( (error) => {
+        console.log(error);
+      });
+
+    }
+
     render() {
       /**
        * Styles
@@ -422,12 +454,9 @@ class TransactionStatement extends Component {
         <div>
         <div>
         <Button type="primary" size="large" onClick={this.showForm}><Icon type="form" theme="outlined" />Add New Transaction</Button> <br/><br/>
-        <form style={{display: this.state.showForm ? 'inline-block' : 'none'}}>
-          <span> Transaction Amount </span><Input type="text" onChange={this.handleTransactionAmount}/><br/>
-          <span> Transaction Description </span><Input type="text" onChange={this.handleTransactionDescription}/><br/><br/>
-          <Button id="submitButton" onClick={this.handleSubmit}> Submit </Button><br/>
-        </form>
 
+        <TransactionSearch onSearch={this.onSearch}> </TransactionSearch>
+        <br/>
         </div>
   
         <Card loading={this.state.loading}>
