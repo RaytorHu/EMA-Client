@@ -47,6 +47,7 @@ class TransactionModal extends Component {
  
                 <DatePicker 
                     value={moment(this.state.transactionTimestamp)}
+                    defaultValue={moment(this.state.transactionTimestamp)}
                     onChange={this.props.onDateChange}
                 /> <br/><br/>
 

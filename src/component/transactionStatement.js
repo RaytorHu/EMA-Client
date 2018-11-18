@@ -22,6 +22,7 @@ class TransactionStatement extends Component {
         transactionDescription: '',
         transactionTag: '',
         transactionTagString: '',
+        transactionTmpTag: '',
         transactionTimestamp: '',
         error: '',
         loading: true,
@@ -231,7 +232,7 @@ class TransactionStatement extends Component {
         transactionTimestamp: moment(this.state.transactions[index].timestamp),
         transactionAmount: this.state.transactions[index].amount,
         transactionDescription: this.state.transactions[index].description,
-        transactionTag: '',
+        transactionTag: this.state.transactions[index].tags,
         transactionTagString: ''
       });
 
@@ -276,10 +277,11 @@ class TransactionStatement extends Component {
   
       var oldTransactions = this.state.transactions;
       var newTransaction = {
+        id: this.state.transactions[this.state.transactionIndex].id,
         amount: this.state.transactionAmount,
         description: this.state.transactionDescription,
         timestamp: this.state.transactionTimestamp.format("YYYY-MM-DD"),
-        tags: this.state.transactionTag
+        tags: this.state.transactionTag.concat(this.state.transactionTmpTag)
       }
       
       oldTransactions[this.state.transactionIndex] = newTransaction;
@@ -293,7 +295,7 @@ class TransactionStatement extends Component {
       });
 
       this.forceUpdate();
-    
+      console.log(this.state);
       axios({
   
         method: 'put',
@@ -330,7 +332,7 @@ class TransactionStatement extends Component {
       // use date.unix() e.g. 1542441716
 
       this.setState({
-        transactionTimestamp: date
+        transactionTimestamp: date || moment()
       });
 
       this.forceUpdate();
@@ -359,27 +361,31 @@ class TransactionStatement extends Component {
     onTagChange(event) {
 
       // convert tags string to array
-      var colors = ['magenta', 'volcano', 'gold', 'gold'];
+      var colors = ['magenta', 'red', 'volcano', 'orange', 'gold', 'lime', 'green', 'cyan', 'blue', 'geekblue', 'purple'];
       var tags = event.target.value.split(',');
       var transactionTag = [];
 
       for(var i = 0; i < tags.length; i++) {
         transactionTag.push({
           "name": tags[i],
-          "color": colors[ colors.length % i]
+          "color": colors[tags[i].charCodeAt(0) % colors.length]
         });
       }
 
       this.setState({
-        transactionTag: transactionTag,
+        transactionTmpTag: transactionTag,
         transactionTagString: event.target.value
       });
 
-      this.setState();
+      this.forceUpdate();
     }
 
     onSearch(value) {
       
+      if(!value) {
+        value = '!alexgivemeeverything';
+      }
+
       this.setState({
         loading: true
       });
@@ -484,21 +490,31 @@ class TransactionStatement extends Component {
           key: 'tags',
           render: (text, record, index) => {
             
-            var result = "<div>";
+            // var result = "<div>";
 
-            for(var i = 0; i < this.state.transactions.tags.length; i++) {
-              result += "<Tag color='"+this.state.transactions.tags[i].color+"'>";
-              result += this.state.transactions.tags[i].name;
-              result += "</Tag>";
+            // for(var i = 0; i < this.state.transactions[index].tags.length; i++) {
+            //   result += "<Tag color='"+this.state.transactions[index].tags[i].color+"'>";
+            //   result += this.state.transactions[index].tags[i].name;
+            //   result += "</Tag>";
+            // }
+
+            // result += "</div>";
+
+            // return (
+            //   <div className="Container" dangerouslySetInnerHTML={{__html: 
+            //     result}}></div>
+            // );
+
+            var result = [];
+            
+            for(var i = 0; i < this.state.transactions[index].tags.length; i++) {
+  
+              result.push(<Tag color={this.state.transactions[index].tags[i].color}>
+              {this.state.transactions[index].tags[i].name}
+              </Tag>);
             }
 
-            result += "</div>";
-
-            return (
-              <div className="Container" dangerouslySetInnerHTML={{__html: 
-                result}}></div>
-            );
-
+            return <div>{result}</div>
           }
         }
       ]
