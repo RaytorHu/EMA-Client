@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import TransactionWaterwave from "../component/transactionWaterwave";
 import TransactionLineChart from "../component/transactionLineChart";
 import TransactionSearch from '../component/transactionSearch';
+import TransactionMaxMin from '../component/transactionMaxMin';
 import { Card } from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import storage from '../utils/Storage';
 import config from '../config.js';
+import moment from 'moment';
 
 const dispoableIncome = 2000;
 const titleColor = '#1890ff';
@@ -113,13 +115,16 @@ class ExpenseAnalysis extends Component {
       waterwaveColor: "green",
       status: 'good',
       lineChartData: [],
+      maxTransaction: {},
+      minTransaction: {},
       loading: true
     }
 
     this.onSearch = this.onSearch.bind(this);
 
     // by default we will search for this month
-    this.onSearch();
+    this.onSearch(moment().format('YYYY-MM'));
+    console.log(moment().format('YYYY-MM'));
   }
 
   onSearch(value) {
@@ -138,7 +143,8 @@ class ExpenseAnalysis extends Component {
           },
         data: {
             "fragment": value,
-            "withMeta": true
+            "withMeta": true,
+            "order": "ASC"
         }
     }).then( (response) => {
 
@@ -147,28 +153,34 @@ class ExpenseAnalysis extends Component {
       var waterwaveColor = "green";
       var status = 'good';
 
-      if(waterwaveValue < 0) {
+      if(waterwaveValue < 30) {
         waterwaveValue = 30;
       }
 
       if(waterwaveValue < 50) {
         waterwaveColor = "red";
         status = 'bad';
-      } else if (waterwaveValue >= 50 && waterwaveValue <= 80) {
+      } else if (waterwaveValue <= 80) {
         waterwaveColor = "orange";
+        status = 'good';
+      } else {
+        waterwaveColor = "green";
         status = 'good';
       }
 
       tempWaterwaveData.value = waterwaveValue;
 
 
+
       // generate data for line chart
-      
+
 
 
       this.setState({
         waterwaveData: [tempWaterwaveData],
         waterwaveColor: waterwaveColor,
+        minTransaction: response.data.meta.minExpense,
+        maxTransaction: response.data.meta.maxExpense,
         status: status,
         loading: false
       })
@@ -195,6 +207,13 @@ class ExpenseAnalysis extends Component {
           > </TransactionWaterwave>
           <WaterwaveText status={this.state.status}> </WaterwaveText>
           <br/><br/><br/><br/><br/>
+
+          <TransactionMaxMin 
+            maxTransaction={this.state.maxTransaction}
+            minTransaction={this.state.minTransaction}
+          ></TransactionMaxMin>
+          <br/><br/>
+
           <LineChartTitle></LineChartTitle>
           <TransactionLineChart lineChartData={this.state.lineChartData}></TransactionLineChart>
         </Card>

@@ -487,21 +487,6 @@ class TransactionStatement extends Component {
           dataIndex: '',
           key: 'tags',
           render: (text, record, index) => {
-            
-            // var result = "<div>";
-
-            // for(var i = 0; i < this.state.transactions[index].tags.length; i++) {
-            //   result += "<Tag color='"+this.state.transactions[index].tags[i].color+"'>";
-            //   result += this.state.transactions[index].tags[i].name;
-            //   result += "</Tag>";
-            // }
-
-            // result += "</div>";
-
-            // return (
-            //   <div className="Container" dangerouslySetInnerHTML={{__html: 
-            //     result}}></div>
-            // );
 
             var result = [];
             
