@@ -6,14 +6,6 @@ const Search = Input.Search;
 
 class TransactionSearch extends Component {
 
-    constructor(props) {
-
-        super(props);
-        
-    }
-
-
-
     render() {
 
         return (

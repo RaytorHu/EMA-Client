@@ -11,7 +11,7 @@ import Dining from '../container/dining'
 import HeatMap from '../container/diningHeatMap'
 import Movie from '../container/movie'
 import Expense from '../container/expense'
-import ExpenseLineChart from '../container/expenseLineChart'
+import ExpenseAnalysis from '../container/expenseAnalysis'
 import Settings from '../container/settings'
 import Login from '../container/authentication/login'
 import Register from '../container/authentication/register'
@@ -79,9 +79,9 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
                         </Link>
                       </Menu.Item>
                       <Menu.Item key='5'>
-                        <Link to='/expense/line_chart'>
+                        <Link to='/expense/expense_analysis'>
                           <Icon type="line-chart" />
-                          Line chart
+                          Expense Analysis
                         </Link>
                       </Menu.Item>
                     </MenuItemGroup>}
@@ -172,7 +172,7 @@ export class ComponentRoutes extends Component {
         <PrivateRoute exact path='/movie' component={Movie} />
         <PrivateRoute exact path='/find_user' component={FindUser} />
         <PrivateRoute exact path='/expense' component={Expense} />
-        <PrivateRoute exact path='/expense/line_chart' component={ExpenseLineChart} />
+        <PrivateRoute exact path='/expense/expense_analysis' component={ExpenseAnalysis} />
         <PrivateRoute exact path='/my_profile' component={UserProfile} />
         <PrivateRoute exact path='/settings' component={Settings} />
         <Redirect from='/' to='/dining/find_restaurant' />
