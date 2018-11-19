@@ -10,8 +10,16 @@ class Follow extends Component {
       loading: false
     }
   }
+  componentDidUpdate (prevProps) {
+    if (this.props.user !== prevProps.user) {
+      this.isFollowing()
+    }
+  }
   componentDidMount () {
-    var res = axios({
+    this.isFollowing()
+  }
+  isFollowing = () => {
+    axios({
       method: 'GET',
       url: config.base_url + 'api/v1/user/follows/' + this.props.user.id,
       headers: {
@@ -21,7 +29,7 @@ class Follow extends Component {
       .then(response => {
         this.setState({
           loading: true,
-          followed: response.data.isFollowing
+          followed: response.data.isFollowing.isFollowing
         })
         return this.state.loading
       })
