@@ -7,26 +7,27 @@ const { TextArea } = Input;
 class ReviewModal extends Component{
     constructor(props) {
         super(props);
-        //const findReview = this.props.findReview;
-        //const index = findReview(this.props.movie_id);
         this.state = {
             visible: this.props.visible,
             title: '',
             content:'',
-            reviews: this.props.reviews
-            // reviews: this.props.reviews[index].records,
+            reviews: this.props.reviews,
+            target:[],
         }
     }
 
     componentWillReceiveProps(newProps) {
-        // const findReview = this.props.findReview;
-        // const index = findReview(this.props.movie_id);
+        let newList = [];
+        for(let i =0; i < this.state.reviews.length; i++){
+            if(newProps.reviews[i][0] === this.props.movie_id){
+                newList.push(newProps.reviews[i][1]);
+            }
+        }
         this.setState({
             visible: newProps.visible,
-            reviews: newProps.reviews
-            // reviews: newProps.reviews[index][1],
+            reviews: newProps.reviews,
+            target: newList
         });
-        // console.log(this.state.reviews);
         this.forceUpdate();
     }
 
@@ -39,7 +40,7 @@ class ReviewModal extends Component{
                     onOk={this.props.handleOk}
                     onCancel={this.props.handleCancel}
                 >
-                        {/* <MovieReview reviews={this.state.reviews}/> */}
+                        <MovieReview reviews={this.state.target}/>
                         <label><strong>Add Review</strong></label><br/><br/>
 
                         <label>Title</label>

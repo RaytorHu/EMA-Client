@@ -19,6 +19,7 @@ const IconText = ({ type, text }) => (
 class MovieList extends Component {
     constructor(props){
         super(props);
+        let review_struc = [];
         this.state={
             Mdata: [],
             reviews: [],
@@ -72,16 +73,8 @@ class MovieList extends Component {
                 }
             }
         }
-        let indexes=[];
-        for(let i =0; i < tmp.length; i++){
-            indexes.push({
-                id: tmp[i].id,
-                records: []
-            });
-        }
         this.setState({
             Mdata: tmp,
-            reviews: indexes
         });
     };
 
@@ -160,10 +153,9 @@ class MovieList extends Component {
             alert("Please input content for the review.");
         }
         else{
-            const index = this.state.reviews.findIndex(this.getReviewIndex.bind(this));
-            const record = [this.state.review_title, this.state.review_content];
+            const record = [this.state.review_movie_id, [this.state.review_title, this.state.review_content]];
             const rec = this.state.reviews;
-            rec[index].records.push(record);
+            rec.push(record);
             this.setState({
                 reviews: rec,
                 review_title: '',
@@ -286,7 +278,6 @@ class MovieList extends Component {
                 title={this.state.review_title}
                 content={this.state.review_content}
                 reviews={this.state.reviews}
-                findIndex={this.getReviewIndex.bind(this)}
                 movie_id={this.state.review_movie_id}
             ></ReviewModal>
             </div>

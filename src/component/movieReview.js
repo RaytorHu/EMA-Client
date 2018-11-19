@@ -20,7 +20,6 @@ class Review extends Component{
       this.setState({
           data: newProps.reviews,
       });
-      //console.log(this.state.data);
       this.forceUpdate();
   }
     render() {
@@ -35,17 +34,17 @@ class Review extends Component{
               dataSource={this.state.data}
               renderItem={item => (
                 <List.Item
-                  key={item[0]}
+                  key={this.props.movie_id + this.state.data[1]}
                   actions={[
                     <IconText type="close" text="Delete this comment" />,
                   ]}
                 >
                   <List.Item.Meta
                     avatar={<Avatar src={storage.getUserInfo().avatarUrl} />}
-                    title={item[0]}
-                    description={item[1]}
+                    title={storage.getUserInfo().username}
+                    description={"title: " + item[0]}
                   />
-                  {item.synopsis}
+                  {item[1]}
                 </List.Item>
               )}
             />
