@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Card, Tag, Icon } from 'antd';
 import 'antd/dist/antd.css';
-import { ChartCard, yuan, Field } from 'ant-design-pro/lib/Charts';
 
 class TransactionMaxMin extends Component {
 
@@ -28,18 +27,21 @@ class TransactionMaxMin extends Component {
         var maxResult = [];
         var minResult = [];
 
-        for(var i = 0; i < this.state.maxTransaction.tags.length; i++) {
-  
-            maxResult.push(<Tag color={this.state.maxTransaction.tags[i].color}>
-            {this.state.maxTransaction.tags[i].name}
-            </Tag>);
-        }
+        if(this.state.maxTransaction !== null &&  this.state.minTransaction !== null) {
 
-        for(var i = 0; i < this.state.minTransaction.tags.length; i++) {
-  
-            minResult.push(<Tag color={this.state.minTransaction.tags[i].color}>
-            {this.state.minTransaction.tags[i].name}
-            </Tag>);
+            for(var i = 0; i < this.state.maxTransaction.tags.length; i++) {
+    
+                maxResult.push(<Tag color={this.state.maxTransaction.tags[i].color}>
+                {this.state.maxTransaction.tags[i].name}
+                </Tag>);
+            }
+
+            for(var i = 0; i < this.state.minTransaction.tags.length; i++) {
+    
+                minResult.push(<Tag color={this.state.minTransaction.tags[i].color}>
+                {this.state.minTransaction.tags[i].name}
+                </Tag>);
+            }
         }
 
         return (

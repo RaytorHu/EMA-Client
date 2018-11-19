@@ -3,6 +3,8 @@ import TransactionWaterwave from "../component/transactionWaterwave";
 import TransactionLineChart from "../component/transactionLineChart";
 import TransactionSearch from '../component/transactionSearch';
 import TransactionMaxMin from '../component/transactionMaxMin';
+import TransactionPieChart from '../component/transactionPieChart';
+import TransactionTagCloud from '../component/transactionTagCloud';
 import { Card } from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
@@ -33,7 +35,7 @@ class WaterwaveTitle extends Component {
 
     return (
       <div>
-        <h2 style={{color: titleColor}}> {title} </h2>  
+        <h1 style={{color: titleColor}}> {title} </h1>  
       </div>
     );
   }
@@ -100,7 +102,31 @@ class LineChartTitle extends Component {
 
     return (
       <div>
-        <h2 style={{color: titleColor}}> {title} </h2>  
+        <h1 style={{color: titleColor}}> {title} </h1>  
+      </div>
+    );
+  }
+}
+
+class PieChartTitle extends Component {
+  render() {
+    const title = "This is your spending distribution";
+
+    return (
+      <div>
+         <h1 style={{color: titleColor}}> {title} </h1>
+      </div>
+    );
+  }
+}
+
+class TagCloudTitle extends Component {
+  render() {
+    const title = "Your tags look so good !";
+
+    return (
+      <div>
+         <h1 style={{color: titleColor}}> {title} </h1>
       </div>
     );
   }
@@ -115,16 +141,19 @@ class ExpenseAnalysis extends Component {
       waterwaveColor: "green",
       status: 'good',
       lineChartData: [],
+      pieChartData: [],
+      tagCloudData: [],
       maxTransaction: {},
       minTransaction: {},
-      loading: true
+      loading: true,
+      error: ''
     }
 
     this.onSearch = this.onSearch.bind(this);
 
     // by default we will search for this month
     this.onSearch(moment().format('YYYY-MM'));
-    console.log(moment().format('YYYY-MM'));
+
   }
 
   onSearch(value) {
@@ -148,6 +177,24 @@ class ExpenseAnalysis extends Component {
         }
     }).then( (response) => {
 
+      if(response.data.data.length === 0) {
+        this.setState({
+          error: 'No transaction found'
+        });
+
+        this.forceUpdate();
+
+        return;
+
+      } else {
+
+        this.setState({
+          error: ''
+        });
+
+        this.forceUpdate();
+      }
+
       // generate data for waterwave
       var waterwaveValue = (1 - response.data.meta.totalAmount / dispoableIncome) * 100;
       var waterwaveColor = "green";
@@ -162,25 +209,22 @@ class ExpenseAnalysis extends Component {
         status = 'bad';
       } else if (waterwaveValue <= 80) {
         waterwaveColor = "orange";
-        status = 'good';
+        status = 'bad';
       } else {
         waterwaveColor = "green";
         status = 'good';
       }
 
-      tempWaterwaveData.value = waterwaveValue;
-
-
-
-      // generate data for line chart
-
-
+      tempWaterwaveData.value = parseFloat(waterwaveValue.toFixed(0));
 
       this.setState({
         waterwaveData: [tempWaterwaveData],
         waterwaveColor: waterwaveColor,
         minTransaction: response.data.meta.minExpense,
         maxTransaction: response.data.meta.maxExpense,
+        lineChartData: response.data.meta.lineChart,
+        pieChartData: response.data.meta.pieChart,
+        tagCloudData: response.data.meta.tagCloud,
         status: status,
         loading: false
       })
@@ -198,7 +242,7 @@ class ExpenseAnalysis extends Component {
         <Title />
         <TransactionSearch onSearch={this.onSearch}></TransactionSearch>
         <br/> <br/>
-
+        <p style={{color: 'red'}}> {this.state.error} </p>
         <Card loading={this.state.loading}>
           <WaterwaveTitle></WaterwaveTitle>
           <TransactionWaterwave 
@@ -216,6 +260,17 @@ class ExpenseAnalysis extends Component {
 
           <LineChartTitle></LineChartTitle>
           <TransactionLineChart lineChartData={this.state.lineChartData}></TransactionLineChart>
+
+          <br/><br/><br/><br/><br/><br/><br/><br/>
+
+          <PieChartTitle></PieChartTitle>
+          <TransactionPieChart pieChartData={this.state.pieChartData}> </TransactionPieChart>
+
+          <br/><br/><br/><br/><br/><br/><br/><br/>
+
+          <TagCloudTitle></TagCloudTitle>
+          <TransactionTagCloud tagCloudData={this.state.tagCloudData}></TransactionTagCloud>
+
         </Card>
       </div>
     );

@@ -52,7 +52,8 @@ class TransactionStatement extends Component {
         transactionAmount: '',
         transactionDescription: '',
         transactionTag: '',
-        transactionTagString: ''
+        transactionTagString: '',
+        transactionTmpTag: ''
       });
 
       this.forceUpdate();
@@ -91,6 +92,14 @@ class TransactionStatement extends Component {
         this.forceUpdate();
         return;
   
+      } else if (this.state.transactionAmount < 0) {
+        
+        this.setState({
+          error: 'Amount cannot be negative',
+        });
+        this.forceUpdate();
+        return;
+
       } else {
   
         this.setState({
@@ -100,23 +109,25 @@ class TransactionStatement extends Component {
   
       }
   
-      var oldTransactions = this.state.transactions;
-      var newTransaction = {
-        amount: this.state.transactionAmount,
-        description: this.state.transactionDescription,
-        timestamp: this.state.transactionTimestamp,
-        tags: this.state.transactionTag
-      }
-      oldTransactions.unshift(newTransaction);
-
+      // var oldTransactions = this.state.transactions;
+      // var newTransaction = {
+      //   amount: this.state.transactionAmount,
+      //   description: this.state.transactionDescription,
+      //   timestamp: moment(this.state.transactionTimestamp).format('YYYY-MM-DD'),
+      //   tags: this.state.transactionTmpTag
+      // }
+      // oldTransactions.unshift(newTransaction);
+      // console.log(oldTransactions);
+      // this.setState({
+      //   transactions: oldTransactions,
+      //   visible: false
+      // });
+  
       this.setState({
-        transactions: oldTransactions
-      });
-
-      this.setState({
+        loading: true,
         visible: false
       });
-  
+
       this.forceUpdate();
   
       /**
@@ -129,6 +140,7 @@ class TransactionStatement extends Component {
         data: {
           amount: parseFloat(this.state.transactionAmount),
           description: this.state.transactionDescription,
+          timestamp: moment(this.state.transactionTimestamp).unix(),
           tags: this.state.transactionTagString
         },
         headers: {
@@ -137,7 +149,17 @@ class TransactionStatement extends Component {
   
       })
         .then( (response) => {
-  
+          
+          var oldTransactions = this.state.transactions;
+          oldTransactions.unshift(response.data.data);
+
+          this.setState({
+            transactions: oldTransactions,
+            loading: false
+          });
+
+          this.forceUpdate();
+
         })
         .catch( (error) => {
           
@@ -233,7 +255,8 @@ class TransactionStatement extends Component {
         transactionAmount: this.state.transactions[index].amount,
         transactionDescription: this.state.transactions[index].description,
         transactionTag: this.state.transactions[index].tags,
-        transactionTagString: ''
+        transactionTagString: '',
+        transactionTmpTag: ''
       });
 
       this.forceUpdate();
@@ -266,6 +289,14 @@ class TransactionStatement extends Component {
         this.forceUpdate();
         return;
   
+      } else if (this.state.transactionAmount < 0) {
+        
+        this.setState({
+          error: 'Amount cannot be negative',
+        });
+        this.forceUpdate();
+        return;
+
       } else {
   
         this.setState({
@@ -274,6 +305,11 @@ class TransactionStatement extends Component {
         this.forceUpdate();
   
       }
+
+      var newTag = this.state.transactionTag;
+      if(newTag === []) {
+        newTag = [];
+      }
   
       var oldTransactions = this.state.transactions;
       var newTransaction = {
@@ -281,7 +317,7 @@ class TransactionStatement extends Component {
         amount: this.state.transactionAmount,
         description: this.state.transactionDescription,
         timestamp: this.state.transactionTimestamp.format("YYYY-MM-DD"),
-        tags: this.state.transactionTag.concat(this.state.transactionTmpTag)
+        tags: newTag.concat(this.state.transactionTmpTag)
       }
       
       oldTransactions[this.state.transactionIndex] = newTransaction;
@@ -472,6 +508,26 @@ class TransactionStatement extends Component {
           key: 'description'
         },
         {
+          title: 'Tags',
+          dataIndex: '',
+          key: 'tags',
+          render: (text, record, index) => {
+
+            var result = [];
+            
+            for(var i = 0; i < this.state.transactions[index].tags.length; i++) {
+              if(this.state.transactions[index].tags[i] === '') {
+                continue;
+              }
+              result.push(<Tag color={this.state.transactions[index].tags[i].color}>
+              {this.state.transactions[index].tags[i].name}
+              </Tag>);
+            }
+
+            return <div>{result}</div>
+          }
+        },
+        {
           title: 'Actions',
           dataIndex: '',
           key: 'actions',
@@ -481,24 +537,6 @@ class TransactionStatement extends Component {
               <Button type="danger" onClick={this.onDelete.bind(this,text.id, index)}> Delete </Button>
             </div>
           )
-        },
-        {
-          title: 'Tags',
-          dataIndex: '',
-          key: 'tags',
-          render: (text, record, index) => {
-
-            var result = [];
-            
-            for(var i = 0; i < this.state.transactions[index].tags.length; i++) {
-  
-              result.push(<Tag color={this.state.transactions[index].tags[i].color}>
-              {this.state.transactions[index].tags[i].name}
-              </Tag>);
-            }
-
-            return <div>{result}</div>
-          }
         }
       ]
   
@@ -516,7 +554,7 @@ class TransactionStatement extends Component {
   
         <Card loading={this.state.loading}>
 
-          <Table dataSource={this.state.transactions} columns={columns} />
+          <Table dataSource={this.state.transactions} columns={columns}  pagination={{ pageSize: 100 }}/>
 
         </Card>
 
