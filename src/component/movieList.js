@@ -4,7 +4,6 @@ import { List, Avatar, Icon, Button } from "antd";
 import config from "../config.js";
 import axios from "axios";
 import storage from "../utils/Storage";
-import MovieReview from "./movieReview";
 import ReviewModal from "./movieReviewModal";
 
 const addToWishlist = 'Add to wishlist';
@@ -23,10 +22,32 @@ class MovieList extends Component {
         this.state={
             Mdata: [],
             reviews: [],
+            favorite_list: [],
             modal_visible: false,
             review_title: '',
-            review_content: ''
+            review_content: '',
+            review_movie_id: '',
         };
+    }
+
+    getFavorite(){
+        axios({
+            method: 'get',
+            url: config.base_url + 'api/v1/movies',
+            headers:{
+                'Authorization': 'Bearer ' + storage.getAuthToken()
+            }
+        })
+        .then((response) =>{
+            this.setState({
+                favorite_list: Array.from(response.data.data)
+            });
+            this.extractList();
+        })
+        .catch((err)=>{
+            console.log(err);
+            alert("Unexpected error occured. Please try again later");
+        });
     }
 
     extractList(){
@@ -44,19 +65,31 @@ class MovieList extends Component {
                 inWishlist: false,
                 btnText: addToWishlist
             });
+            for(let j = 0; j < this.state.favorite_list.length; j++){
+                if(listData.movies[i].id === this.state.favorite_list[j].id){
+                    tmp[i].inWishlist = true;
+                    tmp[i].btnText = removeFromWishlist;
+                }
+            }
         }
-        return tmp;
-    };
-
-    componentDidMount(){
-        let moviedata =  this.extractList();
+        let indexes=[];
+        for(let i =0; i < tmp.length; i++){
+            indexes.push({
+                id: tmp[i].id,
+                records: []
+            });
+        }
         this.setState({
-            Mdata: moviedata
+            Mdata: tmp,
+            reviews: indexes
         });
     };
 
-    //TODO: test the function when DB is delpoyed and change the value of the button according to the boolean favorite
-    handleClick(key, imageURL){
+    componentDidMount(){
+        this.getFavorite();
+    };
+
+    handleClick(key, imageURL, title){
         function findMovieID(records){
             return records.id === key;
         }
@@ -65,53 +98,85 @@ class MovieList extends Component {
         this.changebtnText(index);
         this.forceUpdate();
 
-        // axios({
-        //     method: 'POST',
-        //     url: config.base_url + 'api/v1/MovieManagement',
-        //     data: {
-        //         id: key,
-        //         userID: storage.getUserInfo().id,
-        //         imgURL: imageURL
-        //     },
-        //     headers:{
-        //         'Authorization': 'Bearer ' + storage.getAuthToken()
-        //     }
-        // })
-        //     .then((response) =>{
-        //         alert("add to profile successfully");
-        //     })
+        if(this.state.Mdata[index].inWishlist){
+            axios({
+                method: 'POST',
+                url: config.base_url + 'api/v1/movies',
+                data: {
+                    name: title,
+                    movieId: key,
+                    posterURL: imageURL
+                },
+                headers:{
+                    'Authorization': 'Bearer ' + storage.getAuthToken()
+                }
+            })
+            .then((response) =>{
+                alert("added to profile")
+            })
+            .catch((err)=>{
+                console.log(err);
+                alert("Unexpected error occured. Please try again later");
+            });
+        }
+        else{
+            axios({
+                method: 'delete',
+                url: config.base_url + 'api/v1/movies/'+key,
+                headers:{
+                    'Authorization': 'Bearer ' + storage.getAuthToken()
+                }
+            })
+            .then((response) =>{
+                alert("removed from profile")
+            })
+            .catch((err)=>{
+                console.log(err);
+                alert("Unexpected error occured. Please try again later");
+            });
+        } 
     }
 
-    showmodal(){
+    showmodal(id){
         this.setState({
-            modal_visible: true
+            modal_visible: true,
+            review_movie_id: id,
         });
-
         this.forceUpdate();
     }
 
+    getReviewIndex(records){
+        return records.id === this.state.review_movie_id;
+    }
+
     handleOk(){
-        if(this.state.review_title && this.state.review_content){
-            const record = [this.state.review_title, this.state.review_content];
-            const rec = this.state.reviews;
-            rec.push(record);
-            this.setState({
-                reviews: rec,
-                modal_visible: false,
-                review_title: '',
-                review_content: ''
-            });
-            console.log(this.state.reviews);
-            this.forceUpdate();
+        if(!this.state.review_title && !this.state.review_content){
+            alert("Please input the review title and content.");
+        }
+        else if(!this.state.review_title){
+            alert("Please input the review title.");
+        }
+        else if(!this.state.review_content){
+            alert("Please input content for the review.");
         }
         else{
-            alert("Please input the review title and content.");
+            const index = this.state.reviews.findIndex(this.getReviewIndex.bind(this));
+            const record = [this.state.review_title, this.state.review_content];
+            const rec = this.state.reviews;
+            rec[index].records.push(record);
+            this.setState({
+                reviews: rec,
+                review_title: '',
+                review_content: '',
+            });
+            this.forceUpdate();
         }
     }
 
     handleCancel(){
         this.setState({
-            modal_visible: false
+            modal_visible: false,
+            review_movie_id: ''
         });
         this.forceUpdate();
     }
@@ -198,15 +263,13 @@ class MovieList extends Component {
                             <IconText type="clock-circle" text={item.release} />,
                             <IconText type="hourglass" text={item.Movie_len} />,
                             <p>trailer: <a href={item.trailer} target="_blank"><Icon type="play-circle"/></a></p>,
-                            <p><IconText type="heart"/><Button onClick={() => this.handleClick(item.id, item.avatar)}>{item.btnText}</Button></p>,
+                            <p><IconText type="heart"/><Button onClick={() => this.handleClick(item.id, item.avatar, item.title)}>{item.btnText}</Button></p>,
                             <p><IconText type="pay-circle"/><Button onClick={() => this.addTransaction(item.title)}>Add transaction</Button></p>,
-                            <p><IconText type="message"/><Button onClick={this.showmodal.bind(this)}>Write a review</Button></p>
-                            //<MovieReview reviews=this.state.reviews/>
+                            <p><IconText type="message"/><Button onClick={() => this.showmodal(item.id)}>Reviews</Button></p>
                         ]}
-                        extra={<img width={272} alt="logo" src={item.avatar} />}
+                        extra={<img width={250} alt="logo" src={item.avatar} />}
                     >
                         <List.Item.Meta
-                            avatar={<Avatar src={item.avatar} />}
                             title={<a href={item.href} target="_blank">{item.title}</a>}
                             description={item.genres}
                         />
@@ -222,6 +285,9 @@ class MovieList extends Component {
                 onContentChange={this.onContentChange.bind(this)}
                 title={this.state.review_title}
                 content={this.state.review_content}
+                reviews={this.state.reviews}
+                findIndex={this.getReviewIndex.bind(this)}
+                movie_id={this.state.review_movie_id}
             ></ReviewModal>
             </div>
         );

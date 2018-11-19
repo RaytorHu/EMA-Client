@@ -1,62 +1,54 @@
 import React, { Component } from "react";
-import { List, message, Avatar, Spin } from 'antd';
-import InfiniteScroll from 'react-infinite-scroller';
+import { List, Avatar, Icon } from 'antd';
+import storage from "../utils/Storage";
 
+const IconText = ({ type, text }) => (
+  <span>
+      <Icon type={type} style={{ marginRight: 8 }} />
+      {text}
+      </span>
+);
 class Review extends Component{
     constructor(props){
         super(props);
         this.state={
-            data: this.props.reviews,
-            loading: false,
-            hasMore: true
+            data: this.props.reviews
         };
     }
 
-    handleInfiniteOnLoad = () => {
-        let data = this.state.data;
-        this.setState({
-          loading: true,
-        });
-        if (data.length > this.state.review.length - 3) {
-          message.warning('Infinite List loaded all');
-          this.setState({
-            hasMore: false,
-            loading: false,
-          });
-          return;
-        }
-      }
-    
-      render() {
+    componentWillReceiveProps(newProps) {
+      this.setState({
+          data: newProps.reviews,
+      });
+      //console.log(this.state.data);
+      this.forceUpdate();
+  }
+    render() {
         return (
           <div className="reviews-container">
-            <InfiniteScroll
-              initialLoad={false}
-              pageStart={0}
-              loadMore={this.handleInfiniteOnLoad}
-              hasMore={!this.state.loading && this.state.hasMore}
-              useWindow={false}
-            >
-              <List
-                dataSource={this.state.data}
-                renderItem={item => (
-                  <List.Item key={item.id}>
-                    <List.Item.Meta
-                      avatar={<Avatar src="" />}
-                      title={item.title}
-                      description={item.email}
-                    />
-                    <div>Content</div>
-                  </List.Item>
-                )}
-              >
-                {this.state.loading && this.state.hasMore && (
-                  <div className="demo-loading-container">
-                    <Spin />
-                  </div>
-                )}
-              </List>
-            </InfiniteScroll>
+            <List
+              itemLayout="vertical"
+              size="small"
+              pagination={{
+                pageSize: 4,
+              }}
+              dataSource={this.state.data}
+              renderItem={item => (
+                <List.Item
+                  key={item[0]}
+                  actions={[
+                    <IconText type="close" text="Delete this comment" />,
+                  ]}
+                >
+                  <List.Item.Meta
+                    avatar={<Avatar src={storage.getUserInfo().avatarUrl} />}
+                    title={item[0]}
+                    description={item[1]}
+                  />
+                  {item.synopsis}
+                </List.Item>
+              )}
+            />
           </div>
         );
       }
