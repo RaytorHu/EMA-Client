@@ -22,6 +22,7 @@ class Follow extends Component {
     axios({
       method: 'GET',
       url: config.base_url + 'api/v1/user/follows/' + this.props.user.id,
+
       headers: {
         Authorization: 'Bearer ' + storage.getAuthToken()
       }
@@ -70,7 +71,6 @@ class Follow extends Component {
   render () {
     return (
       <div className='App'>
-
         {!this.state.followed &&
           <Tooltip title='Follow' placement='right'>
             <Button onClick={this.follow} loading={this.state.loading}>
