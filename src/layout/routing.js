@@ -21,6 +21,9 @@ import { Layout, Menu, Icon } from 'antd'
 import { Link } from 'react-router-dom'
 import FindUser from '../container/findUser'
 import MutualFriends from '../container/mutualFriends'
+import MyFollowing from '../container/following'
+import MyFollowers from '../container/followers'
+import MyFavorite from '../container/myFavorite'
 const { Content, Sider, Footer } = Layout
 const MenuItemGroup = Menu.ItemGroup
 
@@ -48,7 +51,7 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
               >
                 <Menu
                   mode='inline'
-                  defaultSelectedKeys={['1', '3', '4', '6', '8']}
+                  defaultSelectedKeys={['1']}
                   style={{ height: '100%', borderRight: 0 }}
                 >
                   {matchProps.match.path.startsWith('/dining') &&
@@ -74,13 +77,13 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
                     <MenuItemGroup title='Expense'>
                       <Menu.Item key='4'>
                         <Link to='/expense'>
-                          <Icon type="dollar" />
+                          <Icon type='dollar' />
                           All transactions
                         </Link>
                       </Menu.Item>
                       <Menu.Item key='5'>
                         <Link to='/expense/expense_analysis'>
-                          <Icon type="line-chart" />
+                          <Icon type='line-chart' />
                           Expense Analysis
                         </Link>
                       </Menu.Item>
@@ -101,12 +104,29 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
                       </Menu.Item>
 
                     </MenuItemGroup>}
-                  {matchProps.match.path === '/my_profile' &&
+                  {matchProps.match.path.startsWith('/my_profile') &&
                     <MenuItemGroup title='User Profile'>
-                      <Menu.Item key='8'>Account information</Menu.Item>
-                      <Menu.Item key='9'>My following</Menu.Item>
-                      <Menu.Item key='10'>My followers</Menu.Item>
-                      <Menu.Item key='11'>My favorite/wish list</Menu.Item>
+
+                      <Menu.Item key='8'>
+                        <Link to='/my_profile'>
+                          Account Info
+                        </Link>
+                      </Menu.Item>
+                      <Menu.Item key='9'>
+                        <Link to='/my_profile/following'>
+                          My Following
+                        </Link>
+                      </Menu.Item>
+                      <Menu.Item key='10'>
+                        <Link to='/my_profile/followers'>
+                          My Followers
+                        </Link>
+                      </Menu.Item>
+                      <Menu.Item key='11'>
+                        {' '}<Link to='/my_profile/favorite'>
+                          My Favorite
+                        </Link>
+                      </Menu.Item>
                     </MenuItemGroup>}
                 </Menu>
               </Sider>
@@ -185,10 +205,29 @@ export class ComponentRoutes extends Component {
           path='/find_user/mutual_friends'
           component={MutualFriends}
         />
+        <PrivateRoute
+          exact
+          path='/my_profile/following'
+          component={MyFollowing}
+        />
+        <PrivateRoute
+          exact
+          path='/my_profile/followers'
+          component={MyFollowers}
+        />
+        <PrivateRoute
+          exact
+          path='/my_profile/favorite'
+          component={MyFavorite}
+        />
         <PrivateRoute exact path='/movie' component={Movie} />
         <PrivateRoute exact path='/find_user' component={FindUser} />
         <PrivateRoute exact path='/expense' component={Expense} />
-        <PrivateRoute exact path='/expense/expense_analysis' component={ExpenseAnalysis} />
+        <PrivateRoute
+          exact
+          path='/expense/expense_analysis'
+          component={ExpenseAnalysis}
+        />
         <PrivateRoute exact path='/my_profile' component={UserProfile} />
         <PrivateRoute exact path='/settings' component={Settings} />
         <Redirect from='/' to='/dining/find_restaurant' />
