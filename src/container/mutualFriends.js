@@ -24,22 +24,19 @@ const columns = [
     render: text => (
       <div>
         <Follow user={text} />
-        {/* <Tooltip placement='right' title='follow'>
-          <Follow user={text} />
-        </Tooltip> */}
       </div>
     )
   }
 ]
 
-class FindUser extends Component {
+class MutualFriends extends Component {
   state = {
     users: []
   }
-  getUserList = async value => {
+  componentDidMount () {
     axios({
       method: 'get',
-      url: config.base_url + 'api/v1/user/search/' + value,
+      url: config.base_url + 'api/v1/user/friends/suggestions/',
       headers: {
         Authorization: 'Bearer ' + storage.getAuthToken()
       }
@@ -54,17 +51,12 @@ class FindUser extends Component {
   render () {
     return (
       <div>
-        <h1>Find User</h1>
-        <Search
-          placeholder='name/email/id'
-          onSearch={value => this.getUserList(value)}
-          style={{ width: 200 }}
-        />
-        <br /><br />
+        <h1>Mutual Friends</h1>
+
         <Table columns={columns} dataSource={this.state.users} />
       </div>
     )
   }
 }
 
-export default FindUser
+export default MutualFriends
