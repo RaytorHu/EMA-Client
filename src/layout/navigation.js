@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Menu, Button, Icon, Layout, Avatar } from 'antd'
+import { Menu, Button, Icon, Layout, Avatar, Tooltip } from 'antd'
 import { Link, withRouter } from 'react-router-dom'
 import storage from '../utils/Storage'
 const { Header } = Layout
@@ -58,15 +58,19 @@ class Navigation extends Component {
                 marginLeft: '-20px'
               }}
             >
-              <Button
-                shape='circle'
-                size='small'
-                type='dashed'
-                onClick={storage.logOutUser}
-                style={{ textAlign: 'center', backgroundColor: '#efefef' }}
-              >
-                <Icon type='logout' />
-              </Button>
+              <Tooltip title='logout' placement='bottom'>
+                <Button
+                  shape='circle'
+                  size='small'
+                  type='dashed'
+                  onClick={storage.logOutUser}
+                  style={{ textAlign: 'center', backgroundColor: '#efefef' }}
+                >
+
+                  <Icon type='logout' />
+
+                </Button>
+              </Tooltip>
             </Menu.Item>
             <Menu.Item>
               <Link to='/find_user'>

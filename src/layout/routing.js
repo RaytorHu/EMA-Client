@@ -136,7 +136,7 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
                     background: '#fff',
                     padding: 24,
                     marginTop: '30px',
-                    minHeight: 280
+                    minHeight: 880
                   }}
                 >
                   <Component {...matchProps} />
