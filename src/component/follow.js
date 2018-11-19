@@ -14,30 +14,30 @@ class Follow extends Component {
     }
   }
   follow = () => {
-    // axios({
-    //   method: 'POST',
-    //   url: config.base_url + 'api/v1/user/followings/' + this.props.user.id,
-    //   headers: {
-    //     Authorization: 'Bearer ' + storage.getAuthToken()
-    //   }
-    // }).then(response => {
-    this.setState({
-      followed: true
+    axios({
+      method: 'POST',
+      url: config.base_url + 'api/v1/user/followings/' + this.props.user.id,
+      headers: {
+        Authorization: 'Bearer ' + storage.getAuthToken()
+      }
+    }).then(response => {
+      this.setState({
+        followed: true
+      })
     })
-    // })
   }
   unfollow = () => {
-    // axios({
-    //   method: 'POST',
-    //   url: config.base_url + 'api/v1/user/followings/' + this.props.user.id,
-    //   headers: {
-    //     Authorization: 'Bearer ' + storage.getAuthToken()
-    //   }
-    // }).then(response => {
-    this.setState({
-      followed: false
+    axios({
+      method: 'DELETE',
+      url: config.base_url + 'api/v1/user/followings/' + this.props.user.id,
+      headers: {
+        Authorization: 'Bearer ' + storage.getAuthToken()
+      }
+    }).then(response => {
+      this.setState({
+        followed: false
+      })
     })
-    // })
   }
   render () {
     return (

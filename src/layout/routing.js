@@ -19,7 +19,7 @@ import UserProfile from '../container/userProfile'
 import { Layout, Menu, Icon } from 'antd'
 import { Link } from 'react-router-dom'
 import FindUser from '../container/findUser'
-
+import MutualFriends from '../container/mutualFriends'
 const { Content, Sider, Footer } = Layout
 const MenuItemGroup = Menu.ItemGroup
 
@@ -47,7 +47,7 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
               >
                 <Menu
                   mode='inline'
-                  defaultSelectedKeys={['1', '3', '4', '6', '7']}
+                  defaultSelectedKeys={['1', '3', '4', '6', '8']}
                   style={{ height: '100%', borderRight: 0 }}
                 >
                   {matchProps.match.path.startsWith('/dining') &&
@@ -74,16 +74,28 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
                       <Menu.Item key='4'>All transactions</Menu.Item>
                       <Menu.Item key='5'>Line chart</Menu.Item>
                     </MenuItemGroup>}
-                  {matchProps.match.path === '/find_user' &&
+                  {matchProps.match.path.startsWith('/find_user') &&
                     <MenuItemGroup title='Social'>
-                      <Menu.Item key='6'>Search User</Menu.Item>
+                      <Menu.Item key='6'>
+                        <Link to='/find_user'>
+                          Search User
+                        </Link>
+                      </Menu.Item>
+
+                      <Menu.Item key='7'>
+                        <Link to='/find_user/mutual_friends'>
+                          Mutual friends
+                        </Link>
+
+                      </Menu.Item>
+
                     </MenuItemGroup>}
                   {matchProps.match.path === '/my_profile' &&
                     <MenuItemGroup title='User Profile'>
-                      <Menu.Item key='7'>Account information</Menu.Item>
-                      <Menu.Item key='8'>My following</Menu.Item>
-                      <Menu.Item key='9'>My followers</Menu.Item>
-                      <Menu.Item key='10'>My favorite/wish list</Menu.Item>
+                      <Menu.Item key='8'>Account information</Menu.Item>
+                      <Menu.Item key='9'>My following</Menu.Item>
+                      <Menu.Item key='10'>My followers</Menu.Item>
+                      <Menu.Item key='11'>My favorite/wish list</Menu.Item>
                     </MenuItemGroup>}
                 </Menu>
               </Sider>
@@ -157,7 +169,11 @@ export class ComponentRoutes extends Component {
           path='/dining/restaurant_heatmap'
           component={HeatMap}
         />
-
+        <PrivateRoute
+          exact
+          path='/find_user/mutual_friends'
+          component={MutualFriends}
+        />
         <PrivateRoute exact path='/movie' component={Movie} />
         <PrivateRoute exact path='/find_user' component={FindUser} />
         <PrivateRoute exact path='/expense' component={Expense} />
