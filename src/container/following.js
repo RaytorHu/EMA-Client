@@ -31,7 +31,6 @@ class MyFollowing extends Component {
   render () {
     return (
       <div>
-        <h1>My following</h1>
         <UserList users={this.state.users} />
       </div>
     )

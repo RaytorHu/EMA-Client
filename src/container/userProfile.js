@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
-import { Card, Avatar, Button, Modal, Input, Row, Col } from 'antd'
+import { Card, Avatar, Button, Modal, Input, Row, Col, Tabs, Icon } from 'antd'
 import storage from '../utils/Storage'
 import AvatarUploader from '../component/avatarUploader'
+import Following from '../container/following'
+import Followers from '../container/followers'
+const TabPane = Tabs.TabPane
 const { Meta } = Card
 
 class UserProfile extends Component {
@@ -36,7 +39,13 @@ class UserProfile extends Component {
     return (
       <div>
         <Card
-          style={{ width: '70%', left: 120 }}
+          cover={
+            <img
+              alt='example'
+              src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
+            />
+          }
+          style={{ width: 400, left: 250 }}
           actions={[
             <div>
               <Button icon='edit' onClick={this.showModal} />
@@ -80,6 +89,17 @@ class UserProfile extends Component {
             description={this.state.user && this.state.user.email}
           />
         </Card>
+
+        <br /><br />
+
+        <Tabs defaultActiveKey='1'>
+          <TabPane tab={<span><Icon type='user' />Followings</span>} key='1'>
+            <Following />
+          </TabPane>
+          <TabPane tab={<span><Icon type='user' />Followers</span>} key='2'>
+            <Followers />
+          </TabPane>
+        </Tabs>
       </div>
     )
   }
