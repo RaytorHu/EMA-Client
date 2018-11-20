@@ -19,7 +19,6 @@ const IconText = ({ type, text }) => (
 class MovieList extends Component {
     constructor(props){
         super(props);
-        let review_struc = [];
         this.state={
             Mdata: [],
             reviews: [],
@@ -28,6 +27,7 @@ class MovieList extends Component {
             review_title: '',
             review_content: '',
             review_movie_id: '',
+            del_id:''
         };
     }
 
@@ -153,7 +153,7 @@ class MovieList extends Component {
             alert("Please input content for the review.");
         }
         else{
-            const record = [this.state.review_movie_id, [this.state.review_title, this.state.review_content]];
+            const record = [this.state.review_movie_id, storage.getUserInfo().id, [this.state.review_title, this.state.review_content]];
             const rec = this.state.reviews;
             rec.push(record);
             this.setState({
@@ -171,6 +171,10 @@ class MovieList extends Component {
             review_movie_id: ''
         });
         this.forceUpdate();
+    }
+
+    handleReviewDelete(reviewID){
+        console.log(reviewID);
     }
 
     onTitleChange(event){
@@ -279,6 +283,9 @@ class MovieList extends Component {
                 content={this.state.review_content}
                 reviews={this.state.reviews}
                 movie_id={this.state.review_movie_id}
+                userID={storage.getUserInfo().id}
+                permission={1}
+                onDelete={this.handleReviewDelete.bind(this)}
             ></ReviewModal>
             </div>
         );

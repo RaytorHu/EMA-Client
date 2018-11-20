@@ -20,7 +20,14 @@ class ReviewModal extends Component{
         let newList = [];
         for(let i =0; i < this.state.reviews.length; i++){
             if(newProps.reviews[i][0] === this.props.movie_id){
-                newList.push(newProps.reviews[i][1]);
+                let target = newProps.reviews[i][2];
+                if(newProps.reviews[i][1] === newProps.userID || newProps.reviews[i][1] == newProps.permission){
+                    target.push(false);
+                }
+                else{
+                    target.push(true);
+                }
+                newList.push(target);
             }
         }
         this.setState({
@@ -40,7 +47,10 @@ class ReviewModal extends Component{
                     onOk={this.props.handleOk}
                     onCancel={this.props.handleCancel}
                 >
-                        <MovieReview reviews={this.state.target}/>
+                        <MovieReview 
+                            reviews={this.state.target}
+                            onDelete={this.props.onDelete}
+                        />
                         <label><strong>Add Review</strong></label><br/><br/>
 
                         <label>Title</label>
