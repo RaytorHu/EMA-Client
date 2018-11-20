@@ -10,14 +10,6 @@ class Navigation extends Component {
   }
 
   render () {
-    const adminButton = storage.canReadUser() ?
-    (<Menu.Item>
-      <Link to='/manage/analysis'>
-        <Icon type='user' />
-        Admin Dashboard
-      </Link>
-    </Menu.Item>) : null;
-
     return (
       <div className='Navigation'>
         <Header className='header'>
@@ -48,8 +40,6 @@ class Navigation extends Component {
                 Expenses
               </Link>
             </Menu.Item>
-
-            {adminButton}
 
             <Menu.Item
               style={{

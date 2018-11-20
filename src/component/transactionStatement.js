@@ -554,7 +554,7 @@ class TransactionStatement extends Component {
   
         <Card loading={this.state.loading}>
 
-          <Table dataSource={this.state.transactions} columns={columns}  pagination={{ pageSize: 500 }}/>
+          <Table dataSource={this.state.transactions} columns={columns}  pagination={{ pageSize: 100 }}/>
 
         </Card>
 

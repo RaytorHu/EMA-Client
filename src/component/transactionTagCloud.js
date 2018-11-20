@@ -48,7 +48,7 @@ class TransactionTagCloud extends Component {
             <div>
                 <TagCloud
                     data={this.state.tagCloudData}
-                    height={500}
+                    height={300}
                 />
             </div>
         );

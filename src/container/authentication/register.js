@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Form, Input, Button } from 'antd';
 import AuthLayout from './layout';
 import AuthServer from '../../server/authentication';
-import PermissionServer from '../../server/permissions';
 
 const FormItem = Form.Item;
 
@@ -17,7 +16,6 @@ class RegisterForm extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.setState({ loading: true });
-        PermissionServer.getAllPermissions();
         AuthServer.register(values.username, values.email, values.password).then(success => {
           if (success === false) {
             this.setState({ loading: false });

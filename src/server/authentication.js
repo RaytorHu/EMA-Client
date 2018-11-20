@@ -21,7 +21,6 @@ const login = async (email, password) => {
 
     storage.setAuthToken(res.data.token);
     storage.setUserInfo(res.data.data);
-    storage.setUserPermissionIds(res.data.permissionIds);
     window.location.reload();
 
     return true;
@@ -57,7 +56,6 @@ const register = async (username, email, password) => {
   
     storage.setAuthToken(res.data.token);
     storage.setUserInfo(res.data.data);
-    storage.setUserPermissionIds(res.data.permissionIds);
     window.location.reload();
 
     return true;

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Form, Icon, Input, Button } from 'antd';
 import AuthLayout from './layout';
 import AuthServer from '../../server/authentication';
-import PermissionServer from '../../server/permissions';
 
 const FormItem = Form.Item;
 
@@ -16,7 +15,6 @@ class LoginForm extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
-        PermissionServer.getAllPermissions();
         AuthServer.login(values.email, values.password).then(success => {
           if (success === false) {
             this.setState({ loading: false });
