@@ -30,7 +30,7 @@ class TransactionPieChart extends Component {
                     total={() => (
                         <span> Your Pie !</span> 
                     )}
-                    valueFormat={val => <span> $ {val} </span>}
+                    valueFormat={val => <span> </span>}
                     title="Your Spending Distribution"
                     subTitle="Your Spending Distribution"
                     data={this.state.pieChartData}
