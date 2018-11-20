@@ -5,7 +5,7 @@ import storage from '../utils/Storage';
 const baseUrl = config.base_url;
 
 const server = axios.create({
-  baseURL: config.base_url,
+    baseURL: config.base_url,
 });
 
 /**

@@ -57,8 +57,29 @@ const enableUser = async (userId) => {
     return res.data.data;
 };
 
+/**
+ * Search a user
+ * 
+ * @param {String} input The fragment user want to search
+ */
+const searchUser = async (input) => {
+    const options = {
+        headers: {
+            Authorization: `Bearer ${storage.getAuthToken()}`
+        }
+    };
+
+    const res = await server.post(baseUrl + 'api/v1/user/search', {
+        input: input,
+        withTrashed: true,
+    }, options);
+
+    return res.data.data;
+};
+
 export default {
     getAllUsers,
     disableUser,
     enableUser,
+    searchUser,
 };
