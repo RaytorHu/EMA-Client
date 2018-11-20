@@ -11,12 +11,15 @@ class FindUser extends Component {
   state = {
     users: []
   }
-  getUserList = async value => {
+  getUserList = async input => {
     axios({
-      method: 'get',
-      url: config.base_url + 'api/v1/user/search/' + value,
+      method: 'POST',
+      url: config.base_url + 'api/v1/user/search/',
       headers: {
         Authorization: 'Bearer ' + storage.getAuthToken()
+      },
+      data: {
+        input: input
       }
     }).then(response => {
       this.setState({
