@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import config from '../config';
 import myData from "./data/demoRestaurant.json";
+import storage from '../utils/Storage'
 //import RefineResult from "../component/diningRefineResult";
 import DiningList from "../component/diningList";
 import { List, Avatar, Icon, Rate, Input, Select, Button } from "antd";
@@ -21,6 +22,12 @@ const baseUrl = config.base_url;
 const server = axios.create({
   baseURL: config.base_url,
 });
+
+const header = {
+  headers: {
+    Authorization: 'Bearer ' + storage.getAuthToken()
+  }
+}
 
 const Option = Select.Option;
 
@@ -45,6 +52,7 @@ class Dining extends React.Component {
 
   componentDidMount = () => {
     this.handleSearchRequest("Vancouver").then(Response => {
+      console.log(Response);
       this.setState({
         listData: Array.from(Response),
         listLoading: false
@@ -78,18 +86,32 @@ class Dining extends React.Component {
   }
 
   handleSearchRequest = async (value) => {
-    try {
-      let string = JSON.stringify({
-        location: value,
-      });
-      console.log(string);
-      const res = await server.get(baseUrl + 'api/v1/dining/restaurant_search/' + string);
-      //console.log(res);
-      return res.data.data;
-    } catch (err) {
-      //console.log(Array.from(err));
-      return false;
-    }
+    let string = JSON.stringify({
+      location: value,
+    });
+    axios({
+      method: 'get',
+      url: config.base_url + 'api/v1/dining/restaurant_search/' + string,
+      headers: {
+        Authorization: 'Bearer ' + storage.getAuthToken()
+      }
+    }).then(response => {
+      console.log("Got Response!")
+      return response.data.data;
+    });
+
+
+    // try {
+    //   // let string = JSON.stringify({
+    //   //   location: value,
+    //   // });
+    //   // console.log(string);
+    //   const res = await server.get(baseUrl + 'api/v1/dining/restaurant_search/' + string, header);
+    //   return res.data.data;
+    // } catch (err) {
+    //   //console.log(Array.from(err));
+    //   return false;
+    // }
   };
 
   getRestaurantList = (value) => {
@@ -129,15 +151,27 @@ class Dining extends React.Component {
   }
 
   handleRefineRequest = async () => {
-    try {
-      let state = this.generateStateString();
-      console.log(state);
-      const res = await server.get(baseUrl + 'api/v1/dining/restaurant_search/' + state);
-      return res.data.data;
-    } catch (err) {
-      console.log(Array.from(err));
-      return false;
-    }
+    let state = this.generateStateString();
+    axios({
+      method: 'get',
+      url: config.base_url + 'api/v1/dining/restaurant_search/' + state,
+      headers: {
+        Authorization: 'Bearer ' + storage.getAuthToken()
+      }
+    }).then(response => {
+      return response.data.data;
+    });
+
+
+    // try {
+    //   let state = this.generateStateString();
+    //   console.log(state);
+    //   const res = await server.get(baseUrl + 'api/v1/dining/restaurant_search/' + state, header);
+    //   return res.data.data;
+    // } catch (err) {
+    //   console.log(Array.from(err));
+    //   return false;
+    // }
   }
 
   refineResult = () => {
@@ -189,9 +223,10 @@ class Dining extends React.Component {
           onChange={this.handleCategoriesChange}
           filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
         >
-          <Option value="asianfusion">Asian Fusion</Option>
+          <Option value="japanese">Japanese Food</Option>
           <Option value="bakeries">Bakeries</Option>
           <Option value="hotdogs">Fast Food</Option>
+          <Option value="chinese">Chinese Food</Option>
           <Option value="bars">Bars</Option>
           <Option value="">Default</Option>
         </Select>
@@ -220,7 +255,6 @@ class Dining extends React.Component {
         >
           <Option value="true">Yes</Option>
           <Option value="false">No</Option>
-          <Option value="true">Default</Option>
         </Select>
 
         <Select

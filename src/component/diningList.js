@@ -51,7 +51,7 @@ class DiningList extends Component {
                             key={item.name}
                             actions={[
                                 <IconText type="star-o" text={item.review_count} />,
-                                <Rate disabled defaultValue={item.rating} />,
+                                <Rate allowHalf disabled defaultValue={item.rating} />,
                                 <p>{item.price || "N/A"}</p>
 
                             ]}
