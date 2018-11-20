@@ -47,7 +47,7 @@ class Review extends Component{
                     // avatar={<Avatar src={storage.getUserInfo().avatarUrl} />}
                     title={
                       <div>
-                        <p style={{textDecoration: "underline", fontWeight: "bold", fontSize: 16}}>{storage.getUserInfo().username}</p>
+                        <p style={{textDecoration: "underline", fontWeight: "bold", fontSize: 16}}>{item.userName}</p>
                       </div>
                     }
                     description={
