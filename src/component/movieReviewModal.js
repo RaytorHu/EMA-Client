@@ -22,10 +22,10 @@ class ReviewModal extends Component{
             if(newProps.reviews[i][0] === this.props.movie_id){
                 let target = newProps.reviews[i][2];
                 if(newProps.reviews[i][1] === newProps.userID || newProps.reviews[i][1] == newProps.permission){
-                    target.push(false);
+                    target.push("block");
                 }
                 else{
-                    target.push(true);
+                    target.push("none");
                 }
                 newList.push(target);
             }

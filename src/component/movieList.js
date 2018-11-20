@@ -5,6 +5,7 @@ import config from "../config.js";
 import axios from "axios";
 import storage from "../utils/Storage";
 import ReviewModal from "./movieReviewModal";
+import MovieSearch from "./movieSearch";
 
 const addToWishlist = 'Add to wishlist';
 const removeFromWishlist = 'Remove from wishlist';
@@ -21,6 +22,7 @@ class MovieList extends Component {
         super(props);
         this.state={
             Mdata: [],
+            outputList: [],
             reviews: [],
             favorite_list: [],
             modal_visible: false,
@@ -75,6 +77,7 @@ class MovieList extends Component {
         }
         this.setState({
             Mdata: tmp,
+            outputList: tmp
         });
     };
 
@@ -191,6 +194,26 @@ class MovieList extends Component {
         this.forceUpdate();
     }
 
+    onSearch(value){
+        let target = [];
+        if(value.trim() != ""){
+            for(let i =0; i < this.state.Mdata.length; i++){
+                if(this.state.Mdata[i].title.toLowerCase().includes(value)){
+                    target.push(this.state.Mdata[i]);
+                }
+            }
+        }
+        else{
+            alert("Please input title to search for movies");
+            target = this.state.Mdata;
+        }
+        this.setState({
+            outputList: target
+        });
+
+        this.forceUpdate();
+    }
+
     addTransaction(title){
         const regex = /[0-9]+/;
         const query = "Please enter the price of the movie ticket";
@@ -245,13 +268,14 @@ class MovieList extends Component {
     render() {
         return (
             <div>
+            <MovieSearch onSearch={this.onSearch.bind(this)}></MovieSearch>
             <List
                 itemLayout="vertical"
                 size="large"
                 pagination={{
                     pageSize: 5,
                 }}
-                dataSource={this.state.Mdata}
+                dataSource={this.state.outputList}
                 renderItem={item => (
                     <List.Item
                         key={item.id}

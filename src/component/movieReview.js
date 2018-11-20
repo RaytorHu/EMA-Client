@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { List, Avatar, Icon, Button } from 'antd';
 import storage from "../utils/Storage";
+import 'antd/dist/antd.css';
 
 const IconText = ({ type, text }) => (
   <span>
@@ -41,7 +42,7 @@ class Review extends Component{
               renderItem={item => (
                 <List.Item
                   key={item[0] + item[1]}
-                  extra={<Button type="danger" disabled={item[2]} onClick={this.handleDelete.bind(this, item[0] + item[2])}>Delete</Button>}
+                  extra={<Button type="danger" style={ {display:item[2]}} onClick={this.handleDelete.bind(this, item[0] + item[2])}>Delete</Button>}
                 >
                   <List.Item.Meta
                     // avatar={<Avatar src={storage.getUserInfo().avatarUrl} />}
