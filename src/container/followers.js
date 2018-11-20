@@ -5,22 +5,23 @@ import config from '../config.js'
 import axios from 'axios'
 import UserList from '../component/userList'
 
-const Search = Input.Search
-
-class FindUser extends Component {
+class MyFollowing extends Component {
   state = {
     users: []
   }
-  getUserList = async value => {
+  componentDidMount () {
+    this.getUserList()
+  }
+  getUserList () {
     axios({
       method: 'get',
-      url: config.base_url + 'api/v1/user/search/' + value,
+      url: config.base_url + 'api/v1/user/' + storage.getUserInfo().id,
       headers: {
         Authorization: 'Bearer ' + storage.getAuthToken()
       }
     }).then(response => {
       this.setState({
-        users: response.data.data,
+        users: response.data.followers,
         loading: false
       })
     })
@@ -29,17 +30,11 @@ class FindUser extends Component {
   render () {
     return (
       <div>
-        <h1>Find User</h1>
-        <Search
-          placeholder='name/email/id'
-          onSearch={value => this.getUserList(value)}
-          style={{ width: 200 }}
-        />
-        <br /><br />
+        <h1>My followers</h1>
         <UserList users={this.state.users} />
       </div>
     )
   }
 }
 
-export default FindUser
+export default MyFollowing

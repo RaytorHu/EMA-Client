@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import Routing from "./layout/routing";
+import React, { Component } from 'react'
+import Routing from './layout/routing'
 
 class App extends Component {
   state = {
-    username: "test user"
-  };
-  render() {
+    username: 'test user'
+  }
+  render () {
     return (
-      <div className="App" style={{ backgroundColor: "#4286f4" }}>
+      <div className='App' style={{ backgroundColor: '#4286f4' }}>
         <Routing />
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
