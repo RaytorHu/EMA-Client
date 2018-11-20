@@ -49,17 +49,23 @@ class ReviewModal extends Component{
                         btnShow: 'none'
                     });
                 }
-                this.setState({
-                    visible: newProps.visible,
-                    target: newList
-                });
-                this.forceUpdate();
+                if(i === newProps.reviews.length-1){
+                    this.setState({
+                        target: newList
+                    });
+                    this.forceUpdate();
+                }
             })
             .catch((err)=>{
                 console.log(err);
                 alert("Unexpected error occured. Please try again later");
             });
         }
+        this.setState({
+            visible: newProps.visible,
+            target: []
+        });
+        this.forceUpdate();
     }
 
     render(){
