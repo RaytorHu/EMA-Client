@@ -1,6 +1,10 @@
 import React, { Component } from "react";
+import axios from "axios";
+import config from '../config';
 import myData from "./data/demoRestaurant.json";
-import { List, Avatar, Icon, Rate, Input } from "antd";
+//import RefineResult from "../component/diningRefineResult";
+import DiningList from "../component/diningList";
+import { List, Avatar, Icon, Rate, Input, Select, Button } from "antd";
 //import DiningSearch from "../component/restaurantSearch";
 //import { getRestaurants } from "../api/diningAPI";
 const Search = Input.Search;
@@ -12,156 +16,246 @@ const IconText = ({ type, text }) => (
   </span>
 );
 
-function generateKeywordList(business) {
-  let list = [];
-  list.push(
-    business.name.toLowerCase(),
-    business.display_phone.replace(/[^0-9]/g, ""),
-    business.location.address1.toLowerCase(),
-    business.location.city.toLowerCase(),
-    business.rating.toString(),
-    business.price || "N/A"
-  );
-  return list;
-}
+const baseUrl = config.base_url;
 
-function matchKeywordList(business, key) {
-  let keyList;
-  keyList = key
-    .replace(/[^0-9a-zA-Z]^\$/g, "")
-    .toLowerCase()
-    .split(" ");
-  let keywordList = generateKeywordList(business);
-  let match;
-  for (let j = 0; j < keyList.length; j++) {
-    match = false;
-    for (let i = 0; i < keywordList.length; i++) {
-      if (keywordList[i].includes("$") && keywordList[i] === keyList[j]) {
-        match = true;
-      } else if (keywordList[i].includes(keyList[j])) {
-        match = true;
-      }
-    }
-    if (!match) {
-      return false;
-    }
-  }
-  return match;
-}
+const server = axios.create({
+  baseURL: config.base_url,
+});
 
-function keywordSearch(list, key) {
-  let result = [];
-  for (let i = 0; i < list.businesses.length; i++) {
-    if (matchKeywordList(list.businesses[i], key)) {
-      result.push(list.businesses[i]);
-    }
-  }
+const Option = Select.Option;
 
-  return result;
-}
+class Dining extends React.Component {
 
-function getRestaurants(value) {
-  let data = JSON.parse(JSON.stringify(myData));
-
-  if (!value || value === "") {
-    alert("Please enter your keyword");
-    return data.businesses;
-  } else {
-    let result = keywordSearch(data, value);
-    return result;
-  }
-}
-
-class Dining extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listData: []
+      listData: [],
+      listLoading: true,
+      loading: false,
+      iconloading: false,
+      location: "",
+      price: "",
+      categories: "",
+      sort_by: "",
+      open_now: true,
+      attributes: "",
+      iconloading: false,
     };
   }
 
-  initList = () => {
-    const listData = [];
+  componentDidMount = () => {
+    this.handleSearchRequest("Vancouver").then(Response => {
+      this.setState({
+        listData: Array.from(Response),
+        listLoading: false
+      });
+      this.forceUpdate();
+    });
+  };
 
-    for (let i = 0; i < Object.keys(myData.businesses).length; i++) {
-      listData.push({
-        url: myData.businesses[i].url,
-        name: myData.businesses[i].name,
-        image_url: myData.businesses[i].image_url,
-        display_phone: myData.businesses[i].display_phone,
-        location: {
-          address1: myData.businesses[i].location.address1,
-          city: myData.businesses[i].location.city
-        },
+  handleChange(value) {
+    console.log(value);
+  }
 
-        rating: myData.businesses[i].rating,
-        review_count: myData.businesses[i].review_count,
-        price: myData.businesses[i].price
+  handlePriceChange = (value) => {
+    this.setState({ price: value });
+  }
+
+  handleCategoriesChange = (value) => {
+    this.setState({ categories: value });
+  }
+
+  handleSortChange = (value) => {
+    this.setState({ sort_by: value });
+  }
+
+  handleOpenNowChange = (value) => {
+    this.setState({ open_now: value });
+  }
+
+  handleSpecialChange = (value) => {
+    this.setState({ attributes: value });
+  }
+
+  handleSearchRequest = async (value) => {
+    try {
+      let string = JSON.stringify({
+        location: value,
+      });
+      console.log(string);
+      const res = await server.get(baseUrl + 'api/v1/dining/restaurant_search/' + string);
+      //console.log(res);
+      return res.data.data;
+    } catch (err) {
+      //console.log(Array.from(err));
+      return false;
+    }
+  };
+
+  getRestaurantList = (value) => {
+    let data = JSON.parse(JSON.stringify(myData));
+    if (!value || value === "") {
+      alert("Please enter your keyword");
+      this.setState({
+        location: "vancouver",
+        listData: data.businesses,
+        listLoading: false
+      });
+    } else {
+      this.handleSearchRequest(value).then(Response => {
+        this.setState({
+          location: value,
+          listData: Array.from(Response),
+          listLoading: false
+        });
       });
     }
+  }
 
-    return listData;
-  };
+  enterLoading = () => {
+    this.setState({ loading: true });
+  }
 
-  componentDidMount = () => {
-    var listData = this.initList();
-    this.setState({
-      listData
+  generateStateString = () => {
+    let res = JSON.stringify({
+      location: this.state.location,
+      price: this.state.price,
+      categories: this.state.categories,
+      sort_by: this.state.sort_by,
+      open_now: this.state.open_now,
+      attributes: this.state.attributes,
     });
-  };
+    return res;
+  }
 
-  getRestaurantList = value => {
-    let a = getRestaurants(value);
-    this.setState({
-      listData: a
-    });
+  handleRefineRequest = async () => {
+    try {
+      let state = this.generateStateString();
+      console.log(state);
+      const res = await server.get(baseUrl + 'api/v1/dining/restaurant_search/' + state);
+      return res.data.data;
+    } catch (err) {
+      console.log(Array.from(err));
+      return false;
+    }
+  }
 
-    // return await getRestaurants(value).then(data => {
-    //   return this.setState({ listData: data });
-    // });
-  };
+  refineResult = () => {
+    this.handleRefineRequest(this.state).then(Response => {
+      this.setState({
+        listData: Array.from(Response),
+        listLoading: false,
+        iconloading: false,
+      });
+    })
+  }
 
   render() {
     return (
       <div>
-        <Search
-          placeholder="Please enter city, price level ($-$$$$) or name, etc."
+        <Search style={{
+          alignContent: "left",
+          width: "100%",
+          display: "block"
+        }}
+          placeholder="Location (Road Number, City)"
           onSearch={value => {
+            this.setState({ listLoading: true });
             this.getRestaurantList(value);
           }}
           enterButton
         />
 
-        <List
-          itemLayout="vertical"
-          size="large"
-          pagination={{
-            onChange: page => {
-              console.log(page);
-            },
-            pageSize: 5
+        <Select
+          showSearch
+          style={{ width: 100 }}
+          placeholder="Price"
+          optionFilterProp="children"
+          onChange={this.handlePriceChange}
+          filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+        >
+          <Option value="1">$</Option>
+          <Option value="2">$$</Option>
+          <Option value="3">$$$</Option>
+          <Option value="4">$$$$</Option>
+          <Option value="">Default</Option>
+        </Select>
+
+        <Select
+          showSearch
+          style={{ width: 150 }}
+          placeholder="Category"
+          optionFilterProp="children"
+          onChange={this.handleCategoriesChange}
+          filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+        >
+          <Option value="asianfusion">Asian Fusion</Option>
+          <Option value="bakeries">Bakeries</Option>
+          <Option value="hotdogs">Fast Food</Option>
+          <Option value="bars">Bars</Option>
+          <Option value="">Default</Option>
+        </Select>
+
+        <Select
+          showSearch
+          style={{ width: 150 }}
+          placeholder="Sort By"
+          optionFilterProp="children"
+          onChange={this.handleSortChange}
+          filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+        >
+          <Option value="best_match">Best Match</Option>
+          <Option value="rating">Rating</Option>
+          <Option value="review_count">Review Count</Option>
+          <Option value="">Default</Option>
+        </Select>
+
+        <Select
+          showSearch
+          style={{ width: 150 }}
+          placeholder="Open Now"
+          optionFilterProp="children"
+          onChange={this.handleOpenNowChange}
+          filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+        >
+          <Option value="true">Yes</Option>
+          <Option value="false">No</Option>
+          <Option value="true">Default</Option>
+        </Select>
+
+        <Select
+          showSearch
+          style={{ width: 150 }}
+          placeholder="Special"
+          optionFilterProp="children"
+          onChange={this.handleSpecialChange}
+          filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+        >
+          <Option value="hot_and_new">Hot&New</Option>
+          <Option value="cashback">Yelp Cashback</Option>
+          <Option value="reservation">Reservation Ready</Option>
+          <Option value="">Default</Option>
+        </Select>
+
+        <Button
+          type="primary"
+          icon="sync"
+          loading={this.state.iconloading}
+          onClick={() => {
+            this.setState({
+              iconloading: true,
+              listLoading: true,
+            });
+            this.refineResult();
           }}
-          dataSource={this.state.listData}
-          renderItem={item => (
-            <List.Item
-              key={item.name}
-              actions={[
-                <IconText type="star-o" text={item.review_count} />,
-                <Rate disabled defaultValue={item.rating} />,
-                <p>{item.price || "N/A"}</p>
-                // <IconText type="like-o" text="156" />,
-                // <IconText type="message" text="2" />
-              ]}
-              extra={<img width={272} alt="logo" src={item.image_url} />}
-            >
-              <List.Item.Meta
-                avatar={<Avatar src={item.image_url} />}
-                title={<a href={item.url}>{item.name}</a>}
-                description={item.display_phone}
-              />
-              {item.location.address1 + ", " + item.location.city}
-            </List.Item>
-          )}
+          iconloading={this.iconloading}
+        >
+          Refine Result
+          </Button>
+
+        <DiningList
+          listData={this.state.listData}
+          loading={this.state.listLoading}
         />
       </div>
     );
