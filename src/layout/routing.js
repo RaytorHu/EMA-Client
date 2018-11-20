@@ -94,13 +94,13 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
                     <MenuItemGroup title='Users'>
                       <Menu.Item key='manage-analysis'>
                         <Link to='/manage/analysis'>
-                          <Icon type="line-chart" />
+                          <Icon type='line-chart' />
                           App Analysis
                         </Link>
                       </Menu.Item>
                       <Menu.Item key='manage-users'>
                         <Link to='/manage/users'>
-                          <Icon type="user" />
+                          <Icon type='user' />
                           User Management
                         </Link>
                       </Menu.Item>
@@ -161,18 +161,7 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
 
                 <Footer id='footer'>I don't know the app's name</Footer>
               </Layout>
-              <Sider
-                defaultCollapsed
-                collapsible
-                reverseArrow
-                onCollapse={(collapsed, type) => {
-                  console.log(collapsed, type)
-                }}
-                width={200}
-                style={{ background: '#fff' }}
-              >
-                Message
-              </Sider>
+
             </Layout>
           </Layout>
         </div>
@@ -240,7 +229,11 @@ export class ComponentRoutes extends Component {
         <PrivateRoute exact path='/movie' component={Movie} />
         <PrivateRoute exact path='/find_user' component={FindUser} />
         <PrivateRoute exact path='/expense' component={Expense} />
-        <PrivateRoute exact path='/expense/expense_analysis' component={ExpenseAnalysis} />
+        <PrivateRoute
+          exact
+          path='/expense/expense_analysis'
+          component={ExpenseAnalysis}
+        />
         <PrivateRoute exact path='/manage/analysis' component={AppAnalysis} />
         <PrivateRoute exact path='/manage/users' component={UserManagement} />
         <PrivateRoute exact path='/my_profile' component={UserProfile} />
