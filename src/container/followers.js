@@ -30,7 +30,6 @@ class MyFollowing extends Component {
   render () {
     return (
       <div>
-        <h1>My followers</h1>
         <UserList users={this.state.users} />
       </div>
     )

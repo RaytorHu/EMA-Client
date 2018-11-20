@@ -129,17 +129,8 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
                           Account Info
                         </Link>
                       </Menu.Item>
+
                       <Menu.Item key='9'>
-                        <Link to='/my_profile/following'>
-                          My Following
-                        </Link>
-                      </Menu.Item>
-                      <Menu.Item key='10'>
-                        <Link to='/my_profile/followers'>
-                          My Followers
-                        </Link>
-                      </Menu.Item>
-                      <Menu.Item key='11'>
                         {' '}<Link to='/my_profile/favorite'>
                           My Favorite
                         </Link>
@@ -211,16 +202,7 @@ export class ComponentRoutes extends Component {
           path='/find_user/mutual_friends'
           component={MutualFriends}
         />
-        <PrivateRoute
-          exact
-          path='/my_profile/following'
-          component={MyFollowing}
-        />
-        <PrivateRoute
-          exact
-          path='/my_profile/followers'
-          component={MyFollowers}
-        />
+
         <PrivateRoute
           exact
           path='/my_profile/favorite'
