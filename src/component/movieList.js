@@ -136,7 +136,6 @@ class MovieList extends Component {
     showmodal(id){
         this.setState({
             modal_visible: true,
-            review_movie_id: id,
         });
         this.forceUpdate();
     }
@@ -156,16 +155,53 @@ class MovieList extends Component {
             alert("Please input content for the review.");
         }
         else{
-            const record = [this.state.review_movie_id, storage.getUserInfo().id, [this.state.review_title, this.state.review_content]];
-            const rec = this.state.reviews;
-            rec.push(record);
-            this.setState({
-                reviews: rec,
-                review_title: '',
-                review_content: '',
+            axios({
+                method: 'POST',
+                url: config.base_url + 'api/v1/review',
+                data: {
+                    reviewTitle: this.state.review_title,
+                    reviewContent: this.state.review_content,
+                    movieId: this.state.review_movie_id
+                },
+                headers:{
+                    'Authorization': 'Bearer ' + storage.getAuthToken()
+                }
+            })
+            .then((response) =>{
+                this.getReviews(this.state.review_movie_id, false);
+                this.setState({
+                    review_title: '',
+                    review_content: ''
+                })
+            })
+            .catch((err)=>{
+                console.log(err);
+                alert("Unexpected error occured. Please try again later");
             });
-            this.forceUpdate();
         }
+    }
+
+    getReviews(movieID, showBool){
+        axios({
+            method: 'get',
+            url: config.base_url + 'api/v1/review/'+movieID,
+            headers:{
+                'Authorization': 'Bearer ' + storage.getAuthToken()
+            }
+        })
+        .then((response) =>{
+            this.setState({
+                review_movie_id: movieID,
+                reviews: response.data.data
+            });
+            if(showBool){
+                this.showmodal();
+            }
+        })
+        .catch((err)=>{
+            console.log(err);
+            alert("Unexpected error occured. Please try again later");
+        });
     }
 
     handleCancel(){
@@ -177,7 +213,20 @@ class MovieList extends Component {
     }
 
     handleReviewDelete(reviewID){
-        console.log(reviewID);
+        axios({
+            method: 'delete',
+            url: config.base_url + 'api/v1/review/'+reviewID,
+            headers:{
+                'Authorization': 'Bearer ' + storage.getAuthToken()
+            }
+        })
+        .then((response) =>{
+            this.getReviews(this.state.review_movie_id, false);
+        })
+        .catch((err)=>{
+            console.log(err);
+            alert("Unexpected error occured. Please try again later");
+        });
     }
 
     onTitleChange(event){
@@ -196,7 +245,7 @@ class MovieList extends Component {
 
     onSearch(value){
         let target = [];
-        if(value.trim() != ""){
+        if(value.trim() !== ""){
             for(let i =0; i < this.state.Mdata.length; i++){
                 if(this.state.Mdata[i].title.toLowerCase().includes(value)){
                     target.push(this.state.Mdata[i]);
@@ -285,7 +334,7 @@ class MovieList extends Component {
                             <p>trailer: <a href={item.trailer} target="_blank"><Icon type="play-circle"/></a></p>,
                             <p><IconText type="heart"/><Button onClick={() => this.handleClick(item.id, item.avatar, item.title)}>{item.btnText}</Button></p>,
                             <p><IconText type="pay-circle"/><Button onClick={() => this.addTransaction(item.title)}>Add transaction</Button></p>,
-                            <p><IconText type="message"/><Button onClick={() => this.showmodal(item.id)}>Reviews</Button></p>
+                            <p><IconText type="message"/><Button onClick={() => this.getReviews(item.id, true)}>Reviews</Button></p>
                         ]}
                         extra={<img width={250} alt="logo" src={item.avatar} />}
                     >
@@ -306,9 +355,8 @@ class MovieList extends Component {
                 title={this.state.review_title}
                 content={this.state.review_content}
                 reviews={this.state.reviews}
-                movie_id={this.state.review_movie_id}
                 userID={storage.getUserInfo().id}
-                permission={1}
+                // permission={storage.canDeleteComments()}
                 onDelete={this.handleReviewDelete.bind(this)}
             ></ReviewModal>
             </div>

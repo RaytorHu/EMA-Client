@@ -25,7 +25,6 @@ class Review extends Component{
     }
 
     handleDelete(review_id){
-        console.log(review_id);
         this.props.onDelete(review_id);
     }
 
@@ -41,15 +40,26 @@ class Review extends Component{
               dataSource={this.state.data}
               renderItem={item => (
                 <List.Item
-                  key={item[0] + item[1]}
-                  extra={<Button type="danger" style={ {display:item[2]}} onClick={this.handleDelete.bind(this, item[0] + item[2])}>Delete</Button>}
+                  key={item.id}
+                  extra={<Button type="danger" style={ {display: item.btnShow}} onClick={this.handleDelete.bind(this, item.id)}>Delete</Button>}
                 >
                   <List.Item.Meta
                     // avatar={<Avatar src={storage.getUserInfo().avatarUrl} />}
-                    title={storage.getUserInfo().username}
-                    description={"title: " + item[0]}
+                    title={
+                      <div>
+                        <p style={{textDecoration: "underline", fontWeight: "bold", fontSize: 16}}>{storage.getUserInfo().username}</p>
+                      </div>
+                    }
+                    description={
+                      <div>
+                        <p>
+                          <strong style={{fontStyle:"italic", fontSize: 15}}>Title: {item.title}</strong>
+                        </p>
+                        <hr/>
+                      </div>
+                    }
                   />
-                  {item[1]}
+                  {<p style={{fontSize: 14}}>{item.content}</p>}
                 </List.Item>
               )}
             />
