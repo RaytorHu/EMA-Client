@@ -15,6 +15,8 @@ import ExpenseAnalysis from '../container/expenseAnalysis'
 import Settings from '../container/settings'
 import Login from '../container/authentication/login'
 import Register from '../container/authentication/register'
+import AppAnalysis from '../container/admin/AppAnalysis'
+import UserManagement from '../container/admin/UserManagement'
 import storage from '../utils/Storage'
 import UserProfile from '../container/userProfile'
 import { Layout, Menu, Icon } from 'antd'
@@ -88,6 +90,21 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
                         </Link>
                       </Menu.Item>
                     </MenuItemGroup>}
+                  {matchProps.match.path.startsWith('/manage') &&
+                    <MenuItemGroup title='Users'>
+                      <Menu.Item key='manage-analysis'>
+                        <Link to='/manage/analysis'>
+                          <Icon type='line-chart' />
+                          App Analysis
+                        </Link>
+                      </Menu.Item>
+                      <Menu.Item key='manage-users'>
+                        <Link to='/manage/users'>
+                          <Icon type='user' />
+                          User Management
+                        </Link>
+                      </Menu.Item>
+                    </MenuItemGroup>}
                   {matchProps.match.path.startsWith('/find_user') &&
                     <MenuItemGroup title='Social'>
                       <Menu.Item key='6'>
@@ -144,18 +161,7 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
 
                 <Footer id='footer'>I don't know the app's name</Footer>
               </Layout>
-              <Sider
-                defaultCollapsed
-                collapsible
-                reverseArrow
-                onCollapse={(collapsed, type) => {
-                  console.log(collapsed, type)
-                }}
-                width={200}
-                style={{ background: '#fff' }}
-              >
-                Message
-              </Sider>
+
             </Layout>
           </Layout>
         </div>
@@ -228,6 +234,8 @@ export class ComponentRoutes extends Component {
           path='/expense/expense_analysis'
           component={ExpenseAnalysis}
         />
+        <PrivateRoute exact path='/manage/analysis' component={AppAnalysis} />
+        <PrivateRoute exact path='/manage/users' component={UserManagement} />
         <PrivateRoute exact path='/my_profile' component={UserProfile} />
         <PrivateRoute exact path='/settings' component={Settings} />
         <Redirect from='/' to='/dining/find_restaurant' />
