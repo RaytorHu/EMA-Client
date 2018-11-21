@@ -30,6 +30,7 @@ class UserProfile extends Component {
     this.setState({
       visible: false
     })
+    window.location.reload()
   }
 
   handleCancel = e => {
