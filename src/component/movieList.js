@@ -155,10 +155,6 @@ class MovieList extends Component {
             alert("Please input content for the review.");
         }
         else{
-            console.log("post review");
-            console.log(this.state.review_title);
-            console.log(this.state.review_content);
-            console.log(this.state.review_movie_id);
             axios({
                 method: 'POST',
                 url: config.base_url + 'api/v1/review',
@@ -186,7 +182,6 @@ class MovieList extends Component {
     }
 
     getReviews(movieID, showBool){
-        console.log("getting reviews");
         axios({
             method: 'get',
             url: config.base_url + 'api/v1/review/'+movieID,
@@ -199,7 +194,6 @@ class MovieList extends Component {
                 review_movie_id: movieID,
                 reviews: response.data.data
             });
-            console.log(this.state.reviews);
             if(showBool){
                 this.showmodal();
             }

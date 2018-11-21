@@ -20,13 +20,14 @@ class ReviewModal extends Component{
 
     componentWillReceiveProps(newProps) {
         let newList = [];
+        console.log(newProps.reviews);
         for(let i =0; i < newProps.reviews.length; i++){
             if(newProps.reviews[i].userId === newProps.userID || this.props.permission){
                 newList.push({
                     id: newProps.reviews[i].id,
                     title: newProps.reviews[i].reviewTitle,
                     content: newProps.reviews[i].reviewContent,
-                    userName: newProps.reviews[i].userId,
+                    userName: newProps.reviews[i].username,
                     btnShow: 'block'
                 });
             }
@@ -35,7 +36,7 @@ class ReviewModal extends Component{
                     id: newProps.reviews[i].id,
                     title: newProps.reviews[i].reviewTitle,
                     content: newProps.reviews[i].reviewContent,
-                    userName: newProps.reviews[i].userId,
+                    userName: newProps.reviews[i].username,
                     btnShow: 'none'
                 });
             }
