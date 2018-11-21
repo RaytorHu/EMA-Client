@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Icon, Input, Card, Table, Tag } from 'antd';
+import { Button, Icon, Input, Card, Table, Tag, Spin } from 'antd';
 import TransactionModal from './transactionModal';
 import TransactionSearch from './transactionSearch';
 import 'antd/dist/antd.css';
@@ -108,20 +108,6 @@ class TransactionStatement extends Component {
         this.forceUpdate();
   
       }
-  
-      // var oldTransactions = this.state.transactions;
-      // var newTransaction = {
-      //   amount: this.state.transactionAmount,
-      //   description: this.state.transactionDescription,
-      //   timestamp: moment(this.state.transactionTimestamp).format('YYYY-MM-DD'),
-      //   tags: this.state.transactionTmpTag
-      // }
-      // oldTransactions.unshift(newTransaction);
-      // console.log(oldTransactions);
-      // this.setState({
-      //   transactions: oldTransactions,
-      //   visible: false
-      // });
   
       this.setState({
         loading: true,
@@ -552,11 +538,13 @@ class TransactionStatement extends Component {
         <br/>
         </div>
   
-        <Card loading={this.state.loading}>
+        <Spin spinning={this.state.loading}>
+          <Card>
 
-          <Table dataSource={this.state.transactions} columns={columns}  pagination={{ pageSize: 500 }}/>
+            <Table dataSource={this.state.transactions} columns={columns}  pagination={{ pageSize: 500 }}/>
 
-        </Card>
+          </Card>
+        </Spin>
 
         <TransactionModal visible={this.state.visible} 
         handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)}
