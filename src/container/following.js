@@ -13,7 +13,6 @@ class MyFollowing extends Component {
     this.getUserList()
   }
   getUserList () {
-    console.log(config.base_url + 'api/v1/user/' + storage.getUserInfo().id)
     axios({
       method: 'get',
       url: config.base_url + 'api/v1/user/' + storage.getUserInfo().id,

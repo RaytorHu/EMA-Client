@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { List, Avatar, Icon } from 'antd'
+import { List, Avatar } from 'antd'
 import config from '../config.js'
 import storage from '../utils/Storage'
 import axios from 'axios'

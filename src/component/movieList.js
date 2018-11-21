@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import listData from '../container/data/moviesDB1.json'
-import { List, Avatar, Icon, Button } from 'antd'
+import { List, Icon, Button } from 'antd'
 import config from '../config.js'
 import axios from 'axios'
 import storage from '../utils/Storage'
