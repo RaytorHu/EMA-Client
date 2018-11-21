@@ -1,5 +1,8 @@
 import { Upload, Icon, message } from 'antd'
 import React, { Component } from 'react'
+import storage from '../utils/Storage';
+import config from '../config';
+
 function getBase64 (img, callback) {
   const reader = new FileReader()
   reader.addEventListener('load', () => callback(reader.result))
@@ -43,15 +46,20 @@ class AvatarUploader extends React.Component {
       </div>
     )
     const imageUrl = this.state.imageUrl
+    const headers = {
+      Authorization: `Bearer ${storage.getAuthToken()}`
+    }
+    const actionUrl = config.base_url + 'api/v1/avatars';
     return (
       <Upload
         name='avatar'
         listType='picture-card'
         className='avatar-uploader'
         showUploadList={false}
-        action='//jsonplaceholder.typicode.com/posts/'
+        action={actionUrl}
         beforeUpload={beforeUpload}
         onChange={this.handleChange}
+        headers={headers}
       >
         {imageUrl ? <img src={imageUrl} alt='avatar' /> : uploadButton}
       </Upload>
