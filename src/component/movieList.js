@@ -6,6 +6,7 @@ import axios from "axios";
 import storage from "../utils/Storage";
 import ReviewModal from "./movieReviewModal";
 import MovieSearch from "./movieSearch";
+import MovieTransaction from "./movieTransaction";
 
 const addToWishlist = 'Add to wishlist';
 const removeFromWishlist = 'Remove from wishlist';
@@ -29,7 +30,11 @@ class MovieList extends Component {
             review_title: '',
             review_content: '',
             review_movie_id: '',
-            del_id:''
+            trans_modal_visible: false,
+            trans_title: '',
+            transVal: '',
+            del_id:'',
+            review_rate: 0
         };
     }
 
@@ -107,9 +112,6 @@ class MovieList extends Component {
                     'Authorization': 'Bearer ' + storage.getAuthToken()
                 }
             })
-            .then((response) =>{
-                alert("added to profile")
-            })
             .catch((err)=>{
                 console.log(err);
                 alert("Unexpected error occured. Please try again later");
@@ -122,9 +124,6 @@ class MovieList extends Component {
                 headers:{
                     'Authorization': 'Bearer ' + storage.getAuthToken()
                 }
-            })
-            .then((response) =>{
-                alert("removed from profile")
             })
             .catch((err)=>{
                 console.log(err);
@@ -139,20 +138,40 @@ class MovieList extends Component {
         });
         this.forceUpdate();
     }
+    
+    showTransModal(movie_title){
+        this.setState({
+            trans_modal_visible: true,
+            trans_title: movie_title
+        });
+        this.forceUpdate();
+    }
 
     getReviewIndex(records){
         return records.id === this.state.review_movie_id;
     }
 
     handleOk(){
-        if(!this.state.review_title && !this.state.review_content){
+        if(!this.state.review_title && !this.state.review_content && this.state.review_rate === 0){
             alert("Please input the review title and content.");
         }
-        else if(!this.state.review_title){
-            alert("Please input the review title.");
+        else if(!this.state.review_title && !this.state.review_content){
+            alert("Please input the review title and content.");
+        }
+        else if(!this.state.review_title && this.state.review_rate === 0){
+            alert("Please input the review title and the rating.");
+        }
+        else if(!this.state.review_content && this.state.review_rate === 0){
+            alert("Please input content for the review and the rating.");
         }
         else if(!this.state.review_content){
             alert("Please input content for the review.");
+        }
+        else if(!this.state.review_title){
+            alert("Please input review title.");
+        }
+        else if(this.state.review_rate === 0){
+            alert("Please select the rating for this movie.");
         }
         else{
             axios({
@@ -161,6 +180,7 @@ class MovieList extends Component {
                 data: {
                     reviewTitle: this.state.review_title,
                     reviewContent: this.state.review_content,
+                    rate: this.state.review_rate,
                     movieId: this.state.review_movie_id
                 },
                 headers:{
@@ -171,7 +191,8 @@ class MovieList extends Component {
                 this.getReviews(this.state.review_movie_id, false);
                 this.setState({
                     review_title: '',
-                    review_content: ''
+                    review_content: '',
+                    review_rate: 0
                 })
             })
             .catch((err)=>{
@@ -229,6 +250,14 @@ class MovieList extends Component {
         });
     }
 
+    transModalCancel(){
+        this.setState({
+            trans_modal_visible: false,
+            trans_title: ''
+        });
+        this.forceUpdate();
+    }
+
     onTitleChange(event){
         this.setState({
             review_title: event.target.value
@@ -239,6 +268,20 @@ class MovieList extends Component {
     onContentChange(event){
         this.setState({
             review_content: event.target.value
+        });
+        this.forceUpdate();
+    }
+
+    onRateChange(value){
+        this.setState({
+            review_rate: value
+        });
+        this.forceUpdate();
+    }
+
+    onTransValChange(event){
+        this.setState({
+            transVal: event.target.value
         });
         this.forceUpdate();
     }
@@ -263,32 +306,39 @@ class MovieList extends Component {
         this.forceUpdate();
     }
 
-    addTransaction(title){
+    addTransaction(){
         const regex = /[0-9]+/;
-        const query = "Please enter the price of the movie ticket";
-        const price = prompt(query);
-        if(regex.test(price)){
+        if(regex.test(this.state.transVal)){
             axios({
                 method: 'post',
                 url: config.base_url+'api/v1/transaction',
                 data: {
-                    amount: parseFloat(price),
-                    description: "purchase movie ticket of " + title
+                    amount: parseFloat(this.state.transVal),
+                    description: "purchase movie ticket of " + this.state.trans_title
                 },
                 headers: {
                     'Authorization': 'Bearer ' + storage.getAuthToken()
                 }
             })
-            .then( (response) => {
-                alert("Transaction Added");
-            })
             .catch( (err) => {
                 console.log(err);
                 alert("Unexpected error occured. Please try again later");
             });
+            this.setState({
+                trans_modal_visible: false
+            });
         }
-        else if(price != null){
-            alert("Input must be numerics. Please try again.");
+        else if(this.state.transVal===''){
+            alert("Input cannot be empty");
+            this.setState({
+                transVal: ''
+            });
+        }
+        else{
+            alert("Input must be numeric");
+            this.setState({
+                transVal: ''
+            });
         }
     }
 
@@ -333,7 +383,7 @@ class MovieList extends Component {
                             <IconText type="hourglass" text={item.Movie_len} />,
                             <p>trailer: <a href={item.trailer} target="_blank"><Icon type="play-circle"/></a></p>,
                             <p><IconText type="heart"/><Button onClick={() => this.handleClick(item.id, item.avatar, item.title)}>{item.btnText}</Button></p>,
-                            <p><IconText type="pay-circle"/><Button onClick={() => this.addTransaction(item.title)}>Add transaction</Button></p>,
+                            <p><IconText type="pay-circle"/><Button onClick={() => this.showTransModal(item.title)}>Add transaction</Button></p>,
                             <p><IconText type="message"/><Button onClick={() => this.getReviews(item.id, true)}>Reviews</Button></p>
                         ]}
                         extra={<img width={250} alt="logo" src={item.avatar} />}
@@ -346,15 +396,25 @@ class MovieList extends Component {
                     </List.Item>
                 )}
             />
+            <MovieTransaction
+                visible={this.state.trans_modal_visible}
+                handleOk={this.addTransaction.bind(this)}
+                handleCancel={this.transModalCancel.bind(this)}
+                onTransValChange={this.onTransValChange.bind(this)}
+                value={this.state.transVal}
+                movieTitle={this.state.trans_title}
+            />
             <ReviewModal
                 visible={this.state.modal_visible}
                 handleOk={this.handleOk.bind(this)} 
                 handleCancel={this.handleCancel.bind(this)}
                 onTitleChange={this.onTitleChange.bind(this)}
                 onContentChange={this.onContentChange.bind(this)}
+                onRateChange={this.onRateChange.bind(this)}
                 title={this.state.review_title}
                 content={this.state.review_content}
                 reviews={this.state.reviews}
+                rateVal={this.state.review_rate}
                 userID={storage.getUserInfo().id}
                 permission={storage.canDeleteComments()}
                 onDelete={this.handleReviewDelete.bind(this)}
