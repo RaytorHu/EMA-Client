@@ -3,8 +3,7 @@ import axios from "axios";
 import config from '../config';
 import storage from '../utils/Storage';
 import DiningTransaction from './DiningTransaction'
-import { List, Avatar, Icon, Rate, Input, Select, Button, message } from "antd";
-const Search = Input.Search;
+import { List, Avatar, Icon, Rate, Button, message } from "antd";
 
 const IconText = ({ type, text }) => (
   <span>
@@ -203,9 +202,6 @@ class DiningList extends Component {
           size="large"
           loading={this.state.loading}
           pagination={{
-            onChange: page => {
-              console.log(page);
-            },
             pageSize: 5
           }}
           dataSource={this.state.displayData}
