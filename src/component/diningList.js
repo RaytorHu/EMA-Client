@@ -4,7 +4,7 @@ import config from '../config'
 import storage from '../utils/Storage'
 import DiningTransaction from '../component/DiningTransaction'
 import FriendList from './friendList'
-import { List, Avatar, Icon, Rate, Input, Button } from 'antd'
+import { List, Avatar, Icon, Rate, Input, Button, message } from 'antd'
 
 const IconText = ({ type, text }) => (
   <span>
