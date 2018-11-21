@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Tabs, Icon } from 'antd'
-import MovieList from '../component/movieList'
+import FavMovieList from '../component/favmovieList'
 const TabPane = Tabs.TabPane
 class MyFavorite extends Component {
   render () {
@@ -15,7 +15,7 @@ class MyFavorite extends Component {
             tab={<span><Icon type='video-camera' />Movies</span>}
             key='2'
           >
-            <MovieList />
+            <FavMovieList />
           </TabPane>
         </Tabs>
       </div>
