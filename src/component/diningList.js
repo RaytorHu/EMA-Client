@@ -69,8 +69,7 @@ class DiningList extends Component {
             });
             this.extractList(response);
         }).catch((err) => {
-            console.log(err);
-            alert("Unexpected error occured. Please try again later");
+            throw new Error(err)
         });
     }
 
@@ -95,12 +94,15 @@ class DiningList extends Component {
             data: {
                 rest_id: item.id,
                 name: item.name,
+                image_url: item.image_url,
+                phone: item.phone,
+                city: item.city,
+                address: item.address,
             }
         }).then((response) => {
             this.getFavorite();
         }).catch((err) => {
-            console.log(err);
-            alert("Unexpected error occured. Please try again later");
+            throw new Error(err)
         });
     }
 
@@ -114,8 +116,7 @@ class DiningList extends Component {
         }).then((response) => {
             this.getFavorite();
         }).catch((err) => {
-            console.log(err);
-            alert("Unexpected error occured. Please try again later");
+            throw new Error(err)
         });
     }
 
