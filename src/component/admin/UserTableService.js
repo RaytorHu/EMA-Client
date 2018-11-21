@@ -1,29 +1,21 @@
 import React from "react";
-import { Icon, Button } from 'antd';
 import storage from '../../utils/Storage';
 import BlockButton from './BlockButton';
+import EditPermissionModal from './EditPermissionModal';
 
 const canBlockUser = storage.canBlockUser();
 const canModifyUser = storage.canModifyUser();
 
-const modifyTag = (<span key="modify" style={{margin: '0 10px'}}>
-        <Button shape="circle">
-            <Icon type="form"/>
-        </Button>
-    </span>);
-
+/**
+ * Add buttons to modify column
+ * 
+ * @param {Object} user The current user
+ */
 const modifyRenderer = (user) => {
-    const fields = [];
-
-    if (canBlockUser) {
-        fields.push(<BlockButton key="block" props={{user: user}}></BlockButton>);
-    }
-
-    if (canModifyUser) {
-        fields.push(modifyTag);
-    }
-
-    return fields;
+    return [
+        <BlockButton disabled={!canBlockUser} key="block" user={user}></BlockButton>,
+        <EditPermissionModal disabled={!canModifyUser} key="update" user={{user}}></EditPermissionModal>,
+    ];
 };
 
 /**

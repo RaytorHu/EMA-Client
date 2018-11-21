@@ -1,7 +1,20 @@
 import React, { Component } from 'react'
-import { Card, Avatar, Button, Modal, Input, Row, Col } from 'antd'
+import {
+  Card,
+  Avatar,
+  Button,
+  Modal,
+  Tooltip,
+  Row,
+  Col,
+  Tabs,
+  Icon
+} from 'antd'
 import storage from '../utils/Storage'
 import AvatarUploader from '../component/avatarUploader'
+import Following from '../container/following'
+import Followers from '../container/followers'
+const TabPane = Tabs.TabPane
 const { Meta } = Card
 
 class UserProfile extends Component {
@@ -14,15 +27,12 @@ class UserProfile extends Component {
   }
 
   handleOk = e => {
-    // TODO: validate input
-    console.log(e)
     this.setState({
       visible: false
     })
   }
 
   handleCancel = e => {
-    console.log(e)
     this.setState({
       visible: false
     })
@@ -36,28 +46,31 @@ class UserProfile extends Component {
     return (
       <div>
         <Card
-          style={{ width: '70%', left: 120 }}
+          cover={
+            <img
+              alt='example'
+              src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
+            />
+          }
+          style={{ width: 400, left: 250 }}
           actions={[
             <div>
-              <Button icon='edit' onClick={this.showModal} />
+              <Tooltip title='Change avatar'>
+                <Button icon='edit' onClick={this.showModal} />
+              </Tooltip>
               <Modal
                 title='Edit'
+                closable={false}
                 visible={this.state.visible}
                 onOk={this.handleOk}
                 onCancel={this.handleCancel}
+                footer={[
+                  <Button key='submit' type='primary' onClick={this.handleOk}>
+                    OK
+                  </Button>
+                ]}
               >
-                <Row>
-                  <Col span={8}>
-                    <label>Username:</label>
-                  </Col>
-                  <Col span={16}>
 
-                    <Input
-                      defaultValue={this.state.user && this.state.user.username}
-                    />
-                  </Col>
-                </Row>
-                <br /><br />
                 <Row>
                   <Col span={8}>
                     <label>Avatar:</label>
@@ -80,6 +93,17 @@ class UserProfile extends Component {
             description={this.state.user && this.state.user.email}
           />
         </Card>
+
+        <br /><br />
+
+        <Tabs defaultActiveKey='1'>
+          <TabPane tab={<span><Icon type='user' />Followings</span>} key='1'>
+            <Following />
+          </TabPane>
+          <TabPane tab={<span><Icon type='user' />Followers</span>} key='2'>
+            <Followers />
+          </TabPane>
+        </Tabs>
       </div>
     )
   }
