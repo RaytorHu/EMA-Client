@@ -1,5 +1,15 @@
 import React, { Component } from 'react'
-import { Card, Avatar, Button, Modal, Input, Row, Col, Tabs, Icon } from 'antd'
+import {
+  Card,
+  Avatar,
+  Button,
+  Modal,
+  Tooltip,
+  Row,
+  Col,
+  Tabs,
+  Icon
+} from 'antd'
 import storage from '../utils/Storage'
 import AvatarUploader from '../component/avatarUploader'
 import Following from '../container/following'
@@ -17,15 +27,12 @@ class UserProfile extends Component {
   }
 
   handleOk = e => {
-    // TODO: validate input
-    console.log(e)
     this.setState({
       visible: false
     })
   }
 
   handleCancel = e => {
-    console.log(e)
     this.setState({
       visible: false
     })
@@ -48,25 +55,22 @@ class UserProfile extends Component {
           style={{ width: 400, left: 250 }}
           actions={[
             <div>
-              <Button icon='edit' onClick={this.showModal} />
+              <Tooltip title='Change avatar'>
+                <Button icon='edit' onClick={this.showModal} />
+              </Tooltip>
               <Modal
                 title='Edit'
+                closable={false}
                 visible={this.state.visible}
                 onOk={this.handleOk}
                 onCancel={this.handleCancel}
+                footer={[
+                  <Button key='submit' type='primary' onClick={this.handleOk}>
+                    OK
+                  </Button>
+                ]}
               >
-                <Row>
-                  <Col span={8}>
-                    <label>Username:</label>
-                  </Col>
-                  <Col span={16}>
 
-                    <Input
-                      defaultValue={this.state.user && this.state.user.username}
-                    />
-                  </Col>
-                </Row>
-                <br /><br />
                 <Row>
                   <Col span={8}>
                     <label>Avatar:</label>
