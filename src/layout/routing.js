@@ -19,6 +19,8 @@ import AppAnalysis from '../container/admin/AppAnalysis'
 import UserManagement from '../container/admin/UserManagement'
 import storage from '../utils/Storage'
 import UserProfile from '../container/userProfile'
+import ActivityPage from '../container/activityPage'
+import AllUserActivity from '../container/allUserActivity'
 import { Layout, Menu, Icon } from 'antd'
 import { Link } from 'react-router-dom'
 import FindUser from '../container/findUser'
@@ -104,6 +106,12 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
                           User Management
                         </Link>
                       </Menu.Item>
+                      <Menu.Item key='manage-all-user-activity'>
+                      <Link to='/manage/all-user-activity'>
+                        <Icon type="file-search" />
+                          All Users Activities
+                        </Link>
+                      </Menu.Item>
                     </MenuItemGroup>}
                   {matchProps.match.path.startsWith('/find_user') &&
                     <MenuItemGroup title='Social'>
@@ -135,6 +143,13 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
                           My Favorite
                         </Link>
                       </Menu.Item>
+
+                      <Menu.Item key='10'>
+                        <Link to='/my_profile/activity'>
+                          My Activities
+                        </Link>
+                      </Menu.Item>
+
                     </MenuItemGroup>}
                 </Menu>
               </Sider>
@@ -217,8 +232,10 @@ export class ComponentRoutes extends Component {
           component={ExpenseAnalysis}
         />
         <PrivateRoute exact path='/manage/analysis' component={AppAnalysis} />
+        <PrivateRoute exact path='/manage/all-user-activity' component={AllUserActivity} />
         <PrivateRoute exact path='/manage/users' component={UserManagement} />
         <PrivateRoute exact path='/my_profile' component={UserProfile} />
+        <PrivateRoute exact path='/my_profile/activity' component={ActivityPage} />
         <PrivateRoute exact path='/settings' component={Settings} />
         <Redirect from='/' to='/dining/find_restaurant' />
         <Redirect from='/dinings' to='/dining/find_restaurant' />
