@@ -19,6 +19,7 @@ class DiningList extends Component {
             listData: [],
             loading: true,
             theme: '',
+            isFav: 'Add to Favourite'
         };
     }
 
@@ -34,7 +35,11 @@ class DiningList extends Component {
 
     setFavor = () => {
         let newTheme = (this.state.theme !== 'filled' ? 'filled' : '')
-        this.setState({ theme: newTheme })
+        let newMsg = (this.state.isFav === 'Add to Favourite' ? 'Remove' : 'Add to Favourite')
+        this.setState({
+            theme: newTheme,
+            isFav: newMsg,
+        })
     }
 
     render() {
@@ -61,7 +66,7 @@ class DiningList extends Component {
                                 <p>{item.price || "N/A"}</p>,
                                 <Button onClick={this.setFavor} >
                                     <Icon type="heart" theme={this.state.theme} />
-                                    Add to Favourite
+                                    {this.state.isFav}
                                 </Button>
                             ]}
                             extra={<img width={272} alt="logo" src={item.image_url} />}
