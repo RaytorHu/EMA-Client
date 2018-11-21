@@ -7,18 +7,7 @@ import { List, Avatar, Icon, Rate, Input, Select, Button, Row, Col } from 'antd'
 import storage from '../utils/Storage'
 const Search = Input.Search
 
-const IconText = ({ type, text }) => (
-  <span>
-    <Icon type={type} style={{ marginRight: 8 }} />
-    {text}
-  </span>
-)
-
 const baseUrl = config.base_url
-
-const server = axios.create({
-  baseURL: config.base_url
-})
 
 const Option = Select.Option
 

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import config from '../config';
 import myData from "../container/data/demoRestaurant.json";
-import { List, Avatar, Icon, Rate, Input, Select } from "antd";
+import { List, Avatar, Icon, Rate, Input, Select, Button } from "antd";
 const Search = Input.Search;
 
 const IconText = ({ type, text }) => (
@@ -17,7 +17,8 @@ class DiningList extends Component {
         super(props);
         this.state = {
             listData: [],
-            loading: true
+            loading: true,
+            theme: '',
         };
     }
 
@@ -29,6 +30,11 @@ class DiningList extends Component {
         });
 
         this.forceUpdate();
+    }
+
+    setFavor = () => {
+        let newTheme = (this.state.theme !== 'filled' ? 'filled' : '')
+        this.setState({ theme: newTheme })
     }
 
     render() {
@@ -52,15 +58,18 @@ class DiningList extends Component {
                             actions={[
                                 <IconText type="star-o" text={item.review_count} />,
                                 <Rate allowHalf disabled defaultValue={item.rating} />,
-                                <p>{item.price || "N/A"}</p>
-
+                                <p>{item.price || "N/A"}</p>,
+                                <Button onClick={this.setFavor} >
+                                    <Icon type="heart" theme={this.state.theme} />
+                                    Add to Favourite
+                                </Button>
                             ]}
                             extra={<img width={272} alt="logo" src={item.image_url} />}
                         >
                             <List.Item.Meta
                                 avatar={<Avatar src={item.image_url} />}
                                 title={<a href={item.url}>{item.name}</a>}
-                                description={item.display_phone}
+                                description={item.phone}
                             />
                             {item.address + ", " + item.city}
                         </List.Item>
