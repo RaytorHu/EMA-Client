@@ -20,50 +20,29 @@ class ReviewModal extends Component{
 
     componentWillReceiveProps(newProps) {
         let newList = [];
-        let username= '';
         for(let i =0; i < newProps.reviews.length; i++){
-            axios({
-                method: 'get',
-                url: config.base_url + 'api/v1/user/'+newProps.reviews[i].userId,
-                headers:{
-                    'Authorization': 'Bearer ' + storage.getAuthToken()
-                }
-            })
-            .then((response) =>{
-                username = response.data.data.username;
-                if(newProps.reviews[i].userId === newProps.userID || this.props.permission){
-                    newList.push({
-                        id: newProps.reviews[i].id,
-                        title: newProps.reviews[i].reviewTitle,
-                        content: newProps.reviews[i].reviewContent,
-                        userName: username,
-                        btnShow: 'block'
-                    });
-                }
-                else{
-                    newList.push({
-                        id: newProps.reviews[i].id,
-                        title: newProps.reviews[i].reviewTitle,
-                        content: newProps.reviews[i].reviewContent,
-                        userName: username,
-                        btnShow: 'none'
-                    });
-                }
-                if(i === newProps.reviews.length-1){
-                    this.setState({
-                        target: newList
-                    });
-                    this.forceUpdate();
-                }
-            })
-            .catch((err)=>{
-                console.log(err);
-                alert("Unexpected error occured. Please try again later");
-            });
+            if(newProps.reviews[i].userId === newProps.userID || this.props.permission){
+                newList.push({
+                    id: newProps.reviews[i].id,
+                    title: newProps.reviews[i].reviewTitle,
+                    content: newProps.reviews[i].reviewContent,
+                    userName: newProps.reviews[i].userId,
+                    btnShow: 'block'
+                });
+            }
+            else{
+                newList.push({
+                    id: newProps.reviews[i].id,
+                    title: newProps.reviews[i].reviewTitle,
+                    content: newProps.reviews[i].reviewContent,
+                    userName: newProps.reviews[i].userId,
+                    btnShow: 'none'
+                });
+            }
         }
         this.setState({
             visible: newProps.visible,
-            target: []
+            target: newList
         });
         this.forceUpdate();
     }

@@ -44,16 +44,11 @@ class Review extends Component{
                   extra={<Button type="danger" style={ {display: item.btnShow}} onClick={this.handleDelete.bind(this, item.id)}>Delete</Button>}
                 >
                   <List.Item.Meta
-                    // avatar={<Avatar src={storage.getUserInfo().avatarUrl} />}
+                    avatar={<Avatar src={storage.getUserInfo().avatarUrl} />}
                     title={
                       <div>
-                        <p style={{textDecoration: "underline", fontWeight: "bold", fontSize: 16}}>{item.userName}</p>
-                      </div>
-                    }
-                    description={
-                      <div>
-                        <p>
-                          <strong style={{fontStyle:"italic", fontSize: 15}}>Title: {item.title}</strong>
+                        <p><strong style={{textDecoration: "underline", fontWeight: "bold", fontSize: 16}}>{item.userName}</strong> {'  '}|{'  '}  
+                          <strong >Title: {item.title}</strong>
                         </p>
                         <hr/>
                       </div>
