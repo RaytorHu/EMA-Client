@@ -11,8 +11,8 @@ const baseUrl = config.base_url
 
 const Option = Select.Option
 
-class Dining extends Component {
-  constructor(props) {
+class Dining extends React.Component {
+  constructor (props) {
     super(props)
     this.state = {
       listData: [],
@@ -50,7 +50,7 @@ class Dining extends Component {
     }
   }
 
-  handleChange(value) {
+  handleChange (value) {
     console.log(value)
   }
 
@@ -131,7 +131,7 @@ class Dining extends Component {
     })
   }
 
-  render() {
+  render () {
     return (
       <div>
         <Row>
