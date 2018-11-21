@@ -78,7 +78,7 @@ class FriendList extends Component {
                   >
                     <List.Item.Meta
                       avatar={<Avatar src={item.avatarUrl} />}
-                      title={<a href='https://ant.design'>{item.username}</a>}
+                      title={item.username}
                     />
                   </List.Item>
 
