@@ -1,9 +1,6 @@
 import React, { Component } from "react";
-import { Input, Modal} from "antd";
+import { Input, Modal, Rate } from "antd";
 import MovieReview from "./movieReview";
-import config from "../config.js";
-import axios from "axios";
-import storage from "../utils/Storage";
 
 const { TextArea } = Input;
 
@@ -12,22 +9,23 @@ class ReviewModal extends Component{
         super(props);
         this.state = {
             visible: this.props.visible,
-            title: '',
-            content:'',
             target:[],
-        }
+            overall_rate: 0
+        };
     }
 
     componentWillReceiveProps(newProps) {
         let newList = [];
-        console.log(newProps.reviews);
+        let tmp_overall = 0;
         for(let i =0; i < newProps.reviews.length; i++){
+            tmp_overall += newProps.reviews[i].rate;
             if(newProps.reviews[i].userId === newProps.userID || this.props.permission){
                 newList.push({
                     id: newProps.reviews[i].id,
                     title: newProps.reviews[i].reviewTitle,
                     content: newProps.reviews[i].reviewContent,
                     userName: newProps.reviews[i].username,
+                    rate: newProps.reviews[i].rate,
                     btnShow: 'block'
                 });
             }
@@ -37,13 +35,18 @@ class ReviewModal extends Component{
                     title: newProps.reviews[i].reviewTitle,
                     content: newProps.reviews[i].reviewContent,
                     userName: newProps.reviews[i].username,
+                    rate: newProps.reviews[i].rate,
                     btnShow: 'none'
                 });
             }
         }
+        if(newProps.reviews.length > 0){
+            tmp_overall = parseFloat(Number(tmp_overall / newProps.reviews.length).toFixed(1));
+        }
         this.setState({
             visible: newProps.visible,
-            target: newList
+            target: newList,
+            overall_rate: tmp_overall
         });
         this.forceUpdate();
     }
@@ -57,6 +60,9 @@ class ReviewModal extends Component{
                     onOk={this.props.handleOk}
                     onCancel={this.props.handleCancel}
                 >
+                <hr/>
+                <span>Overall rating for this movie is:  <Rate disabled={true} allowHalf={true} value={this.state.overall_rate}/></span>
+                <hr/>
                     <MovieReview 
                         reviews={this.state.target}
                         onDelete={this.props.onDelete}
@@ -74,6 +80,7 @@ class ReviewModal extends Component{
                         value={this.props.content}
                         onChange={this.props.onContentChange}  
                     /><br/><br/>
+                    <span><Rate allowClear={false} onChange={this.props.onRateChange} value={this.props.rateVal}/> {this.props.rateVal} stars</span>
                 </Modal>
             </div>
         );
