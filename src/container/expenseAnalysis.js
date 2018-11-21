@@ -146,7 +146,8 @@ class ExpenseAnalysis extends Component {
       maxTransaction: {},
       minTransaction: {},
       loading: true,
-      error: ''
+      error: '',
+      display: 'block'
     }
 
     this.onSearch = this.onSearch.bind(this);
@@ -179,7 +180,8 @@ class ExpenseAnalysis extends Component {
 
       if(response.data.data.length === 0) {
         this.setState({
-          error: 'No transaction found'
+          error: 'No transaction found',
+          display: 'none'
         });
 
         this.forceUpdate();
@@ -189,7 +191,8 @@ class ExpenseAnalysis extends Component {
       } else {
 
         this.setState({
-          error: ''
+          error: '',
+          display: 'block'
         });
 
         this.forceUpdate();
@@ -243,7 +246,7 @@ class ExpenseAnalysis extends Component {
         <TransactionSearch onSearch={this.onSearch}></TransactionSearch>
         <br/> <br/>
         <p style={{color: 'red'}}> {this.state.error} </p>
-        <Card loading={this.state.loading}>
+        <Card loading={this.state.loading} style={{display: this.state.display}}>
           <WaterwaveTitle></WaterwaveTitle>
           <TransactionWaterwave 
             waterwaveData={this.state.waterwaveData}

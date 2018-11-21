@@ -3,9 +3,7 @@ import { List, Avatar, Button, Modal, Tooltip } from 'antd'
 import config from '../config.js'
 import storage from '../utils/Storage'
 import Invite from '../component/invite'
-import { T } from 'antd/lib/upload/utils'
-
-const axios = require('axios')
+import axios from 'axios'
 
 class FriendList extends Component {
   constructor (props) {
@@ -24,14 +22,12 @@ class FriendList extends Component {
   }
 
   handleOk = e => {
-    console.log(e)
     this.setState({
       visible: false
     })
   }
 
   handleCancel = e => {
-    console.log(e)
     this.setState({
       visible: false
     })
@@ -45,15 +41,11 @@ class FriendList extends Component {
         Authorization: 'Bearer ' + storage.getAuthToken()
       }
     }).then(response => {
-      console.log(response)
       this.setState({
         friends: response.data.data,
         loading: false
       })
     })
-  }
-  invite = item => {
-    console.log(item.email)
   }
 
   render () {
@@ -75,7 +67,15 @@ class FriendList extends Component {
               dataSource={this.state.friends}
               renderItem={item => (
                 <div>
-                  <List.Item actions={[<Invite user={item} />]}>
+                  <List.Item
+                    actions={[
+                      <Invite
+                        user={item}
+                        content={this.props.content}
+                        closeModal={this.handleOk}
+                      />
+                    ]}
+                  >
                     <List.Item.Meta
                       avatar={<Avatar src={item.avatarUrl} />}
                       title={<a href='https://ant.design'>{item.username}</a>}
