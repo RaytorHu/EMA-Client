@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import config from '../config';
 import storage from '../utils/Storage';
-//import myData from "../container/data/demoRestaurant.json";
+import FriendList from "./friendList";
 import { List, Avatar, Icon, Rate, Input, Select, Button } from "antd";
 const Search = Input.Search;
 
@@ -69,8 +69,7 @@ class DiningList extends Component {
             });
             this.extractList(response);
         }).catch((err) => {
-            console.log(err);
-            alert("Unexpected error occured. Please try again later");
+          throw new Error(err)
         });
     }
 
@@ -151,7 +150,8 @@ class DiningList extends Component {
                                 <Button onClick={() => this.HandleClick(item)} >
                                     <Icon type="heart" theme={item.isFav} />
                                     {item.favMsg}
-                                </Button>
+                                </Button>,
+                                <FriendList content={item.name} />
                             ]}
                             extra={<img width={272} alt="logo" src={item.image_url} />}
                         >

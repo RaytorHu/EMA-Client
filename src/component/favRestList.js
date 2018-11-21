@@ -4,24 +4,24 @@ import config from '../config.js'
 import storage from '../utils/Storage'
 import axios from 'axios'
 
-class FavMovieList extends Component {
+class FavRestList extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      movies: []
+      restaurants: []
     }
   }
 
   componentDidMount () {
     axios({
       method: 'get',
-      url: config.base_url + 'api/v1/movies/',
+      url: config.base_url + 'api/v1/dining/search',
       headers: {
         Authorization: 'Bearer ' + storage.getAuthToken()
       }
     }).then(response => {
       this.setState({
-        movies: response.data.data,
+        restaurants: response.data.data,
         loading: false
       })
     })
@@ -38,11 +38,13 @@ class FavMovieList extends Component {
           },
           pageSize: 5
         }}
-        dataSource={this.state.movies}
+        dataSource={this.state.restaurants}
         renderItem={item => (
           <List.Item key={item.id}>
-            <List.Item.Meta title={item.name} />
-            <img src={item.posterURL} style={{ width: 250 }} />
+            <List.Item.Meta
+              avatar={<Avatar src={item.image_url} />}
+              title={item.name}
+            />
           </List.Item>
         )}
       />
@@ -50,4 +52,4 @@ class FavMovieList extends Component {
   }
 }
 
-export default FavMovieList
+export default FavRestList
