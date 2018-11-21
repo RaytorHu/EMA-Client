@@ -57,8 +57,67 @@ const enableUser = async (userId) => {
     return res.data.data;
 };
 
+/**
+ * Search a user
+ * 
+ * @param {String} input The fragment user want to search
+ */
+const searchUser = async (input) => {
+    const options = {
+        headers: {
+            Authorization: `Bearer ${storage.getAuthToken()}`
+        }
+    };
+
+    const res = await server.post(baseUrl + 'api/v1/user/search', {
+        input: input,
+        withTrashed: true,
+    }, options);
+
+    return res.data.data;
+};
+
+/**
+ * Enable an user's permission
+ * 
+ * @param {Number} userId The user that is going to be updated
+ * @param {Number} permissionId The permission that is going to be used
+ */
+const enableUserPermission = async (userId, permissionId) => {
+    const options = {
+        headers: {
+            Authorization: `Bearer ${storage.getAuthToken()}`
+        }
+    };
+
+    const res = await server.patch(baseUrl + `api/v1/user/${userId}/permissions/${permissionId}/enable`, {}, options);
+
+    return res.data.data.enabled;
+};
+
+/**
+ * Disable an user's permission
+ * 
+ * @param {Number} userId The user that is going to be updated
+ * @param {Number} permissionId The permission that is going to be used
+ */
+const disableUserPermission = async (userId, permissionId) => {
+    const options = {
+        headers: {
+            Authorization: `Bearer ${storage.getAuthToken()}`
+        }
+    };
+
+    const res = await server.patch(baseUrl + `api/v1/user/${userId}/permissions/${permissionId}/disable`, {}, options);
+
+    return res.data.data.enabled;
+};
+
 export default {
     getAllUsers,
     disableUser,
     enableUser,
+    searchUser,
+    enableUserPermission,
+    disableUserPermission,
 };

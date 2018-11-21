@@ -14,10 +14,11 @@ class BlockButton extends Component
     constructor(props) {
         super();
         this.state = {
+            disabled: props.disabled,
             loading: false,
-            icon: props.props.user.deletedAt ? DISABLED_STATE : ENABLED_STATE,
-            user: props.props.user,
-            desc: props.props.user.deletedAt ? DISABLED_DESC : ENABLED_DESC,
+            icon: props.user.deletedAt ? DISABLED_STATE : ENABLED_STATE,
+            user: props.user,
+            desc: props.user.deletedAt ? DISABLED_DESC : ENABLED_DESC,
         };
     }
 
@@ -74,6 +75,7 @@ class BlockButton extends Component
                     icon={this.state.icon} 
                     loading={this.state.loading} 
                     onClick={this.handleClick}
+                    disabled={this.state.disabled}
                 />
             </Tooltip>
         </span>)
