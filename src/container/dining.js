@@ -2,10 +2,8 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import config from '../config'
 import myData from './data/demoRestaurant.json'
-// import RefineResult from "../component/diningRefineResult";
 import DiningList from '../component/diningList'
 import { List, Avatar, Icon, Rate, Input, Select, Button, Row, Col } from 'antd'
-// import DiningSearch from "../component/restaurantSearch";
 import storage from '../utils/Storage'
 const Search = Input.Search
 
@@ -25,7 +23,7 @@ const server = axios.create({
 const Option = Select.Option
 
 class Dining extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       listData: [],
@@ -63,7 +61,7 @@ class Dining extends React.Component {
     }
   }
 
-  handleChange (value) {
+  handleChange(value) {
     console.log(value)
   }
 
@@ -87,10 +85,10 @@ class Dining extends React.Component {
     this.setState({ attributes: value })
   }
 
-  getRestaurantList = value => {
-    let data = JSON.parse(JSON.stringify(myData))
+  getRestaurantList = (value) => {
+    let data = JSON.parse(JSON.stringify(myData));
     if (!value || value === '') {
-      alert('Please enter your keyword')
+      alert('Please enter your keyword');
       this.setState({
         location: 'vancouver',
         listData: data.businesses,
@@ -139,18 +137,18 @@ class Dining extends React.Component {
       this.setState({
         listData: response.data.data,
         listLoading: false,
-        iconloading: false
-      })
-    })
+        iconloading: false,
+      });
+    });
   }
 
-  render () {
+  render() {
     return (
       <div>
-
         <Row>
-          <Col span={4}>
-            <label>Location:</label>
+          <Col span={3}>
+            <Icon type="search" style={{ margin: "6px" }} />
+            <span>Location</span>
           </Col>
           <Col span={20}>
 
@@ -162,7 +160,7 @@ class Dining extends React.Component {
               }}
               defaultValue='vancouver'
               onSearch={value => {
-                //  this.setState({ listLoading: true });
+                this.setState({ listLoading: true });
                 this.getRestaurantList(value)
               }}
               enterButton
@@ -197,8 +195,9 @@ class Dining extends React.Component {
             option.props.children.toLowerCase().indexOf(input.toLowerCase()) >=
             0}
         >
-          <Option value='asianfusion'>Asian Fusion</Option>
+          <Option value='japanese'>Japanese Food</Option>
           <Option value='bakeries'>Bakeries</Option>
+          <Option value='chinese'>Chinese Food</Option>
           <Option value='hotdogs'>Fast Food</Option>
           <Option value='bars'>Bars</Option>
           <Option value=''>Default</Option>
@@ -232,7 +231,6 @@ class Dining extends React.Component {
         >
           <Option value='true'>Yes</Option>
           <Option value='false'>No</Option>
-          <Option value='default'>Default</Option>
         </Select>
 
         <Select
