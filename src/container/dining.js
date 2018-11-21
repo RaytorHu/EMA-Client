@@ -24,7 +24,7 @@ class Dining extends React.Component {
       categories: '',
       sort_by: '',
       open_now: true,
-      attributes: ''
+      attributes: '',
     }
   }
 
