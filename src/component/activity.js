@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import storage from '../utils/Storage';
 import config from '../config.js';
 import axios from 'axios';
-import { List, Card, Tooltip  } from 'antd';
+import { List, Card, Tooltip, Pagination, Spin } from 'antd';
 import 'antd/dist/antd.css';
 import moment from "moment";
 
 var user = storage.getUserInfo();
+const pageSize = 10;
 
 // testing data
 const data = [
@@ -25,29 +26,40 @@ class Activity extends Component {
         this.state = {
             url: props.url,
             logs: [],
-            loading: true
+            loading: true,
+            userType: props.userType
         }
 
         this.getUserLog = this.getUserLog.bind(this);
 
-        this.getUserLog();
+        this.getUserLog(1, pageSize);
     }
 
     componentWillReceiveProps(newProps) {
         this.setState({
-            url: newProps.url
+            url: newProps.url,
+            userType: newProps.userType
         });
 
-        this.getUserLog();
+        this.getUserLog(1, pageSize);
 
         this.forceUpdate();
     }
 
-    getUserLog() {
+    getUserLog(page, pageSize) {
         
+        // at this point, we determine user type and request type
+        var userId = this.state.userType === 'admin' ? '' : user.id;
+
+        this.setState({
+            loading: true
+        });
+
+        this.forceUpdate();
+
         axios({
             method: 'get',
-            url: config.base_url + this.state.url + user.id,
+            url: config.base_url + this.state.url + userId + '?page=' + page + '&perPage=' + pageSize,
             headers: {
                 'Authorization': 'Bearer ' + storage.getAuthToken()
             }
@@ -75,23 +87,31 @@ class Activity extends Component {
 
         return (
             <div>
-                <Card loading={this.state.loading} style={{width: '70%', margin: '0 auto'}}>
-                    <List
-                        header={<div>Your Activities</div>}
-                        footer={<div>Oh no, no more activities</div>}
-                        bordered
-                        dataSource={this.state.logs}
-                        renderItem={item => (
-                            <List.Item>
-                                 <div style={{fontSize: '18pt', color: '#7a7a7a'}}> 
-                                        <span style={{fontWeight: 'bold'}}> <Tooltip title={item.from.email}>{item.from.username}  </Tooltip></span>  <span> </span>
-                                        <span style={{color: '#029cfc', fontWeight: 'bold'}}>{item.activity}</span><span> </span>
-                                        <span style={{fontWeight: 'bold'}}><Tooltip title={item.to.email}>{item.to.username}</Tooltip></span> at <span> </span>
-                                        <span style={{fontWeight: 'bold'}}>{moment.unix(parseInt(item.at)).format("YYYY-MM-DD HH:MM:SS")}</span>
-                                </div>
-                            </List.Item>)}
-                    />
-                </Card>
+                <Spin spinning={this.state.loading} delay={100}>
+                    <Card style={{width: '70%', margin: '0 auto'}}>
+                        <List
+                            header={<div>Activities</div>}
+                            footer={''}
+                            bordered
+                            dataSource={this.state.logs}
+                            renderItem={item => (
+                                <List.Item>
+                                    <div style={{fontSize: '12pt', color: '#7a7a7a'}}> 
+                                            <span style={{fontWeight: 'bold'}}> <Tooltip title={item.from.email}>{item.from.username}  </Tooltip></span>  <span> </span>
+                                            <span style={{color: '#029cfc', fontWeight: 'bold'}}>{item.activity}</span><span> </span>
+                                            <span style={{fontWeight: 'bold'}}><Tooltip title={item.to.email}>{item.to.username}</Tooltip></span> at <span> </span>
+                                            <span style={{fontWeight: 'bold'}}>{moment.unix(parseInt(item.at)).format("YYYY-MM-DD HH:MM:SS")}</span>
+                                    </div>
+                                </List.Item>)}
+                        /> <br/>
+                        <Pagination 
+                            defaultCurrent={1} total={100} 
+                            onChange={(page, pageSize) => {
+                                this.getUserLog(page, pageSize);
+                            }}
+                        />
+                    </Card>
+                </Spin>
             </div>
         );
     }

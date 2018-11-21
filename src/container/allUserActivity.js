@@ -2,17 +2,17 @@ import React, { Component } from "react";
 import Activity from '../component/activity';
 
 const userLogUrl = '/api/v1/logs/';
+const userType = 'admin';
 
-class ActivityPage extends Component {
+class AllUserActivity extends Component {
 
     render() {
-
         return (
             <div>
-                <Activity url={userLogUrl} userType={''}> </Activity>
+                <Activity url={userLogUrl} userType={userType}> </Activity>
             </div>
         );
     }
 }
 
-export default ActivityPage;
+export default AllUserActivity;
