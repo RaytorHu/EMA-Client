@@ -9,15 +9,6 @@ import moment from "moment";
 var user = storage.getUserInfo();
 const pageSize = 10;
 
-// testing data
-const data = [
-    'you play a dog',
-    'you play a dog',
-    'you play a dog',
-    'you play a dog',
-    'you play a dog',
-  ];
-
 class Activity extends Component {
 
     constructor(props) {
