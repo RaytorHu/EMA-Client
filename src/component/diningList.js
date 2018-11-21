@@ -86,7 +86,6 @@ class DiningList extends Component {
     }
 
     addFavRestaurant = (item) => {
-        console.log(item);
         axios({
             method: 'post',
             url: config.base_url + 'api/v1/dining/',
@@ -103,6 +102,29 @@ class DiningList extends Component {
             console.log(err);
             alert("Unexpected error occured. Please try again later");
         });
+    }
+
+    removeRestaurant = (item) => {
+        axios({
+            method: 'delete',
+            url: config.base_url + 'api/v1/dining/' + item.id,
+            headers: {
+                'Authorization': 'Bearer ' + storage.getAuthToken()
+            },
+        }).then((response) => {
+            this.getFavorite();
+        }).catch((err) => {
+            console.log(err);
+            alert("Unexpected error occured. Please try again later");
+        });
+    }
+
+    HandleClick = (item) => {
+        if (item.isFav === '') {
+            this.addFavRestaurant(item);
+        } else {
+            this.removeRestaurant(item);
+        }
     }
 
     render() {
@@ -126,7 +148,7 @@ class DiningList extends Component {
                                 <IconText type="star-o" text={item.review_count} />,
                                 <Rate allowHalf disabled defaultValue={item.rating} />,
                                 <p>{item.price || "N/A"}</p>,
-                                <Button onClick={() => this.addFavRestaurant(item)} >
+                                <Button onClick={() => this.HandleClick(item)} >
                                     <Icon type="heart" theme={item.isFav} />
                                     {item.favMsg}
                                 </Button>
