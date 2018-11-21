@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { List, Avatar, Icon } from 'antd'
+import { List } from 'antd'
 import config from '../config.js'
 import storage from '../utils/Storage'
 import axios from 'axios'
@@ -15,7 +15,7 @@ class FavMovieList extends Component {
   componentDidMount () {
     axios({
       method: 'get',
-      url: config.base_url + 'api/v1/movies/',
+      url: config.base_url + 'api/v1/movies',
       headers: {
         Authorization: 'Bearer ' + storage.getAuthToken()
       }

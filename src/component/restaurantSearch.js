@@ -1,21 +1,18 @@
-import React, { Component } from "react";
-import { Input } from "antd";
-import getRestaurants from "../api/diningAPI";
+import React, { Component } from 'react'
+import { Input } from 'antd'
 
-const Search = Input.Search;
+const Search = Input.Search
 
 class DiningSearch extends Component {
-  getRestaurantList = value => {};
-
-  render() {
+  render () {
     return (
       <Search
-        placeholder="Please enter city, price level ($-$$$$) or name, etc."
+        placeholder='Please enter city, price level ($-$$$$) or name, etc.'
         onSearch={value => this.getRestaurantList}
         enterButton
       />
-    );
+    )
   }
 }
 
-export default DiningSearch;
+export default DiningSearch
