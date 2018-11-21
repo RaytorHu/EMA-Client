@@ -10,13 +10,14 @@ class Navigation extends Component {
   }
 
   render () {
-    const adminButton = storage.canReadUser() ?
-    (<Menu.Item>
-      <Link to='/manage/analysis'>
-        <Icon type='user' />
-        Admin Dashboard
-      </Link>
-    </Menu.Item>) : null;
+    const adminButton = storage.canReadUser()
+      ? <Menu.Item>
+        <Link to='/manage/analysis'>
+          <Icon type='user' />
+            Admin Dashboard
+          </Link>
+      </Menu.Item>
+      : null
 
     return (
       <div className='Navigation'>
@@ -50,18 +51,6 @@ class Navigation extends Component {
             </Menu.Item>
 
             {adminButton}
-
-            <Menu.Item
-              style={{
-                float: 'right',
-                marginLeft: '-20px'
-              }}
-            >
-              <Link to='/settings'>
-                <Icon type='setting' />
-                Settings
-              </Link>
-            </Menu.Item>
             <Menu.Item
               style={{
                 float: 'right',

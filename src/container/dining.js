@@ -3,7 +3,7 @@ import axios from 'axios'
 import config from '../config'
 import myData from './data/demoRestaurant.json'
 import DiningList from '../component/diningList'
-import { List, Avatar, Icon, Rate, Input, Select, Button, Row, Col } from 'antd'
+import { Icon, Input, Select, Button, Row, Col } from 'antd'
 import storage from '../utils/Storage'
 const Search = Input.Search
 
@@ -12,7 +12,7 @@ const baseUrl = config.base_url
 const Option = Select.Option
 
 class Dining extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       listData: [],
@@ -24,7 +24,7 @@ class Dining extends React.Component {
       categories: '',
       sort_by: '',
       open_now: true,
-      attributes: '',
+      attributes: ''
     }
   }
 
@@ -32,7 +32,7 @@ class Dining extends React.Component {
     try {
       axios({
         method: 'post',
-        url: baseUrl + 'api/v1/dining/search/',
+        url: baseUrl + 'api/v1/dining/search',
         headers: {
           Authorization: 'Bearer ' + storage.getAuthToken()
         },
@@ -50,7 +50,7 @@ class Dining extends React.Component {
     }
   }
 
-  handleChange(value) {
+  handleChange (value) {
     console.log(value)
   }
 
@@ -74,10 +74,10 @@ class Dining extends React.Component {
     this.setState({ attributes: value })
   }
 
-  getRestaurantList = (value) => {
-    let data = JSON.parse(JSON.stringify(myData));
+  getRestaurantList = value => {
+    let data = JSON.parse(JSON.stringify(myData))
     if (!value || value === '') {
-      alert('Please enter your keyword');
+      alert('Please enter your keyword')
       this.setState({
         location: 'vancouver',
         listData: data.businesses,
@@ -86,7 +86,7 @@ class Dining extends React.Component {
     } else {
       axios({
         method: 'post',
-        url: baseUrl + 'api/v1/dining/search/',
+        url: baseUrl + 'api/v1/dining/search',
         headers: {
           Authorization: 'Bearer ' + storage.getAuthToken()
         },
@@ -110,7 +110,7 @@ class Dining extends React.Component {
   refineResult = () => {
     axios({
       method: 'post',
-      url: baseUrl + 'api/v1/dining/search/',
+      url: baseUrl + 'api/v1/dining/search',
       headers: {
         Authorization: 'Bearer ' + storage.getAuthToken()
       },
@@ -126,17 +126,17 @@ class Dining extends React.Component {
       this.setState({
         listData: response.data.data,
         listLoading: false,
-        iconloading: false,
-      });
-    });
+        iconloading: false
+      })
+    })
   }
 
-  render() {
+  render () {
     return (
       <div>
         <Row>
           <Col span={3}>
-            <Icon type="search" style={{ margin: "6px" }} />
+            <Icon type='search' style={{ margin: '6px' }} />
             <span>Location</span>
           </Col>
           <Col span={20}>
@@ -149,7 +149,7 @@ class Dining extends React.Component {
               }}
               defaultValue='vancouver'
               onSearch={value => {
-                this.setState({ listLoading: true });
+                this.setState({ listLoading: true })
                 this.getRestaurantList(value)
               }}
               enterButton

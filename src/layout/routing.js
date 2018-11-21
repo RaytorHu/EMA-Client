@@ -12,7 +12,6 @@ import HeatMap from '../container/diningHeatMap'
 import Movie from '../container/movie'
 import Expense from '../container/expense'
 import ExpenseAnalysis from '../container/expenseAnalysis'
-import Settings from '../container/settings'
 import Login from '../container/authentication/login'
 import Register from '../container/authentication/register'
 import AppAnalysis from '../container/admin/AppAnalysis'
@@ -25,8 +24,6 @@ import { Layout, Menu, Icon } from 'antd'
 import { Link } from 'react-router-dom'
 import FindUser from '../container/findUser'
 import MutualFriends from '../container/mutualFriends'
-import MyFollowing from '../container/following'
-import MyFollowers from '../container/followers'
 import MyFavorite from '../container/myFavorite'
 const { Content, Sider, Footer } = Layout
 const MenuItemGroup = Menu.ItemGroup
@@ -107,8 +104,8 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
                         </Link>
                       </Menu.Item>
                       <Menu.Item key='manage-all-user-activity'>
-                      <Link to='/manage/all-user-activity'>
-                        <Icon type="file-search" />
+                        <Link to='/manage/all-user-activity'>
+                          <Icon type='file-search' />
                           All Users Activities
                         </Link>
                       </Menu.Item>
@@ -165,7 +162,7 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
                   <Component {...matchProps} />
                 </Content>
 
-                <Footer id='footer'>I don't know the app's name</Footer>
+                <Footer id='footer'>EMA from BigTeaRice</Footer>
               </Layout>
 
             </Layout>
@@ -232,16 +229,22 @@ export class ComponentRoutes extends Component {
           component={ExpenseAnalysis}
         />
         <PrivateRoute exact path='/manage/analysis' component={AppAnalysis} />
-        <PrivateRoute exact path='/manage/all-user-activity' component={AllUserActivity} />
+        <PrivateRoute
+          exact
+          path='/manage/all-user-activity'
+          component={AllUserActivity}
+        />
         <PrivateRoute exact path='/manage/users' component={UserManagement} />
         <PrivateRoute exact path='/my_profile' component={UserProfile} />
-        <PrivateRoute exact path='/my_profile/activity' component={ActivityPage} />
-        <PrivateRoute exact path='/settings' component={Settings} />
+        <PrivateRoute
+          exact
+          path='/my_profile/activity'
+          component={ActivityPage}
+        />
         <Redirect from='/' to='/dining/find_restaurant' />
         <Redirect from='/dinings' to='/dining/find_restaurant' />
         <Redirect from='/movies' to='/movie' />
         <Redirect from='/expenses' to='/expense' />
-        <Redirect from='/setting' to='/settings' />
 
         <PrivateRoute component={NotFoundPage} />
       </Switch>

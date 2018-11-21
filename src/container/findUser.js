@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Input, Avatar } from 'antd'
+import { Input } from 'antd'
 import storage from '../utils/Storage'
 import config from '../config.js'
 import axios from 'axios'
@@ -14,7 +14,7 @@ class FindUser extends Component {
   getUserList = async input => {
     axios({
       method: 'POST',
-      url: config.base_url + 'api/v1/user/search/',
+      url: config.base_url + 'api/v1/user/search',
       headers: {
         Authorization: 'Bearer ' + storage.getAuthToken()
       },

@@ -1,9 +1,10 @@
-import React, { Component } from "react";
-import axios from "axios";
-import config from '../config';
-import storage from '../utils/Storage';
-import DiningTransaction from './DiningTransaction'
-import { List, Avatar, Icon, Rate, Button, message } from "antd";
+import React, { Component } from 'react'
+import axios from 'axios'
+import config from '../config'
+import storage from '../utils/Storage'
+import DiningTransaction from '../component/DiningTransaction'
+import FriendList from './friendList'
+import { List, Avatar, Icon, Rate, Input, Button } from 'antd'
 
 const IconText = ({ type, text }) => (
   <span>
@@ -216,12 +217,11 @@ class DiningList extends Component {
                   <Icon type="heart" theme={item.isFav} />
                   {item.favMsg}
                 </Button>,
-
                 <Button onClick={() => this.showTransModal(item.name)}>
                   <IconText type='pay-circle' />
                   Add transaction
-                                </Button>
-
+                </Button>,
+                <FriendList content={item.name} />
               ]}
               extra={<img width={272} alt="logo" src={item.image_url} />}
             >
@@ -247,4 +247,4 @@ class DiningList extends Component {
   }
 }
 
-export default DiningList;
+export default DiningList
