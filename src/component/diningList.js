@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import config from '../config';
-import myData from "../container/data/demoRestaurant.json";
+import storage from '../utils/Storage';
+//import myData from "../container/data/demoRestaurant.json";
 import { List, Avatar, Icon, Rate, Input, Select, Button } from "antd";
 const Search = Input.Search;
 
@@ -17,10 +18,60 @@ class DiningList extends Component {
         super(props);
         this.state = {
             listData: [],
+            displayData: [],
+            favRestaurants: [],
             loading: true,
             theme: '',
             isFav: 'Add to Favourite'
         };
+    }
+
+    extractList() {
+        const listData = this.state.listData;
+        const tmp = [];
+        for (let i = 0; i < listData.length; i++) {
+            tmp.push({
+                address: listData[i].address,
+                city: listData[i].city,
+                id: listData[i].id,
+                image_url: listData[i].image_url,
+                name: listData[i].name,
+                phone: listData[i].phone,
+                price: listData[i].price,
+                rating: listData[i].rating,
+                review_count: listData[i].review_count,
+                url: listData[i].url,
+                isFav: '',
+                favMsg: 'Add to Favourite',
+            });
+            for (let j = 0; j < this.state.favRestaurants.length; j++) {
+                if (listData[i].id === this.state.favRestaurants[j].rest_id) {
+                    tmp[i].isFav = 'filled';
+                    tmp[i].favMsg = 'Remove from Favourite';
+                }
+            }
+        }
+        this.setState({
+            displayData: tmp,
+        });
+    };
+
+    getFavorite() {
+        axios({
+            method: 'get',
+            url: config.base_url + 'api/v1/dining/search',
+            headers: {
+                'Authorization': 'Bearer ' + storage.getAuthToken()
+            }
+        }).then((response) => {
+            this.setState({
+                favRestaurants: Array.from(response.data.data),
+            });
+            this.extractList(response);
+        }).catch((err) => {
+            console.log(err);
+            alert("Unexpected error occured. Please try again later");
+        });
     }
 
     componentWillReceiveProps(newProps) {
@@ -30,22 +81,55 @@ class DiningList extends Component {
             loading: newProps.loading
         });
 
+        this.getFavorite(newProps);
         this.forceUpdate();
     }
 
-    setFavor = () => {
-        let newTheme = (this.state.theme !== 'filled' ? 'filled' : '')
-        let newMsg = (this.state.isFav === 'Add to Favourite' ? 'Remove' : 'Add to Favourite')
-        this.setState({
-            theme: newTheme,
-            isFav: newMsg,
-        })
+    addFavRestaurant = (item) => {
+        axios({
+            method: 'post',
+            url: config.base_url + 'api/v1/dining/',
+            headers: {
+                'Authorization': 'Bearer ' + storage.getAuthToken()
+            },
+            data: {
+                rest_id: item.id,
+                name: item.name,
+            }
+        }).then((response) => {
+            this.getFavorite();
+        }).catch((err) => {
+            console.log(err);
+            alert("Unexpected error occured. Please try again later");
+        });
+    }
+
+    removeRestaurant = (item) => {
+        axios({
+            method: 'delete',
+            url: config.base_url + 'api/v1/dining/' + item.id,
+            headers: {
+                'Authorization': 'Bearer ' + storage.getAuthToken()
+            },
+        }).then((response) => {
+            this.getFavorite();
+        }).catch((err) => {
+            console.log(err);
+            alert("Unexpected error occured. Please try again later");
+        });
+    }
+
+    HandleClick = (item) => {
+        if (item.isFav === '') {
+            this.addFavRestaurant(item);
+        } else {
+            this.removeRestaurant(item);
+        }
     }
 
     render() {
         return (
             <div>
-
                 <List
                     itemLayout="vertical"
                     size="large"
@@ -56,7 +140,7 @@ class DiningList extends Component {
                         },
                         pageSize: 5
                     }}
-                    dataSource={this.state.listData}
+                    dataSource={this.state.displayData}
                     renderItem={item => (
                         <List.Item
                             key={item.name}
@@ -64,9 +148,9 @@ class DiningList extends Component {
                                 <IconText type="star-o" text={item.review_count} />,
                                 <Rate allowHalf disabled defaultValue={item.rating} />,
                                 <p>{item.price || "N/A"}</p>,
-                                <Button onClick={this.setFavor} >
-                                    <Icon type="heart" theme={this.state.theme} />
-                                    {this.state.isFav}
+                                <Button onClick={() => this.HandleClick(item)} >
+                                    <Icon type="heart" theme={item.isFav} />
+                                    {item.favMsg}
                                 </Button>
                             ]}
                             extra={<img width={272} alt="logo" src={item.image_url} />}
