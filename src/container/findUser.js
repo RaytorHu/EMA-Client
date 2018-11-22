@@ -34,7 +34,7 @@ class FindUser extends Component {
       <div>
         <h1>Find User</h1>
         <Search
-          placeholder='name/email/id'
+          placeholder='name/email'
           onSearch={value => this.getUserList(value)}
           style={{ width: 200 }}
         />
