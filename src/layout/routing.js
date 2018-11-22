@@ -8,7 +8,6 @@ import {
 import Navigation from './navigation'
 import { SingleContent } from './contentTemplate.js'
 import Dining from '../container/dining'
-import HeatMap from '../container/diningHeatMap'
 import Movie from '../container/movie'
 import Expense from '../container/expense'
 import ExpenseAnalysis from '../container/expenseAnalysis'
@@ -41,12 +40,6 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
                 collapsible
                 breakpoint='lg'
                 collapsedWidth='0'
-                onBreakpoint={broken => {
-                  console.log(broken)
-                }}
-                onCollapse={(collapsed, type) => {
-                  console.log(collapsed, type)
-                }}
                 width={170}
                 style={{ background: '#fff' }}
               >
@@ -61,12 +54,6 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
                         <Link to='/dining/find_restaurant'>
                           <Icon type='search' theme='outlined' />
                           Find Restaurants
-                        </Link>
-                      </Menu.Item>
-                      <Menu.Item key='2'>
-                        <Link to='/dining/restaurant_heatmap'>
-                          <Icon type='heat-map' theme='outlined' />
-                          Heat Map
                         </Link>
                       </Menu.Item>
                     </MenuItemGroup>}
@@ -191,7 +178,7 @@ const NotFoundPage = () => {
 }
 
 class PrivateRoute extends Component {
-  render () {
+  render() {
     return (
       <div>
         <BaseLayout {...this.props} />
@@ -200,15 +187,10 @@ class PrivateRoute extends Component {
   }
 }
 export class ComponentRoutes extends Component {
-  render () {
+  render() {
     return (
       <Switch>
         <PrivateRoute exact path='/dining/find_restaurant' component={Dining} />
-        <PrivateRoute
-          exact
-          path='/dining/restaurant_heatmap'
-          component={HeatMap}
-        />
         <PrivateRoute
           exact
           path='/find_user/mutual_friends'
@@ -253,7 +235,7 @@ export class ComponentRoutes extends Component {
 }
 
 class AuthRoutes extends Component {
-  render () {
+  render() {
     return (
       <Switch>
         <Route exact path='/login' component={Login} />
@@ -265,7 +247,7 @@ class AuthRoutes extends Component {
 }
 
 class Routing extends Component {
-  render () {
+  render() {
     return (
       <div className='Routing'>
         <Router>
