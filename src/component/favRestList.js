@@ -42,9 +42,12 @@ class FavRestList extends Component {
         renderItem={item => (
           <List.Item key={item.id}>
             <List.Item.Meta
-              avatar={<Avatar src={item.image_url} />}
-              title={item.name}
+              title={<a href={item.url}>{item.name}</a>}
+              description={item.phone}
             />
+            <img alt={item.name} src={item.image_url} style={{ width: 300 }} />
+            <br />
+            {item.address + ', ' + item.city}
           </List.Item>
         )}
       />

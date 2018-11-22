@@ -50,7 +50,7 @@ class MutualFriends extends Component {
   render () {
     return (
       <div>
-        <h1>Mutual Friends</h1>
+        <h1>Users you might know</h1>
 
         <Table columns={columns} dataSource={this.state.users} />
       </div>
