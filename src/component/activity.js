@@ -40,7 +40,7 @@ class Activity extends Component {
     getUserLog(page, pageSize) {
         
         // at this point, we determine user type and request type
-        var userId = this.state.userType === 'admin' ? '' : user.id;
+        var userId = this.state.userType === 'admin' ? '' : '/'+user.id;
 
         this.setState({
             loading: true
