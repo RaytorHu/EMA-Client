@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Activity from '../component/activity';
 
-const userLogUrl = '/api/v1/logs/';
+const userLogUrl = '/api/v1/logs';
 
 class ActivityPage extends Component {
 
