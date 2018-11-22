@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import config from '../config'
 import storage from '../utils/Storage'
-import { Button, Icon, Tooltip, Spin } from 'antd'
+import { Button, Icon, Tooltip, message } from 'antd'
 class Invite extends Component {
   constructor (props) {
     super(props)
@@ -12,7 +12,21 @@ class Invite extends Component {
   }
 
   invite = () => {
-    console.log(this.props.user.email)
+    axios({
+      method: 'POST',
+      url: config.base_url + 'api/v1/user/invite',
+      headers: {
+        Authorization: 'Bearer ' + storage.getAuthToken()
+      },
+      data: {
+        email: this.props.user.email,
+        friend: this.props.user.username,
+        item: this.props.content
+      }
+    }).then(() => {
+      message.success('Your invitation has been sent')
+      this.props.closeModal()
+    })
   }
 
   render () {

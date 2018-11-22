@@ -30,6 +30,7 @@ class UserProfile extends Component {
     this.setState({
       visible: false
     })
+    window.location.reload()
   }
 
   handleCancel = e => {
@@ -52,7 +53,7 @@ class UserProfile extends Component {
               src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             />
           }
-          style={{ width: 400, left: 250 }}
+          style={{ width: 400, margin: 'auto' }}
           actions={[
             <div>
               <Tooltip title='Change avatar'>

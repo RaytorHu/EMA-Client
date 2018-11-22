@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import { Input, Table, Button, Avatar, Tooltip } from 'antd'
+import { Table, Avatar } from 'antd'
 import storage from '../utils/Storage'
 import config from '../config.js'
 import axios from 'axios'
 import Follow from '../component/follow'
 
-const Search = Input.Search
 const columns = [
   {
     render: text => <Avatar src={text.avatarUrl} />
@@ -36,7 +35,7 @@ class MutualFriends extends Component {
   componentDidMount () {
     axios({
       method: 'get',
-      url: config.base_url + 'api/v1/user/friends/suggestions/',
+      url: config.base_url + 'api/v1/user/friends/suggestions',
       headers: {
         Authorization: 'Bearer ' + storage.getAuthToken()
       }
@@ -51,7 +50,7 @@ class MutualFriends extends Component {
   render () {
     return (
       <div>
-        <h1>Mutual Friends</h1>
+        <h1>Users you might know</h1>
 
         <Table columns={columns} dataSource={this.state.users} />
       </div>

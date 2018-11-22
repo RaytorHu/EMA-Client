@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Input, Avatar } from 'antd'
 import storage from '../utils/Storage'
 import config from '../config.js'
 import axios from 'axios'
@@ -13,7 +12,6 @@ class MyFollowing extends Component {
     this.getUserList()
   }
   getUserList () {
-    console.log(config.base_url + 'api/v1/user/' + storage.getUserInfo().id)
     axios({
       method: 'get',
       url: config.base_url + 'api/v1/user/' + storage.getUserInfo().id,

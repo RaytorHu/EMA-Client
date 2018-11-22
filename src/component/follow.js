@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import config from '../config'
 import storage from '../utils/Storage'
-import { Button, Icon, Tooltip, Spin } from 'antd'
+import { Button, Icon, Tooltip } from 'antd'
 class Follow extends Component {
   constructor (props) {
     super(props)
