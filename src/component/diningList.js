@@ -11,11 +11,11 @@ const IconText = ({ type, text }) => (
     <Icon type={type} style={{ marginRight: 8 }} />
     {text}
   </span>
-);
+)
 
 class DiningList extends Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       listData: [],
       displayData: [],
@@ -25,13 +25,13 @@ class DiningList extends Component {
       isFav: 'Add to Favourite',
       trans_modal_visible: false,
       trans_title: '',
-      transVal: '',
-    };
+      transVal: ''
+    }
   }
 
-  extractList() {
-    const listData = this.state.listData;
-    const tmp = [];
+  extractList () {
+    const listData = this.state.listData
+    const tmp = []
     for (let i = 0; i < listData.length; i++) {
       tmp.push({
         address: listData[i].address,
@@ -48,54 +48,55 @@ class DiningList extends Component {
         favMsg: 'Add to Favourite',
         trans_modal_visible: false,
         trans_title: '',
-        transVal: '',
-      });
+        transVal: ''
+      })
       for (let j = 0; j < this.state.favRestaurants.length; j++) {
         if (listData[i].id === this.state.favRestaurants[j].rest_id) {
-          tmp[i].isFav = 'filled';
-          tmp[i].favMsg = 'Remove from Favourite';
+          tmp[i].isFav = 'filled'
+          tmp[i].favMsg = 'Remove from Favourite'
         }
       }
     }
     this.setState({
-      displayData: tmp,
-    });
-  };
+      displayData: tmp
+    })
+  }
 
-  getFavorite() {
+  getFavorite () {
     axios({
       method: 'get',
       url: config.base_url + 'api/v1/dining/search',
       headers: {
-        'Authorization': 'Bearer ' + storage.getAuthToken()
+        Authorization: 'Bearer ' + storage.getAuthToken()
       }
-    }).then((response) => {
-      this.setState({
-        favRestaurants: Array.from(response.data.data),
-      });
-      this.extractList(response);
-    }).catch((err) => {
-      throw new Error(err)
-    });
+    })
+      .then(response => {
+        this.setState({
+          favRestaurants: Array.from(response.data.data)
+        })
+        this.extractList(response)
+      })
+      .catch(err => {
+        throw new Error(err)
+      })
   }
 
-  componentWillReceiveProps(newProps) {
-
+  componentWillReceiveProps (newProps) {
     this.setState({
       listData: newProps.listData,
       loading: newProps.loading
-    });
+    })
 
-    this.getFavorite(newProps);
-    this.forceUpdate();
+    this.getFavorite(newProps)
+    this.forceUpdate()
   }
 
-  addFavRestaurant = (item) => {
+  addFavRestaurant = item => {
     axios({
       method: 'post',
-      url: config.base_url + 'api/v1/dining/',
+      url: config.base_url + 'api/v1/dining',
       headers: {
-        'Authorization': 'Bearer ' + storage.getAuthToken()
+        Authorization: 'Bearer ' + storage.getAuthToken()
       },
       data: {
         rest_id: item.id,
@@ -103,46 +104,49 @@ class DiningList extends Component {
         image_url: item.image_url,
         phone: item.phone,
         city: item.city,
-        address: item.address,
+        address: item.address
       }
-    }).then((response) => {
-      this.getFavorite();
-    }).catch((err) => {
-      throw new Error(err)
-    });
+    })
+      .then(response => {
+        this.getFavorite()
+      })
+      .catch(err => {
+        throw new Error(err)
+      })
   }
 
-  removeRestaurant = (item) => {
+  removeRestaurant = item => {
     axios({
       method: 'delete',
       url: config.base_url + 'api/v1/dining/' + item.id,
       headers: {
-        'Authorization': 'Bearer ' + storage.getAuthToken()
-      },
-    }).then((response) => {
-      this.getFavorite();
-    }).catch((err) => {
-      throw new Error(err)
-    });
+        Authorization: 'Bearer ' + storage.getAuthToken()
+      }
+    })
+      .then(response => {
+        this.getFavorite()
+      })
+      .catch(err => {
+        throw new Error(err)
+      })
   }
 
-  HandleClick = (item) => {
+  HandleClick = item => {
     if (item.isFav === '') {
-      this.addFavRestaurant(item);
+      this.addFavRestaurant(item)
     } else {
-      this.removeRestaurant(item);
+      this.removeRestaurant(item)
     }
   }
 
-
-  onTransValChange(event) {
+  onTransValChange (event) {
     this.setState({
       transVal: event.target.value
     })
     this.forceUpdate()
   }
 
-  showTransModal(rest_name) {
+  showTransModal (rest_name) {
     this.setState({
       trans_modal_visible: true,
       trans_title: rest_name
@@ -150,7 +154,7 @@ class DiningList extends Component {
     this.forceUpdate()
   }
 
-  transModalCancel() {
+  transModalCancel () {
     this.setState({
       trans_modal_visible: false,
       trans_title: ''
@@ -158,7 +162,7 @@ class DiningList extends Component {
     this.forceUpdate()
   }
 
-  addTransaction() {
+  addTransaction () {
     const regex = /[0-9]+/
     if (regex.test(this.state.transVal)) {
       axios({
@@ -171,14 +175,16 @@ class DiningList extends Component {
         headers: {
           Authorization: 'Bearer ' + storage.getAuthToken()
         }
-      }).then(() => {
-        message.success('Expense added!');
-        this.setState({
-          transVal: ''
+      })
+        .then(() => {
+          message.success('Expense added!')
+          this.setState({
+            transVal: ''
+          })
         })
-      }).catch(err => {
-        throw new Error(err);
-      });
+        .catch(err => {
+          throw new Error(err)
+        })
       this.setState({
         trans_modal_visible: false
       })
@@ -195,12 +201,12 @@ class DiningList extends Component {
     }
   }
 
-  render() {
+  render () {
     return (
       <div>
         <List
-          itemLayout="vertical"
-          size="large"
+          itemLayout='vertical'
+          size='large'
           loading={this.state.loading}
           pagination={{
             pageSize: 5
@@ -210,11 +216,11 @@ class DiningList extends Component {
             <List.Item
               key={item.name}
               actions={[
-                <IconText type="star-o" text={item.review_count} />,
+                <IconText type='star-o' text={item.review_count} />,
                 <Rate allowHalf disabled defaultValue={item.rating} />,
-                <p>{item.price || "N/A"}</p>,
-                <Button onClick={() => this.HandleClick(item)} >
-                  <Icon type="heart" theme={item.isFav} />
+                <p>{item.price || 'N/A'}</p>,
+                <Button onClick={() => this.HandleClick(item)}>
+                  <Icon type='heart' theme={item.isFav} />
                   {item.favMsg}
                 </Button>,
                 <Button onClick={() => this.showTransModal(item.name)}>
@@ -223,14 +229,14 @@ class DiningList extends Component {
                 </Button>,
                 <FriendList content={item.name} />
               ]}
-              extra={<img width={272} alt="logo" src={item.image_url} />}
+              extra={<img width={272} alt='logo' src={item.image_url} />}
             >
               <List.Item.Meta
                 avatar={<Avatar src={item.image_url} />}
                 title={<a href={item.url}>{item.name}</a>}
                 description={item.phone}
               />
-              {item.address + ", " + item.city}
+              {item.address + ', ' + item.city}
             </List.Item>
           )}
         />
@@ -243,7 +249,7 @@ class DiningList extends Component {
           restaurantTitle={this.state.trans_title}
         />
       </div>
-    );
+    )
   }
 }
 
