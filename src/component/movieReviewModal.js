@@ -26,6 +26,7 @@ class ReviewModal extends Component{
                     content: newProps.reviews[i].reviewContent,
                     userName: newProps.reviews[i].username,
                     rate: newProps.reviews[i].rate,
+                    avatar: newProps.reviews[i].avatarUrl,
                     btnShow: 'block'
                 });
             }
@@ -36,6 +37,7 @@ class ReviewModal extends Component{
                     content: newProps.reviews[i].reviewContent,
                     userName: newProps.reviews[i].username,
                     rate: newProps.reviews[i].rate,
+                    avatar: newProps.reviews[i].avatarUrl,
                     btnShow: 'none'
                 });
             }

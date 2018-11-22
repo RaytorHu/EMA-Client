@@ -47,7 +47,7 @@ class Review extends Component{
                   extra={<Button type="danger" style={ {display: item.btnShow}} onClick={this.handleDelete.bind(this, item.id)}>Delete</Button>}
                 >
                   <List.Item.Meta
-                    avatar={<Avatar src={storage.getUserInfo().avatarUrl} />}
+                    avatar={<Avatar src={item.avatar} />}
                     title={
                       <div>
                         <p><strong style={{textDecoration: "underline", fontWeight: "bold", fontSize: 16}}>{item.userName}</strong> {'  '}|{'  '}  

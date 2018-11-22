@@ -153,7 +153,7 @@ class MovieList extends Component {
 
     handleOk(){
         if(!this.state.review_title && !this.state.review_content && this.state.review_rate === 0){
-            alert("Please input the review title and content.");
+            alert("Please input the review title, content and rating.");
         }
         else if(!this.state.review_title && !this.state.review_content){
             alert("Please input the review title and content.");
