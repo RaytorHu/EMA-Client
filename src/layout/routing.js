@@ -120,7 +120,7 @@ export const BaseLayout = ({ component: Component, ...rest }) => {
 
                       <Menu.Item key='7'>
                         <Link to='/find_user/mutual_friends'>
-                          Mutual friends
+                          Suggested Users
                         </Link>
 
                       </Menu.Item>

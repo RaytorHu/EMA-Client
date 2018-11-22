@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Input, Avatar } from 'antd'
 import storage from '../utils/Storage'
 import config from '../config.js'
 import axios from 'axios'

@@ -1,7 +1,7 @@
 import { Upload, Icon, message } from 'antd'
-import React, { Component } from 'react'
-import storage from '../utils/Storage';
-import config from '../config';
+import React from 'react'
+import storage from '../utils/Storage'
+import config from '../config'
 
 function getBase64 (img, callback) {
   const reader = new FileReader()
@@ -49,7 +49,7 @@ class AvatarUploader extends React.Component {
     const headers = {
       Authorization: `Bearer ${storage.getAuthToken()}`
     }
-    const actionUrl = config.base_url + 'api/v1/avatars';
+    const actionUrl = config.base_url + 'api/v1/avatars'
     return (
       <Upload
         name='avatar'
