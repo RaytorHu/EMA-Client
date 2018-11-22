@@ -21,7 +21,10 @@ class Activity extends Component {
         }
 
         this.getUserLog = this.getUserLog.bind(this);
+    }
 
+    componentDidMount() {
+        
         this.getUserLog();
     }
 
@@ -59,7 +62,7 @@ class Activity extends Component {
                 loading: false,
                 logs: response.data.data
             });
-            console.log(response.data.data[0].at);
+
             this.forceUpdate();
 
         }).catch( (error) => {
