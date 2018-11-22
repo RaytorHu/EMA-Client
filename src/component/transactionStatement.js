@@ -317,7 +317,7 @@ class TransactionStatement extends Component {
       });
 
       this.forceUpdate();
-      console.log(this.state);
+
       axios({
   
         method: 'put',
@@ -505,7 +505,7 @@ class TransactionStatement extends Component {
               if(this.state.transactions[index].tags[i] === '') {
                 continue;
               }
-              result.push(<Tag color={this.state.transactions[index].tags[i].color}>
+              result.push(<Tag key={i} color={this.state.transactions[index].tags[i].color}>
               {this.state.transactions[index].tags[i].name}
               </Tag>);
             }
@@ -541,7 +541,7 @@ class TransactionStatement extends Component {
         <Spin spinning={this.state.loading}>
           <Card>
 
-            <Table dataSource={this.state.transactions} columns={columns}  pagination={{ pageSize: 500 }}/>
+            <Table rowKey="id" dataSource={this.state.transactions} columns={columns}  pagination={{ pageSize: 500 }}/>
 
           </Card>
         </Spin>
