@@ -95,7 +95,7 @@ class Activity extends Component {
                                             <span style={{fontWeight: 'bold'}}> <Tooltip title={item.from.email}>{item.from.username}  </Tooltip></span>  <span> </span>
                                             <span style={{color: '#029cfc', fontWeight: 'bold'}}>{item.activity}</span><span> </span>
                                             <span style={{fontWeight: 'bold'}}><Tooltip title={item.to.email}>{item.to.username}</Tooltip></span> at <span> </span>
-                                            <span style={{fontWeight: 'bold'}}>{moment.unix(parseInt(item.at)).format("YYYY-MM-DD HH:MM:SS")}</span>
+                                            <span style={{fontWeight: 'bold'}}>{moment.unix(parseInt(item.at)).format("YYYY-MM-DD h:mm:ss a")}</span>
                                     </div>
                                 </List.Item>)}
                         /> <br/>
