@@ -7,7 +7,6 @@ import 'antd/dist/antd.css';
 import moment from "moment";
 
 var user = storage.getUserInfo();
-const pageSize = 10;
 
 class Activity extends Component {
 
@@ -23,7 +22,7 @@ class Activity extends Component {
 
         this.getUserLog = this.getUserLog.bind(this);
 
-        this.getUserLog(1, pageSize);
+        this.getUserLog();
     }
 
     componentWillReceiveProps(newProps) {
@@ -32,15 +31,15 @@ class Activity extends Component {
             userType: newProps.userType
         });
 
-        this.getUserLog(1, pageSize);
+        this.getUserLog();
 
         this.forceUpdate();
     }
 
-    getUserLog(page, pageSize) {
+    getUserLog() {
         
         // at this point, we determine user type and request type
-        var userId = this.state.userType === 'admin' ? '' : user.id;
+        var userId = this.state.userType === 'admin' ? '' : '/'+user.id;
 
         this.setState({
             loading: true
@@ -50,7 +49,7 @@ class Activity extends Component {
 
         axios({
             method: 'get',
-            url: config.base_url + this.state.url + userId + '?page=' + page + '&perPage=' + pageSize,
+            url: config.base_url + this.state.url + userId,
             headers: {
                 'Authorization': 'Bearer ' + storage.getAuthToken()
             }
@@ -85,6 +84,11 @@ class Activity extends Component {
                             footer={''}
                             bordered
                             dataSource={this.state.logs}
+                            pagination={{
+                                onChange: (page) => {
+                                },
+                                pageSize: 10,
+                              }}
                             renderItem={item => (
                                 <List.Item>
                                     <div style={{fontSize: '12pt', color: '#7a7a7a'}}> 
@@ -95,12 +99,6 @@ class Activity extends Component {
                                     </div>
                                 </List.Item>)}
                         /> <br/>
-                        <Pagination 
-                            defaultCurrent={1} total={100} 
-                            onChange={(page, pageSize) => {
-                                this.getUserLog(page, pageSize);
-                            }}
-                        />
                     </Card>
                 </Spin>
             </div>
