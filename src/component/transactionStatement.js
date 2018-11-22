@@ -317,7 +317,7 @@ class TransactionStatement extends Component {
       });
 
       this.forceUpdate();
-      console.log(this.state);
+
       axios({
   
         method: 'put',
